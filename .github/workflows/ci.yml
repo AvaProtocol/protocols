@@ -40,8 +40,12 @@ jobs:
       - name: Verify tarball contents
         # Pack a dry-run tarball and assert the dist surface is intact.
         # Catches: missing dist files in `files`, broken exports map.
+        # Since package.json declares `"type": "module"`, tsup emits
+        # ESM as `index.js` and CJS as `index.cjs` — match the actual
+        # filenames the exports map points at, not the legacy `.mjs`
+        # convention.
         run: |
           npm pack --dry-run
           test -f dist/index.js
-          test -f dist/index.mjs
+          test -f dist/index.cjs
           test -f dist/index.d.ts
