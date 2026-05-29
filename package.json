@@ -1,0 +1,71 @@
+{
+  "name": "@avaprotocol/protocols",
+  "version": "0.1.0",
+  "description": "Multi-chain catalog of DeFi protocol contract addresses, ABI fragments, and event topic hashes — covers AAVE V3, Uniswap V3, Chainlink, Lido, Morpho, and more.",
+  "keywords": [
+    "defi",
+    "ethereum",
+    "smart-contracts",
+    "abi",
+    "addresses",
+    "aave",
+    "uniswap",
+    "chainlink",
+    "lido",
+    "morpho",
+    "multi-chain",
+    "typescript"
+  ],
+  "homepage": "https://github.com/AvaProtocol/protocols#readme",
+  "bugs": {
+    "url": "https://github.com/AvaProtocol/protocols/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AvaProtocol/protocols.git"
+  },
+  "license": "MIT",
+  "author": "Ava Protocol",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build:declarations": "tsc -p tsconfig.build.json",
+    "build:js": "tsup src/index.ts --format cjs,esm --target es2020",
+    "build": "yarn clean:dist && yarn build:declarations && yarn build:js",
+    "clean": "rm -rf node_modules dist tsconfig.tsbuildinfo",
+    "clean:dist": "rm -rf dist tsconfig.tsbuildinfo",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "yarn build"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.5.4",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "yarn@1.22.19"
+}
