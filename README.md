@@ -23,9 +23,9 @@ const sig  = Protocols.aaveV3.eventTopics.Borrow;
 
 | Protocol | Contracts | Chains |
 |---|---|---|
-| **AAVE V3** | Pool, Oracle, WETH Gateway + Pool methods/events ABI + topics | Mainnet, Sepolia, Base, Base Sepolia |
+| **AAVE V3** | Pool, Oracle, WETH Gateway + Pool methods/events ABI + topics | Mainnet, Sepolia, Base, Base Sepolia, **BNB** (no WETH Gateway on BNB) |
 | **Aerodrome** | Router | Base |
-| **Chainlink** | ETH/USD + BTC/USD feeds + AggregatorV3 ABI | Mainnet, Sepolia |
+| **Chainlink** | ETH/USD + BTC/USD + BNB/USD feeds + AggregatorV3 ABI | Mainnet, Sepolia, **BNB** (BNB/USD is BNB-only) |
 | **Compound V3** | USDC Comet market | Mainnet, Base |
 | **Ethena** | USDe, sUSDe vault + custom (cooldown-aware) ABI | Mainnet |
 | **Frax Ether** | frxETH, sfrxETH vault + standard ERC-4626 ABI | Mainnet |
@@ -34,9 +34,9 @@ const sig  = Protocols.aaveV3.eventTopics.Borrow;
 | **Rocket Pool** | rETH + L1 burn/rate/value ABI | Mainnet, Base (bridged) |
 | **Sky (sDAI)** | sDAI vault + standard ERC-4626 ABI | Mainnet |
 | **Spark** | SparkLend Pool (AAVE V3 fork — reuse AAVE Pool ABI) | Mainnet |
-| **Superfluid** | CFAv1Forwarder + setFlowrate/createFlow ABI | Mainnet, Base |
-| **Uniswap V3** | SwapRouter02, QuoterV2, Permit2, Factory, NFT Position Manager, Universal Router + ABIs | Mainnet, Sepolia, Base, Base Sepolia |
-| **Wrapped Ether** | WETH per chain + WETH9 ABI | Mainnet, Sepolia, Base, Base Sepolia |
+| **Superfluid** | CFAv1Forwarder + setFlowrate/createFlow ABI | Mainnet, Base, **BNB** |
+| **Uniswap V3** | SwapRouter02, QuoterV2, Permit2, Factory, NFT Position Manager, Universal Router + ABIs | Mainnet, Sepolia, Base, Base Sepolia, **BNB** |
+| **Wrapped Ether** | Canonical wrapper of native gas + WETH9 ABI (WBNB on BNB) | Mainnet, Sepolia, Base, Base Sepolia, **BNB** |
 | **ERC-20** | Standard `approve` ABI fragment | n/a |
 
 Shared ABIs (consumed by multiple protocol modules):

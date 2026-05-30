@@ -1,7 +1,16 @@
-// Wrapped Ether (WETH) — the canonical native-ETH wrapping contract.
-// Mainnet WETH is a one-off; Base (and Base Sepolia) use the OP-stack
-// predeploy at 0x4200…0006. Sepolia is the Uniswap-deployed test WETH
-// used by AAVE Sepolia and Uniswap Sepolia.
+// Wrapped native — the canonical wrapper of the chain's native gas
+// token. On chains whose native is ETH (Mainnet, Sepolia, Base, Base
+// Sepolia) this is the WETH9 (or OP-stack predeploy at 0x4200…0006)
+// contract. On chains with a different native gas token, the field
+// maps to the equivalent canonical wrapper — e.g. **WBNB** on BNB
+// Chain. The field name stays `weth` so chain-agnostic consumers can
+// write `Protocols.wrapped.weth[chainId]` without branching by chain.
+//
+// The bridged-from-Ethereum WETH on BNB
+// (0x2170Ed0880ac9A755fd29B2688956BD959F933F8) is a different
+// semantic — Binance-Peg ETH ERC-20, not the wrapped native — and is
+// intentionally NOT mapped here. Templates that need it pass the
+// address inline.
 
 import { Chains } from "../chains";
 import { type AbiFragment, type AddressByChain } from "./types";
@@ -11,6 +20,8 @@ const weth: AddressByChain = {
   [Chains.Sepolia]: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
   [Chains.BaseMainnet]: "0x4200000000000000000000000000000000000006",
   [Chains.BaseSepolia]: "0x4200000000000000000000000000000000000006",
+  // BNB Chain's native is BNB, not ETH — this entry is WBNB.
+  [Chains.BnbMainnet]: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
 };
 
 /**

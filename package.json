@@ -1,6 +1,6 @@
 {
   "name": "@avaprotocol/protocols",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Multi-chain catalog of DeFi protocol contract addresses, ABI fragments, and event topic hashes — covers AAVE V3, Uniswap V3, Chainlink, Lido, Morpho, and more.",
   "keywords": [
     "defi",

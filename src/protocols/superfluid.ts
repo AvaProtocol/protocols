@@ -8,6 +8,7 @@ import { type AbiFragment, type AddressByChain } from "./types";
 const cfaForwarder: AddressByChain = {
   [Chains.EthereumMainnet]: "0xcfA132E353cB4E398080B9700609bb008eceB125",
   [Chains.BaseMainnet]: "0xcfA132E353cB4E398080B9700609bb008eceB125",
+  [Chains.BnbMainnet]: "0xcfA132E353cB4E398080B9700609bb008eceB125",
 };
 
 /** CFAv1Forwarder minimal write surface — `setFlowrate` + `createFlow`. */
