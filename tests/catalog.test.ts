@@ -87,11 +87,12 @@ describe("Event topic shape", () => {
 });
 
 describe("AAVE V3 catalog", () => {
-  it("has Pool addresses on mainnet, sepolia, base, base-sepolia", () => {
+  it("has Pool addresses on every covered chain", () => {
     expect(Protocols.aaveV3.pool[Chains.EthereumMainnet]).toMatch(ADDRESS_RE);
     expect(Protocols.aaveV3.pool[Chains.Sepolia]).toMatch(ADDRESS_RE);
     expect(Protocols.aaveV3.pool[Chains.BaseMainnet]).toMatch(ADDRESS_RE);
     expect(Protocols.aaveV3.pool[Chains.BaseSepolia]).toMatch(ADDRESS_RE);
+    expect(Protocols.aaveV3.pool[Chains.BnbMainnet]).toMatch(ADDRESS_RE);
   });
 
   it("ships the Pool method ABI with getUserAccountData + supply", () => {
@@ -117,6 +118,7 @@ describe("Uniswap V3 catalog", () => {
     expect(Protocols.uniswapV3.swapRouter02[Chains.Sepolia]).toMatch(ADDRESS_RE);
     expect(Protocols.uniswapV3.swapRouter02[Chains.BaseMainnet]).toMatch(ADDRESS_RE);
     expect(Protocols.uniswapV3.swapRouter02[Chains.BaseSepolia]).toMatch(ADDRESS_RE);
+    expect(Protocols.uniswapV3.swapRouter02[Chains.BnbMainnet]).toMatch(ADDRESS_RE);
   });
 
   it("ships exactInputSingle in the SwapRouter02 ABI", () => {
@@ -132,6 +134,7 @@ describe("Uniswap V3 catalog", () => {
       Chains.Sepolia,
       Chains.BaseMainnet,
       Chains.BaseSepolia,
+      Chains.BnbMainnet,
     ]) {
       expect(Protocols.uniswapV3.permit2[chainId]?.toLowerCase()).toBe(expected.toLowerCase());
     }
@@ -165,12 +168,17 @@ describe("Shared ABIs", () => {
 });
 
 describe("Chain coverage", () => {
-  it("AAVE V3 covers the same chain set on Pool/Oracle/WETH Gateway", () => {
+  it("AAVE V3 Pool + Oracle cover the same chains; WETH Gateway is a subset", () => {
     const poolChains = Object.keys(Protocols.aaveV3.pool).sort();
     const oracleChains = Object.keys(Protocols.aaveV3.oracle).sort();
-    const gatewayChains = Object.keys(Protocols.aaveV3.wethGateway).sort();
     expect(oracleChains).toEqual(poolChains);
-    expect(gatewayChains).toEqual(poolChains);
+    // WETH Gateway is only deployed on chains whose native gas token
+    // is ETH. Chains without it (e.g. BNB Chain) still have Pool +
+    // Oracle. So the invariant is "gateway ⊆ pool", not equality.
+    const gatewayChains = Object.keys(Protocols.aaveV3.wethGateway);
+    for (const cid of gatewayChains) {
+      expect(poolChains).toContain(cid);
+    }
   });
 
   it("Uniswap V3 covers the same chain set across its contracts", () => {

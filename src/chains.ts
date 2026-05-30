@@ -13,6 +13,7 @@ export const Chains = Object.freeze({
   Holesky: 17_000 as const,
   BaseMainnet: 8453 as const,
   BaseSepolia: 84_532 as const,
+  BnbMainnet: 56 as const,
 });
 
 export type ChainId = (typeof Chains)[keyof typeof Chains] | number;

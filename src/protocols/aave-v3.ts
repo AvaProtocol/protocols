@@ -24,6 +24,7 @@ const pool: AddressByChain = {
   [Chains.Sepolia]: "0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951",
   [Chains.BaseMainnet]: "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
   [Chains.BaseSepolia]: "0x8bAB6d1b75f19e9eD9fCe8b9BD338844fF79aE27",
+  [Chains.BnbMainnet]: "0x6807dc923806fE8Fd134338EABCA509979a7e0cB",
 };
 
 /**
@@ -36,12 +37,17 @@ const oracle: AddressByChain = {
   [Chains.Sepolia]: "0x2da88497588bf89281816106C7259e31AF45a663",
   [Chains.BaseMainnet]: "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
   [Chains.BaseSepolia]: "0x943b0dE18d4abf4eF02A85912F8fc07684C141dF",
+  [Chains.BnbMainnet]: "0x39bc1bfDa2130d6Bb6DBEfd366939b4c7aa7C697",
 };
 
 /**
  * WETH gateway — wraps native ETH supplies so Pool can hold WETH as
  * the reserve. Templates that supply native ETH (rather than an
  * already-wrapped token) go through here instead of Pool directly.
+ *
+ * Only present on chains whose native gas token is ETH. Absent on
+ * BNB Chain (native is BNB; the equivalent there would be a "WBNB
+ * gateway" but AAVE V3 doesn't deploy one).
  */
 const wethGateway: AddressByChain = {
   [Chains.EthereumMainnet]: "0xd01607c3C5eCABa394D8be377a08590149325722",
