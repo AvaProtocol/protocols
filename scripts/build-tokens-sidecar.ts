@@ -83,8 +83,14 @@ function main(): void {
     const chainId = Number(rawChainId);
     const fileName = CHAIN_FILE_NAMES[chainId];
     if (!fileName) {
-      console.warn(`[tokens-sidecar] no file name registered for chain ${chainId}, skipping`);
-      continue;
+      // Fail fast — a token added on a new chain without a CHAIN_FILE_NAMES
+      // entry would otherwise ship an incomplete sidecar and silently drop
+      // every consumer that's expecting that chain's data. The fix is one
+      // line in CHAIN_FILE_NAMES; the error message points at exactly that.
+      throw new Error(
+        `[tokens-sidecar] no file name registered for chain ${chainId}. ` +
+          `Add it to CHAIN_FILE_NAMES in scripts/build-tokens-sidecar.ts.`,
+      );
     }
     const outPath = resolve(outDir, `${fileName}.json`);
     writeFileSync(outPath, JSON.stringify(entries, null, 2) + "\n", "utf8");

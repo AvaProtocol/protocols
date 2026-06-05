@@ -164,8 +164,13 @@ const LINK: TokenByChain = {
 };
 
 /**
- * Symbol → per-chain entry. Frozen at module load. New tokens are
- * added by appending a `const` here and including it in the export.
+ * Symbol → per-chain entry. The outer object is frozen at module
+ * load, so the symbol set is immutable. The inner per-chain maps
+ * (e.g. `Tokens.USDC`) are NOT deep-frozen — callers must treat
+ * them as logically read-only. The shallow freeze is the right
+ * tradeoff: deep-freezing the chain maps + their entries on every
+ * import would add overhead for a guarantee no consumer has asked
+ * for. Add a deep-freeze pass here if a real misuse case emerges.
  *
  * Symbol keys are the canonical uppercase ERC-20 ticker (USDC, not
  * usdc/Usdc). The catalog is intentionally not case-insensitive at

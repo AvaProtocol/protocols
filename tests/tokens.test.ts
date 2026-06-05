@@ -28,7 +28,7 @@ describe("Tokens namespace", () => {
     }
   });
 
-  it("every entry has a 0x-prefixed 42-char address and positive decimals", () => {
+  it("every entry has a 0x-prefixed 42-char address and non-negative decimals (some ERC-20s ship 0)", () => {
     for (const [symbol, byChain] of Object.entries(Tokens)) {
       for (const [chainId, entry] of Object.entries(byChain)) {
         const where = `${symbol}[${chainId}]`;
