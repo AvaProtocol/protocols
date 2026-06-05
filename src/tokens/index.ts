@@ -181,28 +181,53 @@ export const Tokens = Object.freeze({
 }) satisfies Readonly<Record<string, TokenByChain>>;
 
 /**
- * Reverse lookup: given a chain ID and a contract address, find the
- * token entry plus its symbol. Address matching is case-insensitive
- * so callers can pass checksum or lowercase without normalizing
- * upstream. Returns `undefined` when the chain isn't covered, when
- * the address isn't registered on that chain, or when either argument
- * is missing/falsy.
+ * Reverse lookup: given a contract address, find the token entry plus
+ * its symbol. Address matching is case-insensitive so callers can pass
+ * checksum or lowercase without normalizing upstream.
+ *
+ * Resolution strategy:
+ *   1. When `chainId` is provided, prefer a match registered for that
+ *      chain.
+ *   2. If no chain-specific match (or no chainId), scan every chain
+ *      for the address. Necessary when the caller's chain context
+ *      diverges from where the address actually lives — happens in
+ *      multi-chain dev gateways where the workflow targets one chain
+ *      but the runtime is bound to a different one. Most ERC-20
+ *      addresses are globally unique so this collapses to a single
+ *      match; for OP-stack predeploys (e.g. WETH at 0x4200…0006 on
+ *      both Base and Base Sepolia), any match yields the correct
+ *      symbol and decimals.
+ *
+ * Returns `undefined` when no chain in the catalog carries the
+ * address, or when the address is missing/falsy.
  *
  * Typical use: aggregator payloads ship `tokenSymbol="UNKNOWN"` for
- * tokens whose chain-specific RPC enrichment failed; consumers can
- * fall through to `lookupToken(chainId, contractAddress)` and recover
- * the symbol + decimals from this catalog.
+ * tokens whose chain-specific RPC enrichment failed; consumers fall
+ * through to `lookupToken(chainId, contractAddress)` and recover the
+ * symbol + decimals from this catalog.
  */
 export function lookupToken(
   chainId: number | undefined,
   address: string | undefined,
 ): (TokenChainEntry & { symbol: string }) | undefined {
-  if (!chainId || !address) return undefined;
+  if (!address) return undefined;
   const target = address.toLowerCase();
+
+  if (chainId) {
+    for (const [symbol, byChain] of Object.entries(Tokens)) {
+      const entry = (byChain as TokenByChain)[chainId as keyof TokenByChain];
+      if (entry && entry.address.toLowerCase() === target) {
+        return { symbol, ...entry };
+      }
+    }
+  }
+  // Cross-chain scan — necessary when the workflow's chain differs
+  // from the runtime's bound chain.
   for (const [symbol, byChain] of Object.entries(Tokens)) {
-    const entry = (byChain as TokenByChain)[chainId as keyof TokenByChain];
-    if (entry && entry.address.toLowerCase() === target) {
-      return { symbol, ...entry };
+    for (const entry of Object.values(byChain)) {
+      if (entry && entry.address.toLowerCase() === target) {
+        return { symbol, ...entry };
+      }
     }
   }
   return undefined;

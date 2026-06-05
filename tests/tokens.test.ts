@@ -32,6 +32,8 @@ describe("Tokens namespace", () => {
     for (const [symbol, byChain] of Object.entries(Tokens)) {
       for (const [chainId, entry] of Object.entries(byChain)) {
         const where = `${symbol}[${chainId}]`;
+        expect(entry, `${where} empty entry`).toBeDefined();
+        if (!entry) continue;
         expect(entry.address, `${where} bad address`).toMatch(ADDRESS_RE);
         expect(entry.decimals, `${where} bad decimals`).toBeGreaterThanOrEqual(0);
         expect(entry.decimals, `${where} bad decimals`).toBeLessThanOrEqual(36);
@@ -66,8 +68,19 @@ describe("lookupToken()", () => {
     expect(result).toBeUndefined();
   });
 
-  it("returns undefined when the chain is unknown", () => {
+  it("falls through to cross-chain scan when the chain ID isn't covered", () => {
+    // Behavioural contract: a chain-specific miss does NOT mean the
+    // address is unknown — most ERC-20 addresses are globally unique
+    // so the catalog can still answer. This is what lets cross-chain
+    // dev gateways (Sepolia runtime, mainnet workflow) recover the
+    // right symbol. Tests that want strict chain-specific lookup
+    // should rely on a different code path.
     const result = lookupToken(999999, "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48");
+    expect(result?.symbol).toBe("USDC");
+  });
+
+  it("returns undefined when the address is unknown to every chain", () => {
+    const result = lookupToken(undefined, "0x0000000000000000000000000000000000000000");
     expect(result).toBeUndefined();
   });
 
