@@ -27,6 +27,7 @@
 //   const meta = lookupToken(Chains.EthereumMainnet, "0xA0b86991...");
 
 import { Chains } from "../chains";
+import { Protocols } from "../protocols";
 import { type TokenByChain, type TokenChainEntry } from "./types";
 
 import ethereumData from "./data/ethereum.json" with { type: "json" };
@@ -111,24 +112,52 @@ function buildTokensFromData(): Record<string, TokenByChain> {
 export const Tokens: Readonly<Record<string, TokenByChain>> = Object.freeze(buildTokensFromData());
 
 /**
+ * Default decimals applied to a `Protocols.*.tokens.<SYMBOL>` match
+ * when the address is found via a per-protocol token table but the
+ * top-level `Tokens` catalog doesn't carry the symbol on any chain.
+ * Most ERC-20 tokens that ship with protocols use 18 decimals
+ * (LINK on AAVE Sepolia, every WETH variant, etc.) so this default
+ * is correct in practice. Symbols that explicitly have a different
+ * canonical decimals value (USDC=6, USDT=6) appear in `Tokens` and
+ * are looked up there first — see the resolution strategy below.
+ */
+const PROTOCOL_TOKEN_DEFAULT_DECIMALS = 18;
+
+/**
  * Reverse lookup: given a contract address, find the token entry plus
  * its symbol. Address matching is case-insensitive so callers can pass
  * checksum or lowercase without normalizing upstream.
  *
  * Resolution strategy:
  *   1. When `chainId` is provided, prefer a match registered for that
- *      chain.
+ *      chain in the top-level `Tokens` catalog.
  *   2. If no chain-specific match (or no chainId), scan every chain
- *      for the address. Necessary when the caller's chain context
- *      diverges from where the address actually lives — happens in
- *      multi-chain dev gateways where the workflow targets one chain
- *      but the runtime is bound to a different one. The fallback is
- *      best-effort: the same 20-byte address is reachable on every
- *      EVM chain, so the scan only happens to be correct because the
- *      catalog only ships well-known canonical tokens whose contract
- *      addresses (mainnet USDC, OP-stack WETH predeploys, etc.) don't
- *      collide across chains in practice. Callers should still pass
- *      the right chainId when they have it.
+ *      in `Tokens` for the address. Necessary when the caller's chain
+ *      context diverges from where the address actually lives —
+ *      happens in multi-chain dev gateways where the workflow targets
+ *      one chain but the runtime is bound to a different one. The
+ *      fallback is best-effort: the same 20-byte address is
+ *      reachable on every EVM chain, so the scan only happens to be
+ *      correct because the catalog only ships well-known canonical
+ *      tokens whose contract addresses (mainnet USDC, OP-stack WETH
+ *      predeploys, etc.) don't collide across chains in practice.
+ *      Callers should still pass the right chainId when they have it.
+ *   3. If still no match, walk every per-protocol `tokens` table
+ *      (`Protocols.aaveV3.tokens.LINK`, `Protocols.uniswapV3.tokens.WETH`,
+ *      ...) for the address. Catches token addresses that ship
+ *      alongside a specific protocol — most notably the AAVE-V3
+ *      Sepolia faucet LINK (`0xf8Fb37…0EBE5`), which is the address
+ *      AAVE templates actually use on Sepolia even though the
+ *      canonical Chainlink LINK lives elsewhere. When the symbol
+ *      resolved from a per-protocol map also appears in `Tokens`,
+ *      `decimals` and `name` are lifted from the same-chain catalog
+ *      entry when one exists, else from any other catalog entry
+ *      under that symbol; `decimals` defaults to 18 when no catalog
+ *      entry exists at all (true for every per-protocol token the
+ *      catalog currently ships). The catalog's URL-shaped fields
+ *      (`website`, `explorer`, `logoUrl`, `links`) are intentionally
+ *      NOT lifted — they're per-deployment metadata that a faucet
+ *      variant would render incorrectly.
  *
  * Returns `undefined` when no chain in the catalog carries the
  * address, or when the address is missing/falsy.
@@ -159,6 +188,45 @@ export function lookupToken(
     for (const entry of Object.values(byChain)) {
       if (entry && entry.address.toLowerCase() === target) {
         return { symbol, ...entry };
+      }
+    }
+  }
+  // Per-protocol tokens fallback — covers addresses that ship with a
+  // specific protocol's token map but aren't in the top-level catalog
+  // (the AAVE Sepolia faucet LINK is the canonical case). Symbol +
+  // address are authoritative from the per-protocol entry; richer
+  // metadata, when available, is lifted from `Tokens[symbol]` so
+  // consumers still get the canonical decimals/name when there's a
+  // top-level entry under the same symbol on some other chain.
+  for (const protocolModule of Object.values(Protocols)) {
+    const tokens = (protocolModule as { tokens?: unknown }).tokens;
+    if (!tokens || typeof tokens !== "object") continue;
+    for (const [symbol, addressMap] of Object.entries(tokens as Record<string, Record<number, string>>)) {
+      if (!addressMap || typeof addressMap !== "object") continue;
+      for (const [rawChainId, addr] of Object.entries(addressMap)) {
+        if (typeof addr !== "string") continue;
+        if (addr.toLowerCase() !== target) continue;
+        const resolvedChainId = Number(rawChainId);
+        const canonicalSymbolByChain = (Tokens as Record<string, TokenByChain>)[symbol];
+        // Prefer the catalog's same-chain entry for decimals/name
+        // (it'll usually be a different deployment of the same token,
+        // e.g. canonical Chainlink LINK on Sepolia vs. AAVE-faucet
+        // LINK on Sepolia — decimals + symbolic name are still
+        // correct for either). Fall back to any other-chain entry
+        // under the same symbol when the catalog has no same-chain
+        // row, then to 18 decimals when the symbol has no catalog
+        // presence at all.
+        const metadataSource: TokenChainEntry | undefined =
+          canonicalSymbolByChain?.[resolvedChainId as keyof TokenByChain] ??
+          (canonicalSymbolByChain
+            ? (Object.values(canonicalSymbolByChain).find(e => e) as TokenChainEntry | undefined)
+            : undefined);
+        return {
+          symbol,
+          address: addr as `0x${string}`,
+          decimals: metadataSource?.decimals ?? PROTOCOL_TOKEN_DEFAULT_DECIMALS,
+          ...(metadataSource?.name ? { name: metadataSource.name } : {}),
+        };
       }
     }
   }
