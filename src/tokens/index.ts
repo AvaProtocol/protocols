@@ -61,10 +61,13 @@ const CHAIN_DATA: ReadonlyArray<readonly [number, ReadonlyArray<TokenDataRow>]> 
  *
  * If a symbol appears in multiple chain files, the per-chain entries
  * merge into a single `TokenByChain` map — the natural shape for the
- * symbol-keyed lookup. If the same `(symbol, chainId)` pair appears
- * twice (data error — same symbol redefined for the same chain) the
- * last one wins; the build-tokens-sidecar test sweep catches this in
- * practice by failing the catalog integrity tests downstream.
+ * symbol-keyed lookup.
+ *
+ * Throws if the same `(symbol, chainId)` pair is defined twice within
+ * the chain data files. Silently overwriting would mask data-entry
+ * bugs (and the integrity tests can't detect them after the
+ * overwrite), so we fail fast at module load — the cost is a
+ * one-off process startup error pointing straight at the duplicate.
  */
 function buildTokensFromData(): Record<string, TokenByChain> {
   const merged: Record<string, Record<number, TokenChainEntry>> = {};
@@ -72,6 +75,13 @@ function buildTokensFromData(): Record<string, TokenByChain> {
     for (const row of rows) {
       const { symbol, ...entry } = row;
       if (!merged[symbol]) merged[symbol] = {};
+      if (merged[symbol][chainId] !== undefined) {
+        throw new Error(
+          `[@avaprotocol/protocols] duplicate token entry for symbol="${symbol}" ` +
+            `on chainId=${chainId}. Each (symbol, chainId) pair must be unique across ` +
+            `src/tokens/data/*.json — remove the duplicate row.`,
+        );
+      }
       merged[symbol][chainId] = entry;
     }
   }
@@ -87,10 +97,16 @@ function buildTokensFromData(): Record<string, TokenByChain> {
  * import would add overhead for a guarantee no consumer has asked
  * for. Add a deep-freeze pass here if a real misuse case emerges.
  *
- * Symbol keys are the canonical uppercase ERC-20 ticker (USDC, not
- * usdc/Usdc). The catalog is intentionally not case-insensitive at
- * this level — callers needing a fuzzy lookup should normalize at
- * their own boundary.
+ * Symbol keys preserve the casing used by the token's canonical
+ * branding as published by upstream catalogs. Most symbols are
+ * uppercase (USDC, WETH, AAVE) but mixed-case tickers exist where
+ * the project explicitly brands that way (stETH, wstETH, axlUSDC,
+ * cbBTC, USDbC, rETH, sUSDe). The catalog is intentionally NOT
+ * case-insensitive at this level — `Tokens.usdc` is `undefined`,
+ * not USDC — so callers needing fuzzy lookup should normalize at
+ * their own boundary or use `lookupToken(chainId, address)` which
+ * lookups by address (case-insensitive on address, but symbol-
+ * agnostic).
  */
 export const Tokens: Readonly<Record<string, TokenByChain>> = Object.freeze(buildTokensFromData());
 

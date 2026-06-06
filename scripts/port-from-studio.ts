@@ -70,7 +70,7 @@ const CHAIN_FILE_MAP: ReadonlyArray<readonly [string, string]> = [
   ["base-sepolia.json", "base-sepolia.json"],
 ];
 
-function toCamelLinksObject(links: StudioLink[] | undefined): Record<string, string> | undefined {
+function studioLinksArrayToObject(links: StudioLink[] | undefined): Record<string, string> | undefined {
   if (!links || links.length === 0) return undefined;
   const obj: Record<string, string> = {};
   for (const l of links) {
@@ -97,7 +97,7 @@ function portRow(studio: StudioToken): PortedToken {
   if (studio.description) out.description = studio.description;
   if (studio.website) out.website = studio.website;
   if (studio.explorer) out.explorer = studio.explorer;
-  const links = toCamelLinksObject(studio.links);
+  const links = studioLinksArrayToObject(studio.links);
   if (links) out.links = links;
   return out;
 }

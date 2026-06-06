@@ -23,7 +23,7 @@ import { type ChainId } from "../chains";
  * here when adding a category we want to surface; consumers ignore
  * unknown keys harmlessly.
  *
- * Keys follow the names used by upstream catalogs (Studios
+ * Keys follow the names used by upstream catalogs (Studio's
  * `app/lib/erc20/*.json` in particular) so the port is mechanical.
  * `x` is the renamed Twitter; we deliberately use the current name
  * rather than carrying a `twitter` alias.
