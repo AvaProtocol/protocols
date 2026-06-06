@@ -1,0 +1,70 @@
+[
+  {
+    "symbol": "DAI",
+    "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "decimals": 18,
+    "name": "Dai Stablecoin",
+    "description": "Decentralized USD-pegged stablecoin issued by MakerDAO.",
+    "website": "https://makerdao.com",
+    "explorer": "https://etherscan.io/token/0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/DAI.png",
+    "links": {
+      "coingecko": "https://www.coingecko.com/en/coins/dai",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/multi-collateral-dai/"
+    }
+  },
+  {
+    "symbol": "LINK",
+    "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+    "decimals": 18,
+    "name": "ChainLink Token",
+    "description": "Native token of the Chainlink decentralized oracle network.",
+    "website": "https://chain.link",
+    "explorer": "https://etherscan.io/token/0x514910771AF9Ca656af840dff83E8264EcF986CA",
+    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/LINK.png",
+    "links": {
+      "coingecko": "https://www.coingecko.com/en/coins/chainlink",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/chainlink/"
+    }
+  },
+  {
+    "symbol": "USDC",
+    "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "decimals": 6,
+    "name": "USD Coin",
+    "description": "Fully-reserved USD stablecoin issued by Circle.",
+    "website": "https://www.circle.com/usdc",
+    "explorer": "https://etherscan.io/token/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/USDC.png",
+    "links": {
+      "coingecko": "https://www.coingecko.com/en/coins/usd-coin",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/usd-coin/"
+    }
+  },
+  {
+    "symbol": "USDT",
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "decimals": 6,
+    "name": "Tether USD",
+    "description": "USD-pegged stablecoin issued by Tether.",
+    "website": "https://tether.to",
+    "explorer": "https://etherscan.io/token/0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/USDT.png",
+    "links": {
+      "coingecko": "https://www.coingecko.com/en/coins/tether",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/tether/"
+    }
+  },
+  {
+    "symbol": "WETH",
+    "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "decimals": 18,
+    "name": "Wrapped Ether",
+    "description": "ERC-20 wrapper around native ETH, 1:1 backed.",
+    "explorer": "https://etherscan.io/token/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/WETH.png",
+    "links": {
+      "coingecko": "https://www.coingecko.com/en/coins/weth"
+    }
+  }
+]

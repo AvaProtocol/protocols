@@ -1,0 +1,24 @@
+[
+  {
+    "symbol": "LINK",
+    "address": "0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5",
+    "decimals": 18,
+    "name": "ChainLink Token (AAVE Sepolia faucet)",
+    "description": "AAVE V3 faucet-mintable test LINK on Sepolia — NOT canonical Chainlink LINK. Templates targeting the AAVE Sepolia market need this address; the real Chainlink LINK on Sepolia is at 0x779877A7B0D9E8603169DdbD7836e478b4624789.",
+    "explorer": "https://sepolia.etherscan.io/token/0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5"
+  },
+  {
+    "symbol": "USDC",
+    "address": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+    "decimals": 6,
+    "name": "USD Coin (Sepolia)",
+    "explorer": "https://sepolia.etherscan.io/token/0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"
+  },
+  {
+    "symbol": "WETH",
+    "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
+    "decimals": 18,
+    "name": "Wrapped Ether (Sepolia)",
+    "explorer": "https://sepolia.etherscan.io/token/0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14"
+  }
+]

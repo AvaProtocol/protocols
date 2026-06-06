@@ -3,6 +3,15 @@
 // is touched by every DEX, lending market, and template), so they
 // don't belong nested under any single protocol module.
 //
+// Source data lives in `src/tokens/data/<chain>.json` — one file per
+// chain, each an array of `{symbol, address, decimals, name?, ...}`
+// records. That layout mirrors how upstream catalogs (Studio's
+// `app/lib/erc20/*.json`, the EigenLayer-AVS gateway's
+// `token_whitelist/*.json`) organize the same data, so adding tokens
+// = appending a row to the right chain's JSON. The `Tokens` object
+// surfaced by this module aggregates the per-chain rows into the
+// `Tokens.SYMBOL[chainId]` shape at module load.
+//
 // Pre-existing per-protocol token addresses under
 // `Protocols.{name}.tokens.{SYMBOL}` continue to work for backward
 // compatibility — those carry only the address, not the wider
@@ -20,148 +29,54 @@
 import { Chains } from "../chains";
 import { type TokenByChain, type TokenChainEntry } from "./types";
 
+import ethereumData from "./data/ethereum.json" with { type: "json" };
+import sepoliaData from "./data/sepolia.json" with { type: "json" };
+import baseData from "./data/base.json" with { type: "json" };
+import baseSepoliaData from "./data/base-sepolia.json" with { type: "json" };
+import bnbMainnetData from "./data/bnb-mainnet.json" with { type: "json" };
+
 export type { TokenByChain, TokenChainEntry, TokenLinks } from "./types";
 
-const USDC: TokenByChain = {
-  [Chains.EthereumMainnet]: {
-    address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    decimals: 6,
-    name: "USD Coin",
-    description: "Fully-reserved USD stablecoin issued by Circle.",
-    website: "https://www.circle.com/usdc",
-    explorer: "https://etherscan.io/token/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    logoUrl: "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/USDC.png",
-    links: {
-      coingecko: "https://www.coingecko.com/en/coins/usd-coin",
-      coinmarketcap: "https://coinmarketcap.com/currencies/usd-coin/",
-    },
-  },
-  [Chains.BaseMainnet]: {
-    address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    decimals: 6,
-    name: "USD Coin",
-    explorer: "https://basescan.org/token/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  },
-  [Chains.Sepolia]: {
-    address: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-    decimals: 6,
-    name: "USD Coin (Sepolia)",
-    explorer: "https://sepolia.etherscan.io/token/0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-  },
-  [Chains.BaseSepolia]: {
-    address: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-    decimals: 6,
-    name: "USD Coin (Base Sepolia)",
-    explorer: "https://sepolia.basescan.org/token/0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-  },
-  [Chains.BnbMainnet]: {
-    address: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-    decimals: 18,
-    name: "Binance-Peg USD Coin",
-    explorer: "https://bscscan.com/token/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
-  },
-};
+// Source-data record. Each per-chain JSON file is an array of these.
+// Identical shape to TokenChainEntry plus a `symbol` discriminator so
+// each row stands alone (independent of position in any array).
+interface TokenDataRow extends TokenChainEntry {
+  readonly symbol: string;
+}
 
-const USDT: TokenByChain = {
-  [Chains.EthereumMainnet]: {
-    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    decimals: 6,
-    name: "Tether USD",
-    description: "USD-pegged stablecoin issued by Tether.",
-    website: "https://tether.to",
-    explorer: "https://etherscan.io/token/0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    logoUrl: "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/USDT.png",
-    links: {
-      coingecko: "https://www.coingecko.com/en/coins/tether",
-      coinmarketcap: "https://coinmarketcap.com/currencies/tether/",
-    },
-  },
-  [Chains.BnbMainnet]: {
-    address: "0x55d398326f99059fF775485246999027B3197955",
-    decimals: 18,
-    name: "Binance-Peg Tether USD",
-    explorer: "https://bscscan.com/token/0x55d398326f99059fF775485246999027B3197955",
-  },
-};
+const CHAIN_DATA: ReadonlyArray<readonly [number, ReadonlyArray<TokenDataRow>]> = Object.freeze([
+  [Chains.EthereumMainnet, ethereumData as ReadonlyArray<TokenDataRow>],
+  [Chains.Sepolia, sepoliaData as ReadonlyArray<TokenDataRow>],
+  [Chains.BaseMainnet, baseData as ReadonlyArray<TokenDataRow>],
+  [Chains.BaseSepolia, baseSepoliaData as ReadonlyArray<TokenDataRow>],
+  [Chains.BnbMainnet, bnbMainnetData as ReadonlyArray<TokenDataRow>],
+]);
 
-const WETH: TokenByChain = {
-  [Chains.EthereumMainnet]: {
-    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    decimals: 18,
-    name: "Wrapped Ether",
-    description: "ERC-20 wrapper around native ETH, 1:1 backed.",
-    explorer: "https://etherscan.io/token/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    logoUrl: "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/WETH.png",
-    links: {
-      coingecko: "https://www.coingecko.com/en/coins/weth",
-    },
-  },
-  [Chains.Sepolia]: {
-    address: "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
-    decimals: 18,
-    name: "Wrapped Ether (Sepolia)",
-    explorer: "https://sepolia.etherscan.io/token/0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
-  },
-  [Chains.BaseMainnet]: {
-    address: "0x4200000000000000000000000000000000000006",
-    decimals: 18,
-    name: "Wrapped Ether",
-    explorer: "https://basescan.org/token/0x4200000000000000000000000000000000000006",
-  },
-  [Chains.BaseSepolia]: {
-    address: "0x4200000000000000000000000000000000000006",
-    decimals: 18,
-    name: "Wrapped Ether (Base Sepolia)",
-    explorer: "https://sepolia.basescan.org/token/0x4200000000000000000000000000000000000006",
-  },
-};
-
-const DAI: TokenByChain = {
-  [Chains.EthereumMainnet]: {
-    address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    decimals: 18,
-    name: "Dai Stablecoin",
-    description: "Decentralized USD-pegged stablecoin issued by MakerDAO.",
-    website: "https://makerdao.com",
-    explorer: "https://etherscan.io/token/0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    logoUrl: "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/DAI.png",
-    links: {
-      coingecko: "https://www.coingecko.com/en/coins/dai",
-      coinmarketcap: "https://coinmarketcap.com/currencies/multi-collateral-dai/",
-    },
-  },
-  [Chains.BaseMainnet]: {
-    address: "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
-    decimals: 18,
-    name: "Dai Stablecoin",
-    explorer: "https://basescan.org/token/0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
-  },
-};
-
-const LINK: TokenByChain = {
-  [Chains.EthereumMainnet]: {
-    address: "0x514910771AF9Ca656af840dff83E8264EcF986CA",
-    decimals: 18,
-    name: "ChainLink Token",
-    description: "Native token of the Chainlink decentralized oracle network.",
-    website: "https://chain.link",
-    explorer: "https://etherscan.io/token/0x514910771AF9Ca656af840dff83E8264EcF986CA",
-    logoUrl: "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/LINK.png",
-    links: {
-      coingecko: "https://www.coingecko.com/en/coins/chainlink",
-      coinmarketcap: "https://coinmarketcap.com/currencies/chainlink/",
-    },
-  },
-  [Chains.Sepolia]: {
-    // AAVE V3 faucet-mintable LINK on Sepolia — NOT canonical Chainlink LINK.
-    // Templates targeting the AAVE Sepolia market need this address; the real
-    // Chainlink LINK on Sepolia is at 0x779877A7B0D9E8603169DdbD7836e478b4624789.
-    address: "0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5",
-    decimals: 18,
-    name: "ChainLink Token (AAVE Sepolia faucet)",
-    explorer: "https://sepolia.etherscan.io/token/0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5",
-  },
-};
+/**
+ * Walk every per-chain data file and group entries by symbol so the
+ * public API stays `Tokens.SYMBOL[chainId]` regardless of how the
+ * source is laid out. Built once at module load; the cost is bounded
+ * by the catalog size and the result is frozen at the outer level
+ * (see the comment on `Tokens` below).
+ *
+ * If a symbol appears in multiple chain files, the per-chain entries
+ * merge into a single `TokenByChain` map — the natural shape for the
+ * symbol-keyed lookup. If the same `(symbol, chainId)` pair appears
+ * twice (data error — same symbol redefined for the same chain) the
+ * last one wins; the build-tokens-sidecar test sweep catches this in
+ * practice by failing the catalog integrity tests downstream.
+ */
+function buildTokensFromData(): Record<string, TokenByChain> {
+  const merged: Record<string, Record<number, TokenChainEntry>> = {};
+  for (const [chainId, rows] of CHAIN_DATA) {
+    for (const row of rows) {
+      const { symbol, ...entry } = row;
+      if (!merged[symbol]) merged[symbol] = {};
+      merged[symbol][chainId] = entry;
+    }
+  }
+  return merged;
+}
 
 /**
  * Symbol → per-chain entry. The outer object is frozen at module
@@ -177,13 +92,7 @@ const LINK: TokenByChain = {
  * this level — callers needing a fuzzy lookup should normalize at
  * their own boundary.
  */
-export const Tokens = Object.freeze({
-  USDC,
-  USDT,
-  WETH,
-  DAI,
-  LINK,
-}) satisfies Readonly<Record<string, TokenByChain>>;
+export const Tokens: Readonly<Record<string, TokenByChain>> = Object.freeze(buildTokensFromData());
 
 /**
  * Reverse lookup: given a contract address, find the token entry plus
@@ -197,11 +106,13 @@ export const Tokens = Object.freeze({
  *      for the address. Necessary when the caller's chain context
  *      diverges from where the address actually lives — happens in
  *      multi-chain dev gateways where the workflow targets one chain
- *      but the runtime is bound to a different one. Most ERC-20
- *      addresses are globally unique so this collapses to a single
- *      match; for OP-stack predeploys (e.g. WETH at 0x4200…0006 on
- *      both Base and Base Sepolia), any match yields the correct
- *      symbol and decimals.
+ *      but the runtime is bound to a different one. The fallback is
+ *      best-effort: the same 20-byte address is reachable on every
+ *      EVM chain, so the scan only happens to be correct because the
+ *      catalog only ships well-known canonical tokens whose contract
+ *      addresses (mainnet USDC, OP-stack WETH predeploys, etc.) don't
+ *      collide across chains in practice. Callers should still pass
+ *      the right chainId when they have it.
  *
  * Returns `undefined` when no chain in the catalog carries the
  * address, or when the address is missing/falsy.
