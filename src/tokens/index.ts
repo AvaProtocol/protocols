@@ -149,10 +149,15 @@ const PROTOCOL_TOKEN_DEFAULT_DECIMALS = 18;
  *      Sepolia faucet LINK (`0xf8Fb37…0EBE5`), which is the address
  *      AAVE templates actually use on Sepolia even though the
  *      canonical Chainlink LINK lives elsewhere. When the symbol
- *      resolved from a per-protocol map also appears in `Tokens` on
- *      some chain, the richer metadata (decimals, name, links) is
- *      lifted from there; otherwise decimals default to 18 (true for
- *      every per-protocol token the catalog currently ships).
+ *      resolved from a per-protocol map also appears in `Tokens`,
+ *      `decimals` and `name` are lifted from the same-chain catalog
+ *      entry when one exists, else from any other catalog entry
+ *      under that symbol; `decimals` defaults to 18 when no catalog
+ *      entry exists at all (true for every per-protocol token the
+ *      catalog currently ships). The catalog's URL-shaped fields
+ *      (`website`, `explorer`, `logoUrl`, `links`) are intentionally
+ *      NOT lifted — they're per-deployment metadata that a faucet
+ *      variant would render incorrectly.
  *
  * Returns `undefined` when no chain in the catalog carries the
  * address, or when the address is missing/falsy.
@@ -203,23 +208,24 @@ export function lookupToken(
         if (addr.toLowerCase() !== target) continue;
         const resolvedChainId = Number(rawChainId);
         const canonicalSymbolByChain = (Tokens as Record<string, TokenByChain>)[symbol];
-        const canonicalSameChain = canonicalSymbolByChain?.[resolvedChainId as keyof TokenByChain];
-        if (canonicalSameChain && canonicalSameChain.address.toLowerCase() !== target) {
-          // The catalog has this symbol on this chain at a DIFFERENT
-          // address (e.g. Tokens.LINK[Sepolia] is canonical Chainlink
-          // LINK, not the AAVE faucet at addr). Prefer the
-          // per-protocol entry's address; lift decimals/name from any
-          // other-chain catalog entry under the same symbol so the
-          // returned shape stays consistent.
-        }
-        const richSibling =
-          canonicalSymbolByChain &&
-          (Object.values(canonicalSymbolByChain).find(e => e) as TokenChainEntry | undefined);
+        // Prefer the catalog's same-chain entry for decimals/name
+        // (it'll usually be a different deployment of the same token,
+        // e.g. canonical Chainlink LINK on Sepolia vs. AAVE-faucet
+        // LINK on Sepolia — decimals + symbolic name are still
+        // correct for either). Fall back to any other-chain entry
+        // under the same symbol when the catalog has no same-chain
+        // row, then to 18 decimals when the symbol has no catalog
+        // presence at all.
+        const metadataSource: TokenChainEntry | undefined =
+          canonicalSymbolByChain?.[resolvedChainId as keyof TokenByChain] ??
+          (canonicalSymbolByChain
+            ? (Object.values(canonicalSymbolByChain).find(e => e) as TokenChainEntry | undefined)
+            : undefined);
         return {
           symbol,
           address: addr as `0x${string}`,
-          decimals: richSibling?.decimals ?? PROTOCOL_TOKEN_DEFAULT_DECIMALS,
-          ...(richSibling?.name ? { name: richSibling.name } : {}),
+          decimals: metadataSource?.decimals ?? PROTOCOL_TOKEN_DEFAULT_DECIMALS,
+          ...(metadataSource?.name ? { name: metadataSource.name } : {}),
         };
       }
     }
