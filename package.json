@@ -1,6 +1,6 @@
 {
   "name": "@avaprotocol/protocols",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Multi-chain catalog of DeFi protocol contract addresses, ABI fragments, and event topic hashes — covers AAVE V3, Uniswap V3, Chainlink, Lido, Morpho, and more.",
   "keywords": [
     "defi",
@@ -50,7 +50,8 @@
   "scripts": {
     "build:declarations": "tsc -p tsconfig.build.json",
     "build:js": "tsup src/index.ts --format cjs,esm --target es2020",
-    "build": "yarn clean:dist && yarn build:declarations && yarn build:js",
+    "build:tokens-sidecar": "tsx scripts/build-tokens-sidecar.ts",
+    "build": "yarn clean:dist && yarn build:declarations && yarn build:js && yarn build:tokens-sidecar",
     "clean": "rm -rf node_modules dist tsconfig.tsbuildinfo",
     "clean:dist": "rm -rf dist tsconfig.tsbuildinfo",
     "test": "vitest",
@@ -61,6 +62,7 @@
   },
   "devDependencies": {
     "tsup": "^8.5.0",
+    "tsx": "^4.19.0",
     "typescript": "^5.5.4",
     "vitest": "^1.6.0"
   },
