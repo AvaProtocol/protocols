@@ -1,0 +1,72 @@
+name: Release
+
+# Runs on every push to `main`. If there are unconsumed changesets, opens
+# (or updates) a "Version Packages" PR that bumps package.json + writes
+# CHANGELOG entries. When that PR is merged, the same workflow re-runs
+# without pending changesets and publishes to npm via `changeset publish`,
+# which auto-routes pre-release versions to the right dist-tag (no manual
+# --tag wrangling).
+#
+# Auth: uses npm Trusted Publishing (OIDC) — no NPM_TOKEN required.
+# Configure once on npm: package settings → Trusted Publishers → Add
+# publisher, point at this repo + this workflow filename.
+
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    name: Version + publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # allow changesets/action to push the version PR
+      pull-requests: write  # allow it to open / update the PR
+      id-token: write       # for npm provenance on the publish step
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          # The npm CLI must support OIDC trusted publishing (>= 11.5.1).
+          # Node 20 ships with 10.x, so we upgrade below.
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Upgrade npm for trusted publishing
+        # Trusted Publishing requires npm >= 11.5.1. setup-node@v4 doesn't
+        # expose a built-in `npm-version` knob, so we install the latest
+        # CLI explicitly. `npm publish` (called by `changeset publish`)
+        # then auto-detects the OIDC environment and authenticates against
+        # npm without an NPM_TOKEN.
+        run: npm install --global npm@latest
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Create Release PR or publish
+        uses: changesets/action@v1
+        with:
+          # `yarn release` runs `yarn build && changeset publish`. Build
+          # produces dist/ + tokens sidecar; changeset publish picks the
+          # right dist-tag from the semver (stable → latest, prerelease →
+          # the prerelease identifier). With OIDC trusted publishing
+          # enabled on the package, no NPM_TOKEN is needed — the npm CLI
+          # exchanges GitHub's OIDC token for a short-lived npm token at
+          # publish time.
+          publish: yarn release
+          # When there are pending changesets, this opens/updates a PR
+          # that runs `yarn version-packages` (= `changeset version`).
+          version: yarn version-packages
+          title: "chore: version packages"
+          commit: "chore: version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # NPM_TOKEN intentionally omitted — Trusted Publishing replaces it.

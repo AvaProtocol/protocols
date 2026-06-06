@@ -149,6 +149,85 @@ There's no equivalent multi-protocol + multi-chain + addresses + ABIs + topics p
 
 Address verification: link to the canonical source (Etherscan-verified deployment, protocol docs, official address book). PRs that don't cite a source for the addresses won't merge.
 
+## Tokens sidecar (for non-TS consumers)
+
+`yarn build` writes a per-chain JSON file under `dist/tokens/` alongside the JS + d.ts outputs:
+
+```
+dist/tokens/
+├── ethereum.json       (chain 1)
+├── sepolia.json        (chain 11155111)
+├── base.json           (chain 8453)
+├── base-sepolia.json   (chain 84532)
+├── bnb-mainnet.json    (chain 56)
+└── holesky.json        (chain 17000)
+```
+
+Each file is a stable-sorted array of `{ id, name, symbol, decimals }` entries — the same schema the EigenLayer-AVS Go aggregator already consumes under `token_whitelist/*.json`, so a Go service can pick up the catalog without depending on the TS toolchain. `id` is the lowercased address (matching Go's read-side normalization). Metadata fields TS consumers use (`description`, `website`, `logoUrl`, `links`) are intentionally omitted; TS callers import the `Tokens` namespace from source instead.
+
+### When to run it
+
+- **Automatically** — `yarn build` invokes `yarn build:tokens-sidecar` as its last step, so any release publishes a fresh sidecar in the npm tarball.
+- **Standalone** — `yarn build:tokens-sidecar` when you've edited `src/tokens/` and want to inspect the generated JSON without rebuilding declarations + JS.
+
+### Adding a new chain
+
+The script throws fast if the catalog grows a token on a chain that isn't registered in `CHAIN_FILE_NAMES` inside `scripts/build-tokens-sidecar.ts`:
+
+```
+[tokens-sidecar] no file name registered for chain <id>.
+Add it to CHAIN_FILE_NAMES in scripts/build-tokens-sidecar.ts.
+```
+
+Fix is one line — append `[Chains.NewChain]: "newchain-mainnet"` to the map. The error message points at the exact file so this can't silently ship an incomplete sidecar.
+
+### Consuming the sidecar (Go example)
+
+```go
+// EigenLayer-AVS already does this for its checked-in
+// token_whitelist/*.json; the dist/tokens/*.json from this package
+// match the same schema.
+type tokenEntry struct {
+    ID       string `json:"id"`
+    Name     string `json:"name"`
+    Symbol   string `json:"symbol"`
+    Decimals int    `json:"decimals"`
+}
+
+raw, err := os.ReadFile("path/to/dist/tokens/sepolia.json")
+// ... json.Unmarshal(raw, &entries) ...
+```
+
+## Releasing
+
+This package uses [changesets](https://github.com/changesets/changesets) for versioning. The day-to-day flow:
+
+```bash
+# 1. Make your code changes on a feature branch.
+yarn changeset                   # interactive prompt; pick bump level + write the changelog entry
+git add .changeset && git commit -m "..."
+git push                         # open PR as normal
+```
+
+When the PR merges to `main`, the `Release` workflow (`.github/workflows/release.yml`) either:
+
+- Opens (or updates) a "Version Packages" PR that runs `yarn changeset version` — bumps `package.json` + writes `CHANGELOG.md`. Review and merge that PR.
+- Or, if there are no pending changesets, runs `yarn release` (`yarn build && yarn changeset publish`) — which publishes to npm with the right dist-tag automatically (stable → `latest`, pre-release → its identifier).
+
+### Publishing manually (escape hatch)
+
+If you need to publish without the GitHub Action — e.g. an emergency release from a machine that has `npm login` credentials:
+
+```bash
+yarn build                        # produces dist/ + tokens sidecar
+npm whoami                        # verify logged in
+npm publish --access public       # for stable versions; goes to `latest`
+# or for a pre-release:
+npm publish --access public --tag dev
+```
+
+`prepublishOnly: yarn build` runs the build chain automatically if you forget, so even `npm publish` alone is safe.
+
 ## Versioning
 
 Semver. Until `1.0.0`, breaking changes can land in minor versions (`0.x`), but address corrections are always patches.
