@@ -27,6 +27,7 @@
 //   const meta = lookupToken(Chains.EthereumMainnet, "0xA0b86991...");
 
 import { Chains } from "../chains";
+import { Protocols } from "../protocols";
 import { type TokenByChain, type TokenChainEntry } from "./types";
 
 import ethereumData from "./data/ethereum.json" with { type: "json" };
@@ -111,24 +112,47 @@ function buildTokensFromData(): Record<string, TokenByChain> {
 export const Tokens: Readonly<Record<string, TokenByChain>> = Object.freeze(buildTokensFromData());
 
 /**
+ * Default decimals applied to a `Protocols.*.tokens.<SYMBOL>` match
+ * when the address is found via a per-protocol token table but the
+ * top-level `Tokens` catalog doesn't carry the symbol on any chain.
+ * Most ERC-20 tokens that ship with protocols use 18 decimals
+ * (LINK on AAVE Sepolia, every WETH variant, etc.) so this default
+ * is correct in practice. Symbols that explicitly have a different
+ * canonical decimals value (USDC=6, USDT=6) appear in `Tokens` and
+ * are looked up there first — see the resolution strategy below.
+ */
+const PROTOCOL_TOKEN_DEFAULT_DECIMALS = 18;
+
+/**
  * Reverse lookup: given a contract address, find the token entry plus
  * its symbol. Address matching is case-insensitive so callers can pass
  * checksum or lowercase without normalizing upstream.
  *
  * Resolution strategy:
  *   1. When `chainId` is provided, prefer a match registered for that
- *      chain.
+ *      chain in the top-level `Tokens` catalog.
  *   2. If no chain-specific match (or no chainId), scan every chain
- *      for the address. Necessary when the caller's chain context
- *      diverges from where the address actually lives — happens in
- *      multi-chain dev gateways where the workflow targets one chain
- *      but the runtime is bound to a different one. The fallback is
- *      best-effort: the same 20-byte address is reachable on every
- *      EVM chain, so the scan only happens to be correct because the
- *      catalog only ships well-known canonical tokens whose contract
- *      addresses (mainnet USDC, OP-stack WETH predeploys, etc.) don't
- *      collide across chains in practice. Callers should still pass
- *      the right chainId when they have it.
+ *      in `Tokens` for the address. Necessary when the caller's chain
+ *      context diverges from where the address actually lives —
+ *      happens in multi-chain dev gateways where the workflow targets
+ *      one chain but the runtime is bound to a different one. The
+ *      fallback is best-effort: the same 20-byte address is
+ *      reachable on every EVM chain, so the scan only happens to be
+ *      correct because the catalog only ships well-known canonical
+ *      tokens whose contract addresses (mainnet USDC, OP-stack WETH
+ *      predeploys, etc.) don't collide across chains in practice.
+ *      Callers should still pass the right chainId when they have it.
+ *   3. If still no match, walk every per-protocol `tokens` table
+ *      (`Protocols.aaveV3.tokens.LINK`, `Protocols.uniswapV3.tokens.WETH`,
+ *      ...) for the address. Catches token addresses that ship
+ *      alongside a specific protocol — most notably the AAVE-V3
+ *      Sepolia faucet LINK (`0xf8Fb37…0EBE5`), which is the address
+ *      AAVE templates actually use on Sepolia even though the
+ *      canonical Chainlink LINK lives elsewhere. When the symbol
+ *      resolved from a per-protocol map also appears in `Tokens` on
+ *      some chain, the richer metadata (decimals, name, links) is
+ *      lifted from there; otherwise decimals default to 18 (true for
+ *      every per-protocol token the catalog currently ships).
  *
  * Returns `undefined` when no chain in the catalog carries the
  * address, or when the address is missing/falsy.
@@ -159,6 +183,44 @@ export function lookupToken(
     for (const entry of Object.values(byChain)) {
       if (entry && entry.address.toLowerCase() === target) {
         return { symbol, ...entry };
+      }
+    }
+  }
+  // Per-protocol tokens fallback — covers addresses that ship with a
+  // specific protocol's token map but aren't in the top-level catalog
+  // (the AAVE Sepolia faucet LINK is the canonical case). Symbol +
+  // address are authoritative from the per-protocol entry; richer
+  // metadata, when available, is lifted from `Tokens[symbol]` so
+  // consumers still get the canonical decimals/name when there's a
+  // top-level entry under the same symbol on some other chain.
+  for (const protocolModule of Object.values(Protocols)) {
+    const tokens = (protocolModule as { tokens?: unknown }).tokens;
+    if (!tokens || typeof tokens !== "object") continue;
+    for (const [symbol, addressMap] of Object.entries(tokens as Record<string, Record<number, string>>)) {
+      if (!addressMap || typeof addressMap !== "object") continue;
+      for (const [rawChainId, addr] of Object.entries(addressMap)) {
+        if (typeof addr !== "string") continue;
+        if (addr.toLowerCase() !== target) continue;
+        const resolvedChainId = Number(rawChainId);
+        const canonicalSymbolByChain = (Tokens as Record<string, TokenByChain>)[symbol];
+        const canonicalSameChain = canonicalSymbolByChain?.[resolvedChainId as keyof TokenByChain];
+        if (canonicalSameChain && canonicalSameChain.address.toLowerCase() !== target) {
+          // The catalog has this symbol on this chain at a DIFFERENT
+          // address (e.g. Tokens.LINK[Sepolia] is canonical Chainlink
+          // LINK, not the AAVE faucet at addr). Prefer the
+          // per-protocol entry's address; lift decimals/name from any
+          // other-chain catalog entry under the same symbol so the
+          // returned shape stays consistent.
+        }
+        const richSibling =
+          canonicalSymbolByChain &&
+          (Object.values(canonicalSymbolByChain).find(e => e) as TokenChainEntry | undefined);
+        return {
+          symbol,
+          address: addr as `0x${string}`,
+          decimals: richSibling?.decimals ?? PROTOCOL_TOKEN_DEFAULT_DECIMALS,
+          ...(richSibling?.name ? { name: richSibling.name } : {}),
+        };
       }
     }
   }

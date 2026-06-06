@@ -96,6 +96,25 @@ describe("lookupToken()", () => {
     expect(lookupToken(1, "")).toBeUndefined();
   });
 
+  it("resolves the AAVE-V3 Sepolia faucet LINK address via the per-protocol fallback", () => {
+    // Tokens.LINK[Sepolia] is the canonical Chainlink address since
+    // the Studio-wide seed in v0.4.0. The AAVE-V3 Sepolia faucet
+    // LINK (0xf8Fb37…0EBE5) still lives at
+    // Protocols.aaveV3.tokens.LINK[Sepolia] though, and the AVS-side
+    // AAVE template uses exactly that address — so lookupToken must
+    // recover the symbol via the per-protocol fallback.
+    const result = lookupToken(Chains.Sepolia, "0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5");
+    expect(result?.symbol).toBe("LINK");
+    expect(result?.decimals).toBe(18);
+  });
+
+  it("per-protocol fallback also works cross-chain (chainId-less lookup)", () => {
+    // Chain hint absent — still resolves via the cross-chain pass +
+    // per-protocol fallback.
+    const result = lookupToken(undefined, "0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5");
+    expect(result?.symbol).toBe("LINK");
+  });
+
   it("distinguishes canonical Sepolia LINK from mainnet LINK", () => {
     // Tokens.LINK[Sepolia] is the canonical Sepolia ChainLink Token
     // (0x779877…4789), not the AAVE-V3 faucet variant. The faucet
