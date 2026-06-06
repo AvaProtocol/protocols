@@ -60,15 +60,20 @@ const CHAIN_FILE_MAP: ReadonlyArray<readonly [string, string]> = [
   ["base-sepolia.json", "base-sepolia.json"],
 ];
 
+const ADDRESS_RE = /^0x[0-9a-fA-F]{40}$/;
+
 function portRow(avs: AvsToken): PortedToken {
-  let address = avs.id;
-  try {
-    address = getAddress(avs.id);
-  } catch {
-    // AVS whitelist stores addresses lowercased; ethers throws on
-    // non-checksum input. Keep the original (will be lowercased by
-    // the catalog reader at lookup time anyway).
+  if (!ADDRESS_RE.test(avs.id)) {
+    throw new Error(
+      `[port-from-avs] symbol "${avs.symbol}" has an invalid address: ${avs.id}. ` +
+        `Expected 0x-prefixed 40 hex chars. Fix the AVS whitelist row before re-running.`,
+    );
   }
+  // getAddress checksum-normalizes lowercase OR uppercase input (AVS
+  // ships lowercase, which is fine) but throws on mixed-case input
+  // whose checksum doesn't match — that surfaces a real corruption
+  // we want to fail on, NOT to silently passthrough.
+  const address = getAddress(avs.id);
   const out: PortedToken = {
     symbol: avs.symbol,
     address,
@@ -81,13 +86,30 @@ function portRow(avs: AvsToken): PortedToken {
 function mergeExistingWins(
   existing: PortedToken[],
   incoming: PortedToken[],
+  chainFileName: string,
 ): PortedToken[] {
   // EXISTING WINS: don't overwrite richer entries with AVS's
   // barebones rows. Add only what's not already present by symbol.
+  // Surface address drift on collisions so upstream-data bugs don't
+  // hide behind the silent merge — e.g. if AVS records a different
+  // address for `WETH` on a chain where we already have one, that's
+  // either a Studio/AVS disagreement worth resolving or a typo in
+  // one source, and we want the operator to know either way.
   const bySymbol = new Map<string, PortedToken>();
   for (const t of existing) bySymbol.set(t.symbol, t);
   for (const t of incoming) {
-    if (!bySymbol.has(t.symbol)) bySymbol.set(t.symbol, t);
+    const prior = bySymbol.get(t.symbol);
+    if (!prior) {
+      bySymbol.set(t.symbol, t);
+      continue;
+    }
+    if (prior.address.toLowerCase() !== t.address.toLowerCase()) {
+      console.warn(
+        `[port-from-avs] ${chainFileName}: address drift on "${t.symbol}" — ` +
+          `existing=${prior.address}  AVS=${t.address}. Keeping existing (Studio/seed wins). ` +
+          `Reconcile manually if the AVS address is the canonical one.`,
+      );
+    }
   }
   return Array.from(bySymbol.values()).sort((a, b) =>
     a.symbol.localeCompare(b.symbol),
@@ -125,7 +147,7 @@ function main(): void {
     const ported = avsRows
       .filter(r => r && r.id && r.symbol && r.decimals !== undefined)
       .map(portRow);
-    const merged = mergeExistingWins(existingRows, ported);
+    const merged = mergeExistingWins(existingRows, ported, ourFile);
     writeFileSync(ourPath, JSON.stringify(merged, null, 2) + "\n", "utf8");
     const added = merged.length - existingRows.length;
     totalAdded += Math.max(0, added);
