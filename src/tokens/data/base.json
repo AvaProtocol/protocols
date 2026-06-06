@@ -1,0 +1,291 @@
+[
+  {
+    "symbol": "AAVE",
+    "address": "0x63706e401c06ac8513145b7687A14804d17f814b",
+    "decimals": 18,
+    "name": "Aave"
+  },
+  {
+    "symbol": "AERO",
+    "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+    "decimals": 18,
+    "name": "Aerodrome",
+    "description": "Aerodrome Finance is a next-generation AMM designed to serve as Base's central liquidity hub, combining a powerful liquidity incentive engine, vote-lock governance model, and friendly user experience.",
+    "website": "https://aerodrome.finance/",
+    "explorer": "https://basescan.org/token/0x940181a94a35a4569e4529a3cdfb74e38fd98631",
+    "links": {
+      "x": "https://x.com/AerodromeFi",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/aerodrome-finance/"
+    }
+  },
+  {
+    "symbol": "axlUSDC",
+    "address": "0xEB466342C4d449BC9f53A865D5Cb90586f405215",
+    "decimals": 6,
+    "name": "Axelar Wrapped USDC",
+    "description": "Axelar delivers secure cross-chain communication for Web3. Our infrastructure enables dApp users to interact with any asset or application, on any chain, with one click.",
+    "website": "https://axelar.network/",
+    "explorer": "https://basescan.org/token/0xEB466342C4d449BC9f53A865D5Cb90586f405215",
+    "links": {
+      "x": "https://x.com/axelarcore",
+      "github": "https://github.com/axelarnetwork",
+      "telegram": "https://t.me/axelarcommunity",
+      "coingecko": "https://coingecko.com/coins/axelar-usdc",
+      "docs": "https://docs.axelar.dev/",
+      "discord": "https://discord.com/invite/aRZ3Ra6f7D",
+      "forum": "https://community.axelar.network/",
+      "whitepaper": "https://axelar.network/axelar_whitepaper.pdf",
+      "reddit": "https://reddit.com/r/axelar",
+      "medium": "https://medium.com/@axelar-foundation",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/axlusdc/",
+      "blog": "https://axelar.network/blog",
+      "youtube": "https://youtube.com/@Axelarcore"
+    }
+  },
+  {
+    "symbol": "BAL",
+    "address": "0x7c6b91D9Be155A6Db01f749217d76fF02A7227F2",
+    "decimals": 18,
+    "name": "Balancer",
+    "description": "Balancer is a n-dimensional automated market-maker that allows anyone to create or add liquidity to customizable pools and earn trading fees. Instead of the traditional constant product AMM model, Balancer’s formula is a generalization that allows any number of tokens in any weights or trading fees.",
+    "website": "https://balancer.finance/",
+    "explorer": "https://basescan.org/token/0x7c6b91D9Be155A6Db01f749217d76fF02A7227F2",
+    "links": {
+      "x": "https://x.com/BalancerLabs",
+      "github": "https://github.com/balancer-labs",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/balancer/"
+    }
+  },
+  {
+    "symbol": "BRETT",
+    "address": "0x532f27101965dd16442E59d40670FaF5eBB142E4",
+    "decimals": 18,
+    "name": "Brett",
+    "description": "Center character in Matt Furies “Boys’ Club” following the adventures of Brett the Toad, PEPE the frog, Landwolf the wolf, and Andy the dog.",
+    "website": "https://www.basedbrett.com/",
+    "explorer": "https://basescan.org/token/0x532f27101965dd16442e59d40670faf5ebb142e4",
+    "links": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/based-brett/",
+      "x": "https://x.com/BasedBrett"
+    }
+  },
+  {
+    "symbol": "cbBTC",
+    "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+    "decimals": 8,
+    "name": "Coinbase Wrapped BTC"
+  },
+  {
+    "symbol": "cbETH",
+    "address": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+    "decimals": 18,
+    "name": "Coinbase Wrapped Staked ETH",
+    "description": "Coinbase Wrapped Staked ETH (“cbETH”) is a utility token that represents Ethereum 2 (ETH2), which is ETH staked through Coinbase.",
+    "website": "https://www.coinbase.com/",
+    "explorer": "https://basescan.org/token/0x2ae3f1ec7f1f5012cfeab0185bfc7aa3cf0dec22",
+    "links": {
+      "x": "https://x.com/CoinbaseAssets",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/coinbase-wrapped-staked-eth/"
+    }
+  },
+  {
+    "symbol": "DAI",
+    "address": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+    "decimals": 18,
+    "name": "Dai",
+    "description": "Dai is a stable cryptocurrency supported by Maker (MKR). To ensure price stability, Dai minimizes the price volatility against the US dollar, through an incentive structure for its participants.",
+    "website": "http://makerdao.com",
+    "explorer": "https://basescan.org/token/0x50c5725949a6f0c72e6c4a641f24049a917db0cb",
+    "links": {
+      "x": "https://x.com/MakerDAO",
+      "reddit": "https://reddit.com/r/MakerDAO/",
+      "blog": "https://blog.makerdao.com/",
+      "whitepaper": "https://makerdao.com/whitepaper/",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/multi-collateral-dai/",
+      "coingecko": "https://coingecko.com/en/coins/dai/"
+    }
+  },
+  {
+    "symbol": "DEGEN",
+    "address": "0x4ed4E862860beD51a9570b96d89aF5E1B0Efefed",
+    "decimals": 18,
+    "name": "Degen",
+    "description": "Degen, an ERC-20 token on Base, launched in January 2024 with an airdrop to the Degen channel community on Farcaster. Our goal is to distribute the token among builders, content creators, and users in the Base and Farcaster ecosystem.",
+    "website": "https://www.degen.tips/",
+    "explorer": "https://basescan.org/token/0x4ed4e862860bed51a9570b96d89af5e1b0efefed",
+    "links": {
+      "x": "https://x.com/degentokenbase",
+      "telegram": "https://t.me/degentokenbase",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/degen-base/"
+    }
+  },
+  {
+    "symbol": "LINK",
+    "address": "0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
+    "decimals": 18,
+    "name": "Chainlink"
+  },
+  {
+    "symbol": "MORPHO",
+    "address": "0xBAa5CC21fd487B8Fcc2F632f3F4E8D37262a0842",
+    "decimals": 18,
+    "name": "Morpho Token",
+    "description": "Morpho is an open, efficient, and resilient platform that allows anyone to earn yield and borrow assets. Lenders can earn on Morpho using Morpho Vaults, noncustodial simple to use lending vaults that optimize yields for depositors. Borrowers can borrow any assets directly from Morpho Markets.",
+    "website": "https://morpho.org/",
+    "explorer": "https://basescan.org/token/0xBAa5CC21fd487B8Fcc2F632f3F4E8D37262a0842",
+    "links": {
+      "x": "https://x.com/morpholabs?s=11&t=ZGzrL8B9N7GpbA3YLFvU9A",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/morpho/"
+    }
+  },
+  {
+    "symbol": "rETH",
+    "address": "0xB6fe221Fe9EeF5aBa221c348bA20A1Bf5e73624c",
+    "decimals": 18,
+    "name": "Rocket Pool ETH",
+    "description": "Rocket Pool is a decentralised Ethereum Proof of Stake pool.",
+    "website": "https://www.rocketpool.net/",
+    "explorer": "https://basescan.org/token/0xb6fe221fe9eef5aba221c348ba20a1bf5e73624c",
+    "links": {
+      "x": "https://x.com/Rocket_Pool",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/rocket-pool-eth/",
+      "coingecko": "https://coingecko.com/en/coins/rocket-pool-eth/"
+    }
+  },
+  {
+    "symbol": "RSR",
+    "address": "0xaB36452DbAC151bE02b16Ca17d8919826072f64a",
+    "decimals": 18,
+    "name": "Reserve Rights",
+    "description": "The fluctuating protocol token that plays a role in stabilizing RSV and confers the cryptographic right to purchase excess Reserve tokens as the network grows.",
+    "website": "https://reserve.org/",
+    "explorer": "https://basescan.org/token/0xab36452dbac151be02b16ca17d8919826072f64a",
+    "links": {
+      "x": "https://x.com/reserveprotocol",
+      "telegram": "https://t.me/reservecurrency"
+    }
+  },
+  {
+    "symbol": "TOSHI",
+    "address": "0xAC1Bd2486aAf3B5C0fc3Fd868558b082a531B2B4",
+    "decimals": 18,
+    "name": "Toshi",
+    "description": "Toshi aims to become the first Base-native token to get listed on Coinbase.",
+    "website": "https://www.toshithecat.com",
+    "explorer": "https://basescan.org/token/0xAC1Bd2486aAf3B5C0fc3Fd868558b082a531B2B4",
+    "links": {
+      "github": "https://github.com/ToshiTheCat",
+      "x": "https://x.com/toshi_base",
+      "whitepaper": "https://medium.com/@ToshiBase/toshi-roadmap-the-face-of-base-3451b399aa27",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/toshi-/",
+      "coingecko": "https://coingecko.com/en/coins/toshi/",
+      "medium": "https://medium.com/@Toshi_Base"
+    }
+  },
+  {
+    "symbol": "UNI",
+    "address": "0xc3De830EA07524a0761646a6a4e4be0e114a3C83",
+    "decimals": 18,
+    "name": "Uniswap"
+  },
+  {
+    "symbol": "USDbC",
+    "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+    "decimals": 6,
+    "name": "USD Base Coin",
+    "description": "USDC is a fully collateralized US dollar stablecoin, an Ethereum powered coin and is the brainchild of CENTRE, an open source project bootstrapped by contributions from Circle and Coinbase.",
+    "website": "https://www.centre.io",
+    "explorer": "https://basescan.org/token/0xd9aaec86b65d86f6a7b5b1b0c42ffa531710b6ca",
+    "links": {
+      "github": "https://github.com/centrehq",
+      "whitepaper": "https://centre.io/pdfs/centre-whitepaper.pdf",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/usd-coin/",
+      "coingecko": "https://coingecko.com/en/coins/usd-coin/",
+      "medium": "https://medium.com/centre-blog"
+    }
+  },
+  {
+    "symbol": "USDC",
+    "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "decimals": 6,
+    "name": "USD Coin",
+    "description": "USDC is a fully collateralized US dollar stablecoin, an Ethereum powered coin and is the brainchild of CENTRE, an open source project bootstrapped by contributions from Circle and Coinbase.",
+    "website": "https://centre.io/usdc",
+    "explorer": "https://basescan.org/token/0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "links": {
+      "github": "https://github.com/centrehq",
+      "medium": "https://medium.com/centre-blog",
+      "whitepaper": "https://centre.io/pdfs/centre-whitepaper.pdf",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/usd-coin/",
+      "coingecko": "https://coingecko.com/en/coins/usd-coin/"
+    }
+  },
+  {
+    "symbol": "USDT",
+    "address": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
+    "decimals": 6,
+    "name": "Bridged Tether USD",
+    "description": "This bridged token is not issued by, redeemable by, or affiliated with, Tether. Tether is not responsible for it. The T Logo is used under license from Tether solely to identify a bridged version of a token issued by Tether.",
+    "website": "https://gfx.xyz/",
+    "explorer": "https://basescan.org/token/0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
+    "links": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/tether/"
+    }
+  },
+  {
+    "symbol": "VIRTUAL",
+    "address": "0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b",
+    "decimals": 18,
+    "name": "Virtual Protocol",
+    "description": "The ecosystem for the creation and co-ownership of autonomous AI Agents. Building the first autonomous agentic network state.",
+    "website": "https://app.virtuals.io/",
+    "explorer": "https://basescan.org/token/0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b"
+  },
+  {
+    "symbol": "WELL",
+    "address": "0xA88594D404727625A9437C3f886C7643872296AE",
+    "decimals": 18,
+    "name": "WELL",
+    "description": "Moonwell is an open lending and borrowing app built on Base, Moonbeam, and Moonriver.",
+    "website": "https://moonwell.fi/",
+    "explorer": "https://basescan.org/token/0xa88594d404727625a9437c3f886c7643872296ae",
+    "links": {
+      "x": "https://x.com/MoonwellDeFi"
+    }
+  },
+  {
+    "symbol": "WETH",
+    "address": "0x4200000000000000000000000000000000000006",
+    "decimals": 18,
+    "name": "Wrapped Ether",
+    "description": "wETH is wrapped ETH",
+    "website": "https://weth.io/",
+    "explorer": "https://basescan.org/token/0x4200000000000000000000000000000000000006",
+    "links": {
+      "coinmarketcap": "https://coinmarketcap.com/currencies/weth/",
+      "coingecko": "https://coingecko.com/coins/weth/"
+    }
+  },
+  {
+    "symbol": "wstETH",
+    "address": "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452",
+    "decimals": 18,
+    "name": "Wrapped liquid staked Ether 2.0"
+  },
+  {
+    "symbol": "YFI",
+    "address": "0x9EaF8C1E34F05a589EDa6BAfdF391Cf6Ad3CB239",
+    "decimals": 18,
+    "name": "yearn.finance",
+    "description": "DeFi made simple.",
+    "website": "https://yearn.finance/",
+    "explorer": "https://basescan.org/token/0x9eaf8c1e34f05a589eda6bafdf391cf6ad3cb239",
+    "links": {
+      "x": "https://x.com/iearnfinance",
+      "medium": "https://medium.com/iearn",
+      "telegram": "https://t.me/iearnfinance",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/yearn-finance/",
+      "coingecko": "https://coingecko.com/en/coins/yearn-finance/"
+    }
+  }
+]

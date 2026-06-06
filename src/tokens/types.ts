@@ -22,15 +22,27 @@ import { type ChainId } from "../chains";
  * catalog only records what's actually known per token. Add new keys
  * here when adding a category we want to surface; consumers ignore
  * unknown keys harmlessly.
+ *
+ * Keys follow the names used by upstream catalogs (Studio's
+ * `app/lib/erc20/*.json` in particular) so the port is mechanical.
+ * `x` is the renamed Twitter; we deliberately use the current name
+ * rather than carrying a `twitter` alias.
  */
 export interface TokenLinks {
   readonly github?: string;
-  readonly twitter?: string;
+  readonly x?: string;
   readonly coingecko?: string;
   readonly coinmarketcap?: string;
   readonly reddit?: string;
   readonly blog?: string;
   readonly whitepaper?: string;
+  readonly facebook?: string;
+  readonly discord?: string;
+  readonly telegram?: string;
+  readonly medium?: string;
+  readonly docs?: string;
+  readonly forum?: string;
+  readonly youtube?: string;
 }
 
 /**

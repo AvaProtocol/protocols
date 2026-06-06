@@ -52,6 +52,7 @@
     "build:js": "tsup src/index.ts --format cjs,esm --target es2020",
     "build:tokens-sidecar": "tsx scripts/build-tokens-sidecar.ts",
     "build": "yarn clean:dist && yarn build:declarations && yarn build:js && yarn build:tokens-sidecar",
+    "port:studio": "tsx scripts/port-from-studio.ts",
     "clean": "rm -rf node_modules dist tsconfig.tsbuildinfo",
     "clean:dist": "rm -rf dist tsconfig.tsbuildinfo",
     "test": "vitest",
@@ -65,6 +66,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
+    "ethers": "^6.16.0",
     "tsup": "^8.5.0",
     "tsx": "^4.19.0",
     "typescript": "^5.5.4",

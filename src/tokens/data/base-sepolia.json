@@ -1,0 +1,26 @@
+[
+  {
+    "symbol": "LINK",
+    "address": "0xE4aB69C077896252FAFBD49EFD26B5D171A32410",
+    "decimals": 18,
+    "name": "Chainlink"
+  },
+  {
+    "symbol": "USDC",
+    "address": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
+    "decimals": 6,
+    "name": "USD Coin"
+  },
+  {
+    "symbol": "USDT",
+    "address": "0xCE8565457Cca0fC7542608A2c78610Ed7bC66C8C",
+    "decimals": 6,
+    "name": "Tether USD"
+  },
+  {
+    "symbol": "WETH",
+    "address": "0x4200000000000000000000000000000000000006",
+    "decimals": 18,
+    "name": "Wrapped Ether"
+  }
+]
