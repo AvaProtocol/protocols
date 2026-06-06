@@ -1,70 +1,383 @@
 [
   {
+    "symbol": "AAVE",
+    "address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+    "decimals": 18,
+    "name": "Aave",
+    "description": "Aave Protocol is a decentralised liquidity protocol where people can lend and borrow digital assets. The AAVE token is the governance token of the protocol, so AAVE holders can vote on proposals for updates. AAVE holders can also stake their AAVE in the protocol Safety Module and earn Safety Incentives for securing the protocol",
+    "website": "https://aave.com",
+    "explorer": "https://etherscan.io/token/0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+    "links": {
+      "github": "https://github.com/aave/aave-protocol",
+      "x": "https://x.com/AaveAave",
+      "reddit": "https://reddit.com/r/Aave_Official",
+      "blog": "https://medium.com/aave",
+      "facebook": "https://facebook.com/AaveCom",
+      "whitepaper": "https://github.com/aave/aave-protocol/blob/master/docs/Aave_Protocol_Whitepaper_v1_0.pdf/",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/aave/",
+      "coingecko": "https://coingecko.com/en/coins/aave/"
+    }
+  },
+  {
+    "symbol": "ARB",
+    "address": "0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
+    "decimals": 18,
+    "name": "Arbitrum",
+    "description": "$ARB tokens can be used to vote on Arbitrum DAO governance proposals, allowing $ARB holders to collectively shape the future of Arbitrum protocols and chains. Token holders can also delegate their voting power to delegates.",
+    "website": "https://arbitrum.foundation/",
+    "explorer": "https://etherscan.io/token/0xB50721BCf8d664c30412Cfbc6cf7a15145234ad1",
+    "links": {
+      "x": "https://x.com/arbitrum",
+      "whitepaper": "https://docs.arbitrum.foundation/deployment-addresses",
+      "discord": "https://discord.com/arbitrum",
+      "coinmarketcap": "https://coinmarketcap.com/ru/currencies/arbitrum-iou/"
+    }
+  },
+  {
+    "symbol": "COMP",
+    "address": "0xc00e94Cb662C3520282E6f5717214004A7f26888",
+    "decimals": 18,
+    "name": "Compound",
+    "description": "Compound is the governance token for the Compound protocol.",
+    "website": "https://compound.finance",
+    "explorer": "https://etherscan.io/token/0xc00e94Cb662C3520282E6f5717214004A7f26888",
+    "links": {
+      "blog": "https://medium.com/compound-finance",
+      "x": "https://x.com/compoundfinance",
+      "coingecko": "https://coingecko.com/en/coins/compound-governance-token/"
+    }
+  },
+  {
+    "symbol": "CRV",
+    "address": "0xD533a949740bb3306d119CC777fa900bA034cd52",
+    "decimals": 18,
+    "name": "Curve DAO Token",
+    "description": "CRV is a governance token on the Curve platform with time-weighted voting and value accrual mechanisms.",
+    "website": "https://curve.finance",
+    "explorer": "https://etherscan.io/token/0xD533a949740bb3306d119CC777fa900bA034cd52",
+    "links": {
+      "github": "https://github.com/curvefi/curve-contract",
+      "x": "https://x.com/CurveFinance",
+      "telegram": "https://t.me/curvefi",
+      "coingecko": "https://coingecko.com/en/coins/curve-dao-token/"
+    }
+  },
+  {
     "symbol": "DAI",
     "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     "decimals": 18,
-    "name": "Dai Stablecoin",
-    "description": "Decentralized USD-pegged stablecoin issued by MakerDAO.",
-    "website": "https://makerdao.com",
+    "name": "Dai",
+    "description": "Dai is a stable cryptocurrency supported by Maker (MKR). To ensure price stability, Dai minimizes the price volatility against the US dollar, through an incentive structure for its participants.",
+    "website": "http://makerdao.com",
     "explorer": "https://etherscan.io/token/0x6B175474E89094C44Da98b954EedeAC495271d0F",
-    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/DAI.png",
     "links": {
-      "coingecko": "https://www.coingecko.com/en/coins/dai",
-      "coinmarketcap": "https://coinmarketcap.com/currencies/multi-collateral-dai/"
+      "x": "https://x.com/MakerDAO",
+      "reddit": "https://reddit.com/r/MakerDAO/",
+      "blog": "https://blog.makerdao.com/",
+      "whitepaper": "https://makerdao.com/whitepaper/",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/multi-collateral-dai/",
+      "coingecko": "https://coingecko.com/en/coins/dai/"
+    }
+  },
+  {
+    "symbol": "DYDX",
+    "address": "0x92D6C1e31e14520e676a687F0a93788B716BEff5",
+    "decimals": 18,
+    "name": "dYdX",
+    "description": "Trade & stake to earn rewards. Vote on the future of your exchange. Take control of the most powerful decentralized derivatives protocol.",
+    "website": "https://dydx.foundation",
+    "explorer": "https://etherscan.io/token/0x92D6C1e31e14520e676a687F0a93788B716BEff5",
+    "links": {
+      "x": "https://x.com/dydxfoundation",
+      "github": "https://github.com/dydxfoundation"
+    }
+  },
+  {
+    "symbol": "EIGEN",
+    "address": "0xec53bF9167f50cDEB3Ae105f56099aaaB9061F83",
+    "decimals": 18,
+    "name": "Eigen",
+    "description": "EigenLayer is a protocol built on Ethereum that introduces restaking, a new primitive in cryptoeconomic security. This primitive enables the reuse of ETH on the consensus layer.",
+    "website": "https://www.eigenlayer.xyz/",
+    "explorer": "https://etherscan.io/token/0xec53bF9167f50cDEB3Ae105f56099aaaB9061F83",
+    "links": {
+      "x": "https://x.com/eigenlayer",
+      "github": "https://github.com/Layr-Labs/eigenlayer-contracts"
+    }
+  },
+  {
+    "symbol": "ENA",
+    "address": "0x57e114B691Db790C35207b2e685D4A43181e6061",
+    "decimals": 18,
+    "name": "ENA",
+    "description": "Ethena is a synthetic dollar protocol built on Ethereum that will provide a crypto-native solution for money not reliant on traditional banking system infrastructure, alongside a globally accessible dollar-denominated savings instrument - the 'Internet Bond'.",
+    "website": "https://www.ethena.fi/",
+    "explorer": "https://etherscan.io/token/0x57e114B691Db790C35207b2e685D4A43181e6061",
+    "links": {
+      "x": "https://x.com/ethena_labs",
+      "telegram": "https://t.me/ethena_labs"
+    }
+  },
+  {
+    "symbol": "ENS",
+    "address": "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
+    "decimals": 18,
+    "name": "Ethereum Name Service",
+    "description": "Decentralised naming for wallets, websites, & more.",
+    "website": "https://ens.domains",
+    "explorer": "https://etherscan.io/token/0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
+    "links": {
+      "x": "https://x.com/ensdomains",
+      "github": "https://github.com/ensdomains",
+      "medium": "https://medium.com/the-ethereum-name-service",
+      "discord": "https://discord.com/invite/ens"
+    }
+  },
+  {
+    "symbol": "FET",
+    "address": "0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85",
+    "decimals": 18,
+    "name": "Fetch.ai",
+    "description": "Fetch.ai aims to be at the forefront of accelerating research and the deployment of emerging technologies such as blockchain and AI.",
+    "website": "https://fetch.ai",
+    "explorer": "https://etherscan.io/token/0xaea46A60368A7bD060eec7DF8CBa43b7EF41Ad85"
+  },
+  {
+    "symbol": "FRAX",
+    "address": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
+    "decimals": 18,
+    "name": "Frax",
+    "description": "Frax is a new paradigm in stablecoin design, bringing together a two-token seigniorage share system, swap-based monetary policy, fully on-chain oracles, and decentralized governance alongside its fractional-algorithmic stablecoin design.",
+    "website": "https://frax.finance/",
+    "explorer": "https://etherscan.io/token/0x853d955aCEf822Db058eb8505911ED77F175b99e",
+    "links": {
+      "github": "https://github.com/FraxFinance",
+      "x": "https://x.com/Frax Finance",
+      "telegram": "https://t.me/fraxfinance",
+      "discord": "https://discord.com/invite/Xwe8kAwZ4a"
+    }
+  },
+  {
+    "symbol": "GRT",
+    "address": "0xc944E90C64B2c07662A292be6244BDf05Cda44a7",
+    "decimals": 18,
+    "name": "The Graph"
+  },
+  {
+    "symbol": "LDO",
+    "address": "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
+    "decimals": 18,
+    "name": "Lido DAO",
+    "description": "Lido is a liquid staking solution for Ethereum. Lido lets users stake their ETH - with no minimum deposits or maintaining of infrastructure - whilst participating in on-chain activities, e.g. lending, to compound returns. LDO is an ERC20 token granting governance rights in the Lido DAO.",
+    "website": "https://stake.lido.fi/",
+    "explorer": "https://etherscan.io/token/0x5a98fcbea516cf06857215779fd812ca3bef1b32",
+    "links": {
+      "x": "https://x.com/lidofinance",
+      "telegram": "https://t.me/lidofinance",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/lido-dao/",
+      "coingecko": "https://coingecko.com/en/coins/lido-dao/"
     }
   },
   {
     "symbol": "LINK",
     "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
     "decimals": 18,
-    "name": "ChainLink Token",
-    "description": "Native token of the Chainlink decentralized oracle network.",
+    "name": "Chainlink",
+    "description": "Chainlink is a decentralized oracle service, which aims to connect smart contracts with data from the real world. Oracles are needed to function as data feeds in smart contracts. Oracles provide external data (e.g. temperature, weather) that can drive smart contract executions. Participants on the network are incentivized (through rewards) to provide smart contracts with access to external data feeds.",
     "website": "https://chain.link",
     "explorer": "https://etherscan.io/token/0x514910771AF9Ca656af840dff83E8264EcF986CA",
-    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/LINK.png",
     "links": {
-      "coingecko": "https://www.coingecko.com/en/coins/chainlink",
-      "coinmarketcap": "https://coinmarketcap.com/currencies/chainlink/"
+      "github": "https://github.com/smartcontractkit/chainlink",
+      "x": "https://x.com/chainlink",
+      "reddit": "https://reddit.com/r/chainlink",
+      "whitepaper": "https://link.smartcontract.com/whitepaper"
     }
+  },
+  {
+    "symbol": "MKR",
+    "address": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
+    "decimals": 18,
+    "name": "Maker",
+    "description": "Maker (MKR) is a utility token, governance token and recapitalization resource of the Maker system.",
+    "website": "https://makerdao.com",
+    "explorer": "https://etherscan.io/token/0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
+    "links": {
+      "blog": "https://blog.makerdao.com/",
+      "whitepaper": "https://makerdao.com/assets/documents/purple.pdf",
+      "reddit": "https://reddit.com/r/MakerDAO/",
+      "coingecko": "https://coingecko.com/en/coins/maker/"
+    }
+  },
+  {
+    "symbol": "PAXG",
+    "address": "0x45804880De22913dAFE09f4980848ECE6EcbAf78",
+    "decimals": 18,
+    "name": "PAX Gold",
+    "description": "PAX Gold (PAXG) is a digital asset where one token is backed by one fine troy ounce (t oz) of a 400 oz London Good Delivery gold bar, stored in Brink’s gold vaults.",
+    "website": "https://paxos.com/paxgold",
+    "explorer": "https://etherscan.io/token/0x45804880De22913dAFE09f4980848ECE6EcbAf78"
+  },
+  {
+    "symbol": "PENDLE",
+    "address": "0x808507121B80c02388fAd14726482e061B8da827",
+    "decimals": 18,
+    "name": "Pendle",
+    "description": "Pendle is a protocol for people to trade and hedge yield. Users can tokenize yield and trade them on Pendle's AMM",
+    "website": "https://www.pendle.finance/",
+    "explorer": "https://etherscan.io/token/0x808507121b80c02388fad14726482e061b8da827",
+    "links": {
+      "github": "https://github.com/pendle-finance",
+      "x": "https://x.com/pendle_fi",
+      "docs": "https://docs.pendle.finance/",
+      "coingecko": "https://coingecko.com/en/coins/pendle",
+      "discord": "https://discord.com/invite/9x9VUngNZD"
+    }
+  },
+  {
+    "symbol": "PEPE",
+    "address": "0x6982508145454Ce325dDbE47a25d4ec3d2311933",
+    "decimals": 18,
+    "name": "Pepe",
+    "description": "Pepe is a community based memecoin with one mission: to make memecoins great again. Made to honor the iconic meme we all know and love, Pepe is here to take reign as the most memeable memecoin in existence, fueled purely by memetic power. Pepe is for the people.",
+    "website": "https://www.pepe.vip/",
+    "explorer": "https://etherscan.io/token/0x6982508145454ce325ddbe47a25d4ec3d2311933",
+    "links": {
+      "x": "https://x.com/pepecoineth",
+      "telegram": "https://t.me/pepecoineth",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/pepe/",
+      "coingecko": "https://coingecko.com/en/coins/pepe"
+    }
+  },
+  {
+    "symbol": "PYUSD",
+    "address": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+    "decimals": 6,
+    "name": "PayPal USD",
+    "description": "PayPal USD is designed to contribute to the opportunity stablecoins offer for payments and is 100% backed by U.S. dollar deposits, short-term U.S Treasuries and similar cash equivalents. PayPal USD is redeemable 1:1 for U.S. dollars and is issued by Paxos Trust Company.",
+    "website": "https://www.paypal.com/us/digital-wallet/manage-money/crypto/pyusd",
+    "explorer": "https://etherscan.io/token/0x6c3ea9036406852006290770bedfcaba0e23a0e8",
+    "links": {
+      "x": "https://x.com/PayPal",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/paypal-usd/",
+      "coingecko": "https://coingecko.com/en/coins/paypal-usd"
+    }
+  },
+  {
+    "symbol": "RNDR",
+    "address": "0x6De037ef9aD2725EB40118Bb1702EBb27e4Aeb24",
+    "decimals": 18,
+    "name": "Render Token",
+    "description": "Distributed GPU rendering on the blockchain.",
+    "website": "https://rendertoken.com/",
+    "explorer": "https://etherscan.io/token/0x6De037ef9aD2725EB40118Bb1702EBb27e4Aeb24"
+  },
+  {
+    "symbol": "RPL",
+    "address": "0xD33526068D116cE69F19A9ee46F0bd304F21A51f",
+    "decimals": 18,
+    "name": "Rocket Pool",
+    "description": "Rocket Pool Protocol (RPL) - Decentralised Proof of Stake Pool",
+    "website": "https://rocketpool.net",
+    "explorer": "https://etherscan.io/token/0xd33526068d116ce69f19a9ee46f0bd304f21a51f",
+    "links": {
+      "x": "https://x.com/Rocket_Pool",
+      "github": "https://github.com/rocket-pool/",
+      "discord": "https://discord.com/invite/rocketpool",
+      "reddit": "https://reddit.com/r/rocketpool/",
+      "medium": "https://medium.com/rocket-pool"
+    }
+  },
+  {
+    "symbol": "SHIB",
+    "address": "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
+    "decimals": 18,
+    "name": "SHIBA INU",
+    "description": "According to SHIBA INU, the reasoning behind the creation of SHIBA is that Shibas constantly forget where they bury their treasure. The website proclaims \"Many doggie wars have been waged over precious treasure and delicious goodies.\"",
+    "website": "https://shibatoken.com/",
+    "explorer": "https://etherscan.io/token/0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
+    "links": {
+      "telegram": "https://t.me/shibainuthedogecoinkiller",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/shiba-inu/",
+      "coingecko": "https://coingecko.com/en/coins/shiba-inu/"
+    }
+  },
+  {
+    "symbol": "SNX",
+    "address": "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
+    "decimals": 18,
+    "name": "Synthetix"
+  },
+  {
+    "symbol": "stETH",
+    "address": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+    "decimals": 18,
+    "name": "stETH",
+    "description": "stETH is a token that represents staked ether in Lido.",
+    "website": "https://stake.lido.fi",
+    "explorer": "https://etherscan.io/token/0xae7ab96520de3a18e5e111b5eaab095312d7fe84"
+  },
+  {
+    "symbol": "UNI",
+    "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "decimals": 18,
+    "name": "Uniswap"
   },
   {
     "symbol": "USDC",
     "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
     "decimals": 6,
     "name": "USD Coin",
-    "description": "Fully-reserved USD stablecoin issued by Circle.",
-    "website": "https://www.circle.com/usdc",
+    "description": "USDC is a fully collateralized US dollar stablecoin, an Ethereum powered coin and is the brainchild of CENTRE, an open source project bootstrapped by contributions from Circle and Coinbase.",
+    "website": "https://centre.io/usdc",
     "explorer": "https://etherscan.io/token/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/USDC.png",
     "links": {
-      "coingecko": "https://www.coingecko.com/en/coins/usd-coin",
-      "coinmarketcap": "https://coinmarketcap.com/currencies/usd-coin/"
+      "github": "https://github.com/centrehq",
+      "medium": "https://medium.com/centre-blog",
+      "whitepaper": "https://centre.io/pdfs/centre-whitepaper.pdf",
+      "coinmarketcap": "https://coinmarketcap.com/currencies/usd-coin/",
+      "coingecko": "https://coingecko.com/en/coins/usd-coin/"
     }
   },
   {
     "symbol": "USDT",
     "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
     "decimals": 6,
-    "name": "Tether USD",
-    "description": "USD-pegged stablecoin issued by Tether.",
+    "name": "Tether",
+    "description": "Tether (USDT) is a cryptocurrency with a value meant to mirror the value of the U.S. dollar.",
     "website": "https://tether.to",
     "explorer": "https://etherscan.io/token/0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/USDT.png",
     "links": {
-      "coingecko": "https://www.coingecko.com/en/coins/tether",
-      "coinmarketcap": "https://coinmarketcap.com/currencies/tether/"
+      "facebook": "https://facebook.com/tether.to/",
+      "x": "https://x.com/Tether_to/",
+      "coinmarketcap": "https://coinmarketcap.com/ru/currencies/tether/"
     }
+  },
+  {
+    "symbol": "WBTC",
+    "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+    "decimals": 8,
+    "name": "Wrapped BTC"
   },
   {
     "symbol": "WETH",
     "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     "decimals": 18,
-    "name": "Wrapped Ether",
-    "description": "ERC-20 wrapper around native ETH, 1:1 backed.",
-    "explorer": "https://etherscan.io/token/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-    "logoUrl": "https://raw.githubusercontent.com/AvaProtocol/protocols/main/logos/ethereum/WETH.png",
+    "name": "WETH",
+    "description": "-",
+    "website": "https://weth.io/",
+    "explorer": "https://etherscan.io/token/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  },
+  {
+    "symbol": "wstETH",
+    "address": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+    "decimals": 18,
+    "name": "Wrapped liquid staked Ether 2.0",
+    "description": "wstETH is a wrapped version of stETH. As some DeFi protocols require a constant balance mechanism for tokens, wstETH keeps your balance of stETH fixed and uses an underlying share system to reflect your earned staking rewards.",
+    "website": "https://www.lido.fi/",
+    "explorer": "https://etherscan.io/token/0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0",
     "links": {
-      "coingecko": "https://www.coingecko.com/en/coins/weth"
+      "x": "https://x.com/lidofinance",
+      "telegram": "https://t.me/lidofinance"
     }
   }
 ]
