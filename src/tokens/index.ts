@@ -3,14 +3,25 @@
 // is touched by every DEX, lending market, and template), so they
 // don't belong nested under any single protocol module.
 //
-// Source data lives in `src/tokens/data/<chain>.json` — one file per
-// chain, each an array of `{symbol, address, decimals, name?, ...}`
-// records. That layout mirrors how upstream catalogs (Studio's
-// `app/lib/erc20/*.json`, the EigenLayer-AVS gateway's
-// `token_whitelist/*.json`) organize the same data, so adding tokens
-// = appending a row to the right chain's JSON. The `Tokens` object
-// surfaced by this module aggregates the per-chain rows into the
-// `Tokens.SYMBOL[chainId]` shape at module load.
+// Source-of-truth: each `src/tokens/<chain>.ts` per-chain module
+// loads its JSON sidecar in `data/` and exposes a frozen, symbol-
+// keyed `tokens` map. This aggregator imports those modules and
+// re-shapes them into `Tokens.SYMBOL[chainId]` so chain-bound
+// consumers and cross-chain consumers can share the same source:
+//
+//   - Cross-chain (here):
+//       import { Tokens } from "@avaprotocol/protocols"
+//       Tokens.USDC[Chains.Sepolia]?.address
+//
+//   - Chain-bound (per-chain subpath, smaller bundle):
+//       import { tokens } from "@avaprotocol/protocols/tokens/sepolia"
+//       tokens.USDC?.address
+//
+// Adding a token is still "append a row to the right chain's JSON";
+// the per-chain module picks it up automatically. Per-chain modules
+// validate within-chain duplicate symbols at load (see
+// `./per-chain.ts:buildChainTokenMap`), so this aggregator only has
+// to flatten — no re-validation needed.
 //
 // Pre-existing per-protocol token addresses under
 // `Protocols.{name}.tokens.{SYMBOL}` continue to work for backward
@@ -26,70 +37,52 @@
 //   // By contract address (reverse lookup)
 //   const meta = lookupToken(Chains.EthereumMainnet, "0xA0b86991...");
 
-import { Chains } from "../chains";
 import { Protocols } from "../protocols";
 import { type TokenByChain, type TokenChainEntry } from "./types";
 
-import ethereumData from "./data/ethereum.json" with { type: "json" };
-import sepoliaData from "./data/sepolia.json" with { type: "json" };
-import baseData from "./data/base.json" with { type: "json" };
-import baseSepoliaData from "./data/base-sepolia.json" with { type: "json" };
-import bnbMainnetData from "./data/bnb-mainnet.json" with { type: "json" };
+import * as ethereum from "./ethereum";
+import * as sepolia from "./sepolia";
+import * as base from "./base";
+import * as baseSepolia from "./base-sepolia";
+import * as bnbMainnet from "./bnb-mainnet";
 
 export type { TokenByChain, TokenChainEntry, TokenLinks } from "./types";
 
-// Source-data record. Each per-chain JSON file is an array of these.
-// Identical shape to TokenChainEntry plus a `symbol` discriminator so
-// each row stands alone (independent of position in any array).
-interface TokenDataRow extends TokenChainEntry {
-  readonly symbol: string;
-}
-
-const CHAIN_DATA: ReadonlyArray<readonly [number, ReadonlyArray<TokenDataRow>]> = Object.freeze([
-  [Chains.EthereumMainnet, ethereumData as ReadonlyArray<TokenDataRow>],
-  [Chains.Sepolia, sepoliaData as ReadonlyArray<TokenDataRow>],
-  [Chains.BaseMainnet, baseData as ReadonlyArray<TokenDataRow>],
-  [Chains.BaseSepolia, baseSepoliaData as ReadonlyArray<TokenDataRow>],
-  [Chains.BnbMainnet, bnbMainnetData as ReadonlyArray<TokenDataRow>],
-]);
+/**
+ * Per-chain module list. Each module exposes `chainId` plus a frozen
+ * symbol → TokenChainEntry map; we just enumerate them here so
+ * adding a new chain is a two-line change (one import, one row).
+ */
+const PER_CHAIN: ReadonlyArray<readonly [number, Readonly<Record<string, TokenChainEntry>>]> =
+  Object.freeze([
+    [ethereum.chainId, ethereum.tokens],
+    [sepolia.chainId, sepolia.tokens],
+    [base.chainId, base.tokens],
+    [baseSepolia.chainId, baseSepolia.tokens],
+    [bnbMainnet.chainId, bnbMainnet.tokens],
+  ]);
 
 /**
- * Walk every per-chain data file and group entries by symbol so the
- * public API stays `Tokens.SYMBOL[chainId]` regardless of how the
- * source is laid out. Built once at module load; the cost is bounded
- * by the catalog size and the result is frozen at the outer level
- * (see the comment on `Tokens` below).
+ * Walk every per-chain module and group entries by symbol so the
+ * public API stays `Tokens.SYMBOL[chainId]`. Built once at module
+ * load; the cost is bounded by the catalog size and the result is
+ * frozen at the outer level (see the comment on `Tokens` below).
  *
- * If a symbol appears in multiple chain files, the per-chain entries
- * merge into a single `TokenByChain` map — the natural shape for the
- * symbol-keyed lookup.
+ * Each per-chain module already guarantees a single entry per symbol
+ * within its own chain (`buildChainTokenMap` throws on duplicates),
+ * so the aggregator's job is pure flatten — no re-validation.
  *
- * Throws if the same `(symbol, chainId)` pair is defined twice within
- * the chain data files. Silently overwriting would mask data-entry
- * bugs (and the integrity tests can't detect them after the
- * overwrite), so we fail fast at module load — the cost is a
- * one-off process startup error pointing straight at the duplicate.
+ * Null-prototype backing maps + own-property checks keep
+ * `Object.prototype` keys (`toString`, `__proto__`, …) from
+ * colliding with token symbols. See the parallel construct in
+ * `./per-chain.ts:buildChainTokenMap` for the same rationale.
  */
 function buildTokensFromData(): Record<string, TokenByChain> {
-  // Null-prototype backing maps + own-property checks keep
-  // `Object.prototype` keys (`toString`, `__proto__`, …) from
-  // colliding with token symbols. Curated source files shouldn't
-  // contain such symbols, but the defense is free and the data is
-  // parsed externally. See the parallel construct in
-  // `./per-chain.ts:buildChainTokenMap` for the same rationale.
   const merged: Record<string, Record<number, TokenChainEntry>> = Object.create(null);
-  for (const [chainId, rows] of CHAIN_DATA) {
-    for (const row of rows) {
-      const { symbol, ...entry } = row;
+  for (const [chainId, chainTokens] of PER_CHAIN) {
+    for (const [symbol, entry] of Object.entries(chainTokens)) {
       if (!Object.prototype.hasOwnProperty.call(merged, symbol)) {
         merged[symbol] = Object.create(null);
-      }
-      if (merged[symbol][chainId] !== undefined) {
-        throw new Error(
-          `[@avaprotocol/protocols] duplicate token entry for symbol="${symbol}" ` +
-            `on chainId=${chainId}. Each (symbol, chainId) pair must be unique across ` +
-            `src/tokens/data/*.json — remove the duplicate row.`,
-        );
       }
       merged[symbol][chainId] = entry;
     }
