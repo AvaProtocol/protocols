@@ -71,11 +71,19 @@ const CHAIN_DATA: ReadonlyArray<readonly [number, ReadonlyArray<TokenDataRow>]> 
  * one-off process startup error pointing straight at the duplicate.
  */
 function buildTokensFromData(): Record<string, TokenByChain> {
-  const merged: Record<string, Record<number, TokenChainEntry>> = {};
+  // Null-prototype backing maps + own-property checks keep
+  // `Object.prototype` keys (`toString`, `__proto__`, …) from
+  // colliding with token symbols. Curated source files shouldn't
+  // contain such symbols, but the defense is free and the data is
+  // parsed externally. See the parallel construct in
+  // `./per-chain.ts:buildChainTokenMap` for the same rationale.
+  const merged: Record<string, Record<number, TokenChainEntry>> = Object.create(null);
   for (const [chainId, rows] of CHAIN_DATA) {
     for (const row of rows) {
       const { symbol, ...entry } = row;
-      if (!merged[symbol]) merged[symbol] = {};
+      if (!Object.prototype.hasOwnProperty.call(merged, symbol)) {
+        merged[symbol] = Object.create(null);
+      }
       if (merged[symbol][chainId] !== undefined) {
         throw new Error(
           `[@avaprotocol/protocols] duplicate token entry for symbol="${symbol}" ` +
