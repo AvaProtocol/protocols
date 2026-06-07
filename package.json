@@ -27,6 +27,7 @@
   "license": "MIT",
   "author": "Ava Protocol",
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -35,6 +36,31 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./tokens/ethereum": {
+      "types": "./dist/tokens/ethereum.d.ts",
+      "import": "./dist/tokens/ethereum.js",
+      "require": "./dist/tokens/ethereum.cjs"
+    },
+    "./tokens/sepolia": {
+      "types": "./dist/tokens/sepolia.d.ts",
+      "import": "./dist/tokens/sepolia.js",
+      "require": "./dist/tokens/sepolia.cjs"
+    },
+    "./tokens/base": {
+      "types": "./dist/tokens/base.d.ts",
+      "import": "./dist/tokens/base.js",
+      "require": "./dist/tokens/base.cjs"
+    },
+    "./tokens/base-sepolia": {
+      "types": "./dist/tokens/base-sepolia.d.ts",
+      "import": "./dist/tokens/base-sepolia.js",
+      "require": "./dist/tokens/base-sepolia.cjs"
+    },
+    "./tokens/bnb-mainnet": {
+      "types": "./dist/tokens/bnb-mainnet.d.ts",
+      "import": "./dist/tokens/bnb-mainnet.js",
+      "require": "./dist/tokens/bnb-mainnet.cjs"
     },
     "./package.json": "./package.json"
   },
@@ -49,7 +75,7 @@
   },
   "scripts": {
     "build:declarations": "tsc -p tsconfig.build.json",
-    "build:js": "tsup src/index.ts --format cjs,esm --target es2020",
+    "build:js": "tsup",
     "build:tokens-sidecar": "tsx scripts/build-tokens-sidecar.ts",
     "build": "yarn clean:dist && yarn build:declarations && yarn build:js && yarn build:tokens-sidecar",
     "port:studio": "tsx scripts/port-from-studio.ts",

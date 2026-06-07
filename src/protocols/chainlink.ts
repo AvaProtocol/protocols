@@ -11,7 +11,7 @@
 
 import { Chains } from "../chains";
 import { aggregatorV3Abi } from "./common";
-import { type AddressByChain } from "./types";
+import { type AbiFragment, type AddressByChain } from "./types";
 
 const ethUsdFeed: AddressByChain = {
   [Chains.EthereumMainnet]: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
@@ -33,10 +33,38 @@ const bnbUsdFeed: AddressByChain = {
   [Chains.BnbMainnet]: "0x0567F2323251f0Aab15c8dFb1967E4e8A7D42aeE",
 };
 
+/**
+ * Aggregator's `AnswerUpdated` event — fires whenever a feed posts a
+ * new round. Useful as an `eventTrigger` topic for price-watch
+ * templates that don't want to poll `latestRoundData` on a schedule.
+ */
+const answerUpdatedEventAbi: readonly AbiFragment[] = Object.freeze([
+  {
+    anonymous: false,
+    inputs: [
+      { indexed: true, internalType: "int256", name: "current", type: "int256" },
+      { indexed: true, internalType: "uint256", name: "roundId", type: "uint256" },
+      { indexed: false, internalType: "uint256", name: "updatedAt", type: "uint256" },
+    ],
+    name: "AnswerUpdated",
+    type: "event",
+  },
+]);
+
+/**
+ * Pre-computed keccak256 of canonical Chainlink event signatures. Match
+ * `topics[0]` on `eventTrigger` queries against these.
+ */
+const eventTopics = Object.freeze({
+  AnswerUpdated: "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+} as const);
+
 export const chainlink = Object.freeze({
   ethUsdFeed,
   btcUsdFeed,
   bnbUsdFeed,
   /** Shared AggregatorV3 ABI — works for any Chainlink feed. */
   aggregatorV3Abi,
+  answerUpdatedEventAbi,
+  eventTopics,
 });
