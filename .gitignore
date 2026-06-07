@@ -30,3 +30,6 @@ coverage/
 # npm
 *.tgz
 .npmrc
+
+# Review-script artifacts (from ~/.claude/scripts/get-pr-comments.sh)
+pr-comments-*.json
