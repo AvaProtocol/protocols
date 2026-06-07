@@ -165,6 +165,32 @@ describe("Shared ABIs", () => {
     expect(Protocols.erc20.approveAbi).toHaveLength(1);
     expect(Protocols.erc20.approveAbi[0].name).toBe("approve");
   });
+
+  it("ERC-20 ships transfer/symbol/decimals function fragments", () => {
+    expect(Protocols.erc20.transferAbi[0].name).toBe("transfer");
+    expect(Protocols.erc20.symbolAbi[0].name).toBe("symbol");
+    expect(Protocols.erc20.decimalsAbi[0].name).toBe("decimals");
+  });
+
+  it("ERC-20 Transfer event ABI + topic[0] hash are in lockstep", () => {
+    const transferEvent = Protocols.erc20.transferEventAbi.find((f) => f.name === "Transfer");
+    expect(transferEvent?.type).toBe("event");
+    expect(Protocols.erc20.eventTopics.Transfer).toBe(
+      "0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef",
+    );
+    expect(Protocols.erc20.eventTopics.Transfer).toMatch(TOPIC_RE);
+  });
+
+  it("Chainlink AnswerUpdated event ABI + topic[0] hash are in lockstep", () => {
+    const answerUpdated = Protocols.chainlink.answerUpdatedEventAbi.find(
+      (f) => f.name === "AnswerUpdated",
+    );
+    expect(answerUpdated?.type).toBe("event");
+    expect(Protocols.chainlink.eventTopics.AnswerUpdated).toBe(
+      "0x0559884fd3a460db3073b7fc896cc77986f16e378210ded43186175bf646fc5f",
+    );
+    expect(Protocols.chainlink.eventTopics.AnswerUpdated).toMatch(TOPIC_RE);
+  });
 });
 
 describe("Chain coverage", () => {
