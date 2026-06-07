@@ -27,3 +27,30 @@ import { type ChainId } from "../chains";
  * ships on every chain.
  */
 export type AddressByChain = Partial<Record<ChainId, `0x${string}`>>;
+
+/**
+ * A single AAVE V3 reserve — the underlying asset plus the AAVE-issued
+ * receipt tokens minted against it. Lets a UI present the list of tokens
+ * a user can supply (the `underlying`) and the proof token they receive
+ * (the `aToken`) without an on-chain round-trip.
+ *
+ * Generated from chain via `scripts/generate-aave-reserves.ts`
+ * (Pool.getReservesList + Pool.getReserveData + ERC-20 metadata).
+ */
+export interface AaveV3Reserve {
+  readonly symbol: string;
+  /** The token the user supplies/borrows (ERC-20 underlying). */
+  readonly underlying: `0x${string}`;
+  /** aToken — the interest-bearing receipt minted on supply. */
+  readonly aToken: `0x${string}`;
+  /** Variable-rate debt token minted on borrow. */
+  readonly variableDebtToken: `0x${string}`;
+  /** Decimals of the underlying ERC-20. */
+  readonly decimals: number;
+}
+
+/**
+ * Per-chain AAVE V3 reserve list. `Partial` — not every chain is covered,
+ * and the list is ordered by symbol for readable diffs.
+ */
+export type AaveV3ReservesByChain = Partial<Record<ChainId, readonly AaveV3Reserve[]>>;
