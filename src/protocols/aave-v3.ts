@@ -13,6 +13,7 @@
 
 import { Chains } from "../chains";
 import { type AbiFragment, type AddressByChain } from "./types";
+import { aaveV3Reserves } from "./aave-v3-reserves";
 
 /**
  * AAVE V3 Pool addresses per chain. The Pool is the single entry point
@@ -237,6 +238,17 @@ const tokens = Object.freeze({
   } satisfies AddressByChain,
 });
 
+/**
+ * Reserve catalog for the covered chains: each chain's AAVE V3 reserves as
+ * `{ symbol, underlying, aToken, variableDebtToken, decimals }`. This is a
+ * `Partial` map — chains without an AAVE V3 market (or not yet generated) are
+ * simply absent, so look up defensively. Drives supply-token pickers (the
+ * `underlying` is what users supply; `aToken` is the receipt they get).
+ * Generated from chain — see `scripts/generate-aave-reserves.ts` /
+ * `aave-v3-reserves.ts`.
+ */
+const reserves = aaveV3Reserves;
+
 export const aaveV3 = Object.freeze({
   pool,
   oracle,
@@ -245,4 +257,5 @@ export const aaveV3 = Object.freeze({
   poolEventsAbi,
   poolMethodsAbi,
   tokens,
+  reserves,
 });

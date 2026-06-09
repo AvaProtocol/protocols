@@ -80,6 +80,7 @@
     "build": "yarn clean:dist && yarn build:declarations && yarn build:js && yarn build:tokens-sidecar",
     "port:studio": "tsx scripts/port-from-studio.ts",
     "port:avs": "tsx scripts/port-from-avs.ts",
+    "generate:aave-reserves": "tsx scripts/generate-aave-reserves.ts",
     "clean": "rm -rf node_modules dist tsconfig.tsbuildinfo",
     "clean:dist": "rm -rf dist tsconfig.tsbuildinfo",
     "test": "vitest",

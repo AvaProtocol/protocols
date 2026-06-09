@@ -110,6 +110,39 @@ describe("AAVE V3 catalog", () => {
     expect(borrow).toBeDefined();
     expect(Protocols.aaveV3.eventTopics.Borrow).toMatch(TOPIC_RE);
   });
+
+  it("ships a non-empty reserve list on every covered chain", () => {
+    const { reserves } = Protocols.aaveV3;
+    for (const chain of [
+      Chains.EthereumMainnet,
+      Chains.Sepolia,
+      Chains.BaseMainnet,
+      Chains.BaseSepolia,
+      Chains.BnbMainnet,
+    ]) {
+      expect((reserves[chain] ?? []).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("every reserve carries valid underlying/aToken/variableDebtToken + decimals", () => {
+    for (const chainReserves of Object.values(Protocols.aaveV3.reserves)) {
+      for (const reserve of chainReserves ?? []) {
+        expect(reserve.underlying).toMatch(ADDRESS_RE);
+        expect(reserve.aToken).toMatch(ADDRESS_RE);
+        expect(reserve.variableDebtToken).toMatch(ADDRESS_RE);
+        // ERC-20 decimals is a uint8 — 0 is valid (don't over-constrain).
+        expect(Number.isInteger(reserve.decimals)).toBe(true);
+        expect(reserve.decimals).toBeGreaterThanOrEqual(0);
+        expect(reserve.decimals).toBeLessThanOrEqual(255);
+        expect(reserve.symbol.length).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("Sepolia LINK reserve underlying matches the catalog's tokens.LINK", () => {
+    const link = (Protocols.aaveV3.reserves[Chains.Sepolia] ?? []).find((reserve) => reserve.symbol === "LINK");
+    expect(link?.underlying.toLowerCase()).toBe(Protocols.aaveV3.tokens.LINK[Chains.Sepolia]?.toLowerCase());
+  });
 });
 
 describe("Uniswap V3 catalog", () => {
