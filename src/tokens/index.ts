@@ -69,8 +69,13 @@ const PER_CHAIN: ReadonlyArray<readonly [number, Readonly<Record<string, TokenCh
  * frozen at the outer level (see the comment on `Tokens` below).
  *
  * Each per-chain module already guarantees a single entry per symbol
- * within its own chain (`buildChainTokenMap` throws on duplicates),
- * so the aggregator's job is pure flatten — no re-validation.
+ * within its own chain (`buildChainTokenMap` throws on duplicates), so
+ * the per-symbol flatten needs no re-validation. The one wiring mistake
+ * the flatten itself can't tolerate is the same `chainId` appearing
+ * twice in `PER_CHAIN` (e.g. a copy-paste in the array, or two modules
+ * reporting the same `chainId`): the second pass would silently
+ * overwrite the first chain's entries, producing a wrong
+ * `Tokens.SYMBOL[chainId]` with no error. We fail fast on that instead.
  *
  * Null-prototype backing maps + own-property checks keep
  * `Object.prototype` keys (`toString`, `__proto__`, …) from
@@ -79,7 +84,15 @@ const PER_CHAIN: ReadonlyArray<readonly [number, Readonly<Record<string, TokenCh
  */
 function buildTokensFromData(): Record<string, TokenByChain> {
   const merged: Record<string, Record<number, TokenChainEntry>> = Object.create(null);
+  const seenChainIds = new Set<number>();
   for (const [chainId, chainTokens] of PER_CHAIN) {
+    if (seenChainIds.has(chainId)) {
+      throw new Error(
+        `[@avaprotocol/protocols] chainId ${chainId} appears more than once in PER_CHAIN — ` +
+          `each chain must be listed exactly once. Merge the duplicate entries.`,
+      );
+    }
+    seenChainIds.add(chainId);
     for (const [symbol, entry] of Object.entries(chainTokens)) {
       if (!Object.prototype.hasOwnProperty.call(merged, symbol)) {
         merged[symbol] = Object.create(null);
