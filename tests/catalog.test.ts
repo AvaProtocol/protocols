@@ -130,7 +130,10 @@ describe("AAVE V3 catalog", () => {
         expect(reserve.underlying).toMatch(ADDRESS_RE);
         expect(reserve.aToken).toMatch(ADDRESS_RE);
         expect(reserve.variableDebtToken).toMatch(ADDRESS_RE);
-        expect(reserve.decimals).toBeGreaterThan(0);
+        // ERC-20 decimals is a uint8 — 0 is valid (don't over-constrain).
+        expect(Number.isInteger(reserve.decimals)).toBe(true);
+        expect(reserve.decimals).toBeGreaterThanOrEqual(0);
+        expect(reserve.decimals).toBeLessThanOrEqual(255);
         expect(reserve.symbol.length).toBeGreaterThan(0);
       }
     }
