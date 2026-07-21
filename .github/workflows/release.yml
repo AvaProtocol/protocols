@@ -42,11 +42,18 @@ jobs:
 
       - name: Upgrade npm for trusted publishing
         # Trusted Publishing requires npm >= 11.5.1. setup-node@v4 doesn't
-        # expose a built-in `npm-version` knob, so we install the latest
-        # CLI explicitly. `npm publish` (called by `changeset publish`)
-        # then auto-detects the OIDC environment and authenticates against
-        # npm without an NPM_TOKEN.
-        run: npm install --global npm@latest
+        # expose a built-in `npm-version` knob, so we install a newer CLI
+        # explicitly. `npm publish` (called by `changeset publish`) then
+        # auto-detects the OIDC environment and authenticates against npm
+        # without an NPM_TOKEN.
+        #
+        # Pin to the 11.x line rather than `@latest`: npm@12 dropped Node
+        # 20 support (requires Node ^22.22.2 || ^24.15.0 || >=26.0.0), so
+        # `npm@latest` fails with EBADENGINE on the Node 20 runner above.
+        # npm 11.x supports Node 20.17+ and already has OIDC trusted
+        # publishing. Bump this (and node-version) together if moving to
+        # npm 12+.
+        run: npm install --global "npm@^11.5.1"
 
       - name: Install dependencies
         run: yarn install --frozen-lockfile
