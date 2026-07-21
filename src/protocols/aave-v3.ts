@@ -320,7 +320,9 @@ const poolMethodsAbi: readonly AbiFragment[] = Object.freeze([
     // liquidity / variable-borrow indices (to scale a user's aToken /
     // debt balances to underlying), and the reserve's aToken /
     // variable-debt token addresses + `id` (its index in the user
-    // configuration bitmap).
+    // configuration bitmap). Note: `stableDebtTokenAddress` is deprecated
+    // (stable-rate borrowing is removed on V3.1+ markets — it reads as the
+    // zero address there); a repay path should use `variableDebtTokenAddress`.
     inputs: [{ internalType: "address", name: "asset", type: "address" }],
     name: "getReserveData",
     outputs: [

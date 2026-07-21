@@ -111,6 +111,8 @@ const tokenDecimals = Number(field(decimals));
 
 For a whole-market sweep in one round-trip, use `Protocols.aaveV3.uiPoolDataProvider[chainId]` with `PoolAddressesProvider` — note the SDK ships the **addresses** but not the periphery return-struct ABI, which is version-specific per chain; pair it with a version-aware ABI (e.g. `@bgd-labs/aave-address-book`). `Protocols.aaveV3.poolMethodsAbi` carries the version-stable `getConfiguration` / `getUserConfiguration` / `getReserveData` reads for the per-asset path on any chain.
 
+> **Caveat — `liquidationThreshold` alone doesn't fully determine collateral.** The exported bits cover only the version-stable low bits (0–167); isolation-mode / eMode live in the omitted higher bits. A freshly-supplied **isolation-mode** asset may not count as collateral at all, and eMode raises the effective threshold for correlated assets — so a top-up solver sizing a health-factor lift off `liquidationThreshold` alone can over- or under-estimate it in those cases. Also read the user's collateral flags (`getUserConfiguration` + `userConfigurationBits`) and, where isolation/eMode is in play, the market's own contracts for those bits.
+
 ### Filter on an event topic
 
 ```ts
