@@ -105,6 +105,84 @@ describe("AAVE V3 catalog", () => {
     expect(methods).toContain("setUserUseReserveAsCollateral");
   });
 
+  it("ships the version-stable config reads in the Pool method ABI", () => {
+    const methods = Protocols.aaveV3.poolMethodsAbi.map((f) => f.name);
+    expect(methods).toContain("getConfiguration");
+    expect(methods).toContain("getUserConfiguration");
+    expect(methods).toContain("getReserveData");
+  });
+
+  it("has PoolAddressesProvider + UiPoolDataProvider on every covered chain", () => {
+    for (const chain of [
+      Chains.EthereumMainnet,
+      Chains.Sepolia,
+      Chains.BaseMainnet,
+      Chains.BaseSepolia,
+      Chains.BnbMainnet,
+    ]) {
+      expect(Protocols.aaveV3.poolAddressesProvider[chain]).toMatch(ADDRESS_RE);
+      expect(Protocols.aaveV3.uiPoolDataProvider[chain]).toMatch(ADDRESS_RE);
+    }
+  });
+
+  it("decodes a ReserveConfigurationMap bitmap via reserveConfigurationBits", () => {
+    const bits = Protocols.aaveV3.reserveConfigurationBits;
+    // Issue's named low bits are pinned to their canonical positions.
+    expect(bits.ltv).toEqual({ offset: 0, bits: 16 });
+    expect(bits.liquidationThreshold).toEqual({ offset: 16, bits: 16 });
+    expect(bits.decimals).toEqual({ offset: 48, bits: 8 });
+    expect(bits.active).toEqual({ offset: 56, bits: 1 });
+    expect(bits.frozen).toEqual({ offset: 57, bits: 1 });
+    expect(bits.borrowingEnabled).toEqual({ offset: 58, bits: 1 });
+    expect(bits.paused).toEqual({ offset: 60, bits: 1 });
+
+    const field = (data: bigint, f: { offset: number; bits: number }) =>
+      (data >> BigInt(f.offset)) & ((1n << BigInt(f.bits)) - 1n);
+
+    // Pack a bitmap the way the Pool does, then round-trip it back out.
+    const packed =
+      8050n | // ltv
+      (8300n << 16n) | // liquidationThreshold
+      (18n << 48n) | // decimals
+      (1n << 56n) | // active
+      (1n << 58n); // borrowingEnabled (frozen/paused left 0)
+    expect(field(packed, bits.ltv)).toBe(8050n);
+    expect(field(packed, bits.liquidationThreshold)).toBe(8300n);
+    expect(field(packed, bits.decimals)).toBe(18n);
+    expect(field(packed, bits.active)).toBe(1n);
+    expect(field(packed, bits.frozen)).toBe(0n);
+    expect(field(packed, bits.borrowingEnabled)).toBe(1n);
+    expect(field(packed, bits.paused)).toBe(0n);
+  });
+
+  it("decodes per-reserve collateral/borrow flags via userConfigurationBits", () => {
+    const { bitsPerReserve, borrowingOffset, collateralOffset } =
+      Protocols.aaveV3.userConfigurationBits;
+    expect(bitsPerReserve).toBe(2);
+    // reserve id 3 used as collateral, id 5 borrowed.
+    const data = (1n << (3n * 2n + BigInt(collateralOffset))) | (1n << (5n * 2n + BigInt(borrowingOffset)));
+    const flag = (id: bigint, off: number) =>
+      ((data >> (id * BigInt(bitsPerReserve) + BigInt(off))) & 1n) === 1n;
+    expect(flag(3n, collateralOffset)).toBe(true);
+    expect(flag(3n, borrowingOffset)).toBe(false);
+    expect(flag(5n, borrowingOffset)).toBe(true);
+    expect(flag(5n, collateralOffset)).toBe(false);
+  });
+
+  it("does NOT bake mutable risk values into the static reserve catalog", () => {
+    // Explicit non-goal (issue #19): governance-mutable, HF-critical
+    // values must be read live, never baked. Guard the reserve shape so
+    // a future generator change can't silently ship a stale LTV.
+    const forbidden = ["ltv", "liquidationThreshold", "liqThreshold", "usageAsCollateralEnabled"];
+    for (const chainReserves of Object.values(Protocols.aaveV3.reserves)) {
+      for (const reserve of chainReserves ?? []) {
+        for (const key of forbidden) {
+          expect(Object.prototype.hasOwnProperty.call(reserve, key)).toBe(false);
+        }
+      }
+    }
+  });
+
   it("ships the Borrow event topic + ABI in lockstep", () => {
     const borrow = Protocols.aaveV3.poolEventsAbi.find((e) => e.name === "Borrow");
     expect(borrow).toBeDefined();
@@ -227,10 +305,14 @@ describe("Shared ABIs", () => {
 });
 
 describe("Chain coverage", () => {
-  it("AAVE V3 Pool + Oracle cover the same chains; WETH Gateway is a subset", () => {
+  it("AAVE V3 Pool + Oracle + data providers cover the same chains; WETH Gateway is a subset", () => {
     const poolChains = Object.keys(Protocols.aaveV3.pool).sort();
     const oracleChains = Object.keys(Protocols.aaveV3.oracle).sort();
     expect(oracleChains).toEqual(poolChains);
+    // The data providers read the same markets as Pool, so they cover
+    // the same chain set.
+    expect(Object.keys(Protocols.aaveV3.poolAddressesProvider).sort()).toEqual(poolChains);
+    expect(Object.keys(Protocols.aaveV3.uiPoolDataProvider).sort()).toEqual(poolChains);
     // WETH Gateway is only deployed on chains whose native gas token
     // is ETH. Chains without it (e.g. BNB Chain) still have Pool +
     // Oracle. So the invariant is "gateway ⊆ pool", not equality.
