@@ -1,6 +1,9 @@
-// AAVE V3 — Pool / Oracle / WETH Gateway addresses per supported
-// chain, the Pool ABI fragments (events + the read/write methods
-// callers actually touch), and event-topic hashes.
+// AAVE V3 — Pool / Oracle / WETH Gateway / PoolAddressesProvider /
+// UiPoolDataProvider addresses per supported chain, the Pool ABI
+// fragments (events + the read/write methods callers actually touch,
+// including the per-reserve / per-user config reads), the
+// ReserveConfigurationMap / UserConfigurationMap bit layouts, and
+// event-topic hashes.
 //
 // Pool is the single entry point templates target (supply, borrow,
 // repay, withdraw, getUserAccountData, setUserUseReserveAsCollateral)
@@ -55,6 +58,51 @@ const wethGateway: AddressByChain = {
   [Chains.Sepolia]: "0x387d311e47e80b498169e6fb51d3193167d89F7D",
   [Chains.BaseMainnet]: "0xa0d9C1E9E48Ca30c8d8C3B5D69FF5dc1f6DFfC24",
   [Chains.BaseSepolia]: "0x0568130e794429D2eEBC4dafE18f25Ff1a1ed8b6",
+};
+
+/**
+ * PoolAddressesProvider — the per-market registry that resolves the
+ * Pool, Oracle, ACL, etc. It's the handle you pass to the
+ * `UiPoolDataProvider` reads below (`getReservesData(provider)` /
+ * `getUserReservesData(provider, user)`) and the canonical "which
+ * market" identifier. Verified on-chain: `getPool()` on each of these
+ * returns exactly the `pool` address above.
+ */
+const poolAddressesProvider: AddressByChain = {
+  [Chains.EthereumMainnet]: "0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e",
+  [Chains.Sepolia]: "0x012bAC54348C0E635dCAc9D5FB99f06F24136C9A",
+  [Chains.BaseMainnet]: "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
+  [Chains.BaseSepolia]: "0xE4C23309117Aa30342BFaae6c95c6478e0A4Ad00",
+  [Chains.BnbMainnet]: "0xff75B6da14FfbbfD355Daf7a2731456b3562Ba6D",
+};
+
+/**
+ * UiPoolDataProvider — the periphery aggregator the Aave UI uses to read
+ * a whole market's per-reserve risk config + prices in one call
+ * (`getReservesData(provider)`) and a user's per-reserve supply/debt in
+ * another (`getUserReservesData(provider, user)`). This is the scale
+ * optimization: one round-trip for the full market instead of N Pool
+ * reads.
+ *
+ * We ship the ADDRESS but intentionally NOT a return-struct ABI. The
+ * `AggregatedReserveData` / `UserReserveData` tuples this contract
+ * returns are periphery-version-specific and already differ across the
+ * chains we cover — e.g. Ethereum / Base / BNB / Base Sepolia currently
+ * return the v3.3 layout while Sepolia returns an earlier one. AAVE
+ * upgrades this periphery contract per chain independently of the Pool,
+ * so a single baked tuple would silently fail to decode on some markets
+ * and drift over time. Pair this address with a version-aware ABI at the
+ * call site (e.g. `@bgd-labs/aave-address-book`). For a
+ * version-independent read, use the `Pool` config reads below instead
+ * (`getConfiguration` / `getUserConfiguration` / `getReserveData`), whose
+ * ABIs are stable across deployments.
+ */
+const uiPoolDataProvider: AddressByChain = {
+  [Chains.EthereumMainnet]: "0x2dAd8162A989cd99D673dE4425Bb2298Db1E1aA2",
+  [Chains.Sepolia]: "0x69529987FA4A075D0C00B0128fa848dc9ebbE9CE",
+  [Chains.BaseMainnet]: "0x0C6BC4a12039788be08F87e87Cff87FEDbd1D386",
+  [Chains.BaseSepolia]: "0x3cB7B00B6C09B71998124196691e8bF2694De863",
+  [Chains.BnbMainnet]: "0x68100bD5345eA474D93577127C11F39FF8463e93",
 };
 
 /**
@@ -144,8 +192,21 @@ const poolEventsAbi: readonly AbiFragment[] = Object.freeze([
 /**
  * Pool method ABI — the read + write surface templates routinely call:
  * `getUserAccountData` (account health), `supply`, `borrow`, `repay`,
- * `withdraw`, and `setUserUseReserveAsCollateral`. Raw ABI so any
- * `contractRead`/`contractWrite` consumer can plug it in directly.
+ * `withdraw`, `setUserUseReserveAsCollateral`, and the per-reserve /
+ * per-user config reads a liquidation/health-factor solver needs
+ * (`getConfiguration`, `getUserConfiguration`, `getReserveData`). Raw ABI
+ * so any `contractRead`/`contractWrite` consumer can plug it in directly.
+ *
+ * The three config reads are the version-independent path to per-reserve
+ * risk config (LTV, liq. threshold, active/frozen/paused, …) and a user's
+ * collateral/borrow flags: `getConfiguration` / `getUserConfiguration`
+ * each return a single `uint256` bitmap, and `getReserveData` returns the
+ * (ABI-stable) `ReserveDataLegacy` struct carrying the config bitmap plus
+ * the liquidity / variable-borrow indices needed to scale a user's
+ * balances. Decode the bitmaps with `reserveConfigurationBits` /
+ * `userConfigurationBits` below. Prefer these over `uiPoolDataProvider`
+ * when you need one asset's config on any chain without pinning a
+ * periphery version.
  */
 const poolMethodsAbi: readonly AbiFragment[] = Object.freeze([
   {
@@ -220,7 +281,145 @@ const poolMethodsAbi: readonly AbiFragment[] = Object.freeze([
     stateMutability: "nonpayable",
     type: "function",
   },
+  {
+    // Returns the reserve's ReserveConfigurationMap — a single uint256
+    // bitmap. Decode with `reserveConfigurationBits`.
+    inputs: [{ internalType: "address", name: "asset", type: "address" }],
+    name: "getConfiguration",
+    outputs: [
+      {
+        components: [{ internalType: "uint256", name: "data", type: "uint256" }],
+        internalType: "struct DataTypes.ReserveConfigurationMap",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    // Returns the user's UserConfigurationMap — a single uint256 bitmap
+    // packing, per reserve index, an is-borrowing and a
+    // use-as-collateral flag. Decode with `userConfigurationBits`.
+    inputs: [{ internalType: "address", name: "user", type: "address" }],
+    name: "getUserConfiguration",
+    outputs: [
+      {
+        components: [{ internalType: "uint256", name: "data", type: "uint256" }],
+        internalType: "struct DataTypes.UserConfigurationMap",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    // ReserveDataLegacy — kept ABI-stable across V3 versions for
+    // back-compat. Carries the config bitmap (`configuration.data`), the
+    // liquidity / variable-borrow indices (to scale a user's aToken /
+    // debt balances to underlying), and the reserve's aToken /
+    // variable-debt token addresses + `id` (its index in the user
+    // configuration bitmap).
+    inputs: [{ internalType: "address", name: "asset", type: "address" }],
+    name: "getReserveData",
+    outputs: [
+      {
+        components: [
+          {
+            components: [{ internalType: "uint256", name: "data", type: "uint256" }],
+            internalType: "struct DataTypes.ReserveConfigurationMap",
+            name: "configuration",
+            type: "tuple",
+          },
+          { internalType: "uint128", name: "liquidityIndex", type: "uint128" },
+          { internalType: "uint128", name: "currentLiquidityRate", type: "uint128" },
+          { internalType: "uint128", name: "variableBorrowIndex", type: "uint128" },
+          { internalType: "uint128", name: "currentVariableBorrowRate", type: "uint128" },
+          { internalType: "uint128", name: "currentStableBorrowRate", type: "uint128" },
+          { internalType: "uint40", name: "lastUpdateTimestamp", type: "uint40" },
+          { internalType: "uint16", name: "id", type: "uint16" },
+          { internalType: "address", name: "aTokenAddress", type: "address" },
+          { internalType: "address", name: "stableDebtTokenAddress", type: "address" },
+          { internalType: "address", name: "variableDebtTokenAddress", type: "address" },
+          { internalType: "address", name: "interestRateStrategyAddress", type: "address" },
+          { internalType: "uint128", name: "accruedToTreasury", type: "uint128" },
+          { internalType: "uint128", name: "unbacked", type: "uint128" },
+          { internalType: "uint128", name: "isolationModeTotalDebt", type: "uint128" },
+        ],
+        internalType: "struct DataTypes.ReserveDataLegacy",
+        name: "",
+        type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
 ]);
+
+/**
+ * Bit layout of the AAVE V3 `ReserveConfigurationMap.data` bitmap
+ * (the `uint256` returned by `Pool.getConfiguration(asset)` and carried
+ * as `getReserveData(asset).configuration.data`). Each entry is
+ * `{ offset, bits }` — the low bit index and field width — so a consumer
+ * decodes a field with:
+ *
+ *   const raw = BigInt(configData);
+ *   const { offset, bits } = aaveV3.reserveConfigurationBits.ltv;
+ *   const ltv = Number((raw >> BigInt(offset)) & ((1n << BigInt(bits)) - 1n));
+ *
+ * Single-bit flags (`bits: 1`) decode to 0/1. `ltv` /
+ * `liquidationThreshold` / `liquidationBonus` / `reserveFactor` /
+ * `liquidationProtocolFee` are in basis points (1e4 = 100%); `decimals`
+ * is the underlying's ERC-20 decimals.
+ *
+ * Only the version-stable low bits (0–167) are exported. Higher bits
+ * (stable-rate flag, isolation/siloed flags, eMode category, debt
+ * ceiling, unbacked mint cap, virtual-accounting flag, …) sit at
+ * positions that have shifted or changed meaning between deployed AAVE
+ * V3 versions — and our covered chains run different versions
+ * concurrently — so baking them here would risk a wrong decode. Read
+ * those from the market's own contracts if needed. These low bits are
+ * the health-factor-relevant fields and are identical across every V3
+ * deployment (cross-checked on-chain against `UiPoolDataProvider`).
+ */
+const reserveConfigurationBits = Object.freeze({
+  ltv: { offset: 0, bits: 16 },
+  liquidationThreshold: { offset: 16, bits: 16 },
+  liquidationBonus: { offset: 32, bits: 16 },
+  decimals: { offset: 48, bits: 8 },
+  active: { offset: 56, bits: 1 },
+  frozen: { offset: 57, bits: 1 },
+  borrowingEnabled: { offset: 58, bits: 1 },
+  paused: { offset: 60, bits: 1 },
+  flashLoanEnabled: { offset: 63, bits: 1 },
+  reserveFactor: { offset: 64, bits: 16 },
+  borrowCap: { offset: 80, bits: 36 },
+  supplyCap: { offset: 116, bits: 36 },
+  liquidationProtocolFee: { offset: 152, bits: 16 },
+} as const);
+
+/**
+ * Bit layout of the AAVE V3 `UserConfigurationMap.data` bitmap (the
+ * `uint256` returned by `Pool.getUserConfiguration(user)`). Two bits per
+ * reserve, indexed by the reserve's `id` (its position in
+ * `Pool.getReservesList()` / `getReserveData(asset).id`):
+ *
+ *   const raw = BigInt(userConfigData);
+ *   const base = BigInt(id) * BigInt(aaveV3.userConfigurationBits.bitsPerReserve);
+ *   const isBorrowing =
+ *     ((raw >> (base + BigInt(aaveV3.userConfigurationBits.borrowingOffset))) & 1n) === 1n;
+ *   const usedAsCollateral =
+ *     ((raw >> (base + BigInt(aaveV3.userConfigurationBits.collateralOffset))) & 1n) === 1n;
+ *
+ * This is the source of `usageAsCollateralEnabled` per reserve for a
+ * given user. Stable across all V3 versions.
+ */
+const userConfigurationBits = Object.freeze({
+  bitsPerReserve: 2,
+  borrowingOffset: 0,
+  collateralOffset: 1,
+} as const);
 
 /**
  * Per-chain reserve token addresses for the assets AAVE V3 markets
@@ -253,9 +452,13 @@ export const aaveV3 = Object.freeze({
   pool,
   oracle,
   wethGateway,
+  poolAddressesProvider,
+  uiPoolDataProvider,
   eventTopics,
   poolEventsAbi,
   poolMethodsAbi,
+  reserveConfigurationBits,
+  userConfigurationBits,
   tokens,
   reserves,
 });

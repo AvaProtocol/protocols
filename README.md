@@ -23,7 +23,7 @@ const sig  = Protocols.aaveV3.eventTopics.Borrow;
 
 | Protocol | Contracts | Chains |
 |---|---|---|
-| **AAVE V3** | Pool, Oracle, WETH Gateway + Pool methods/events ABI + topics | Mainnet, Sepolia, Base, Base Sepolia, **BNB** (no WETH Gateway on BNB) |
+| **AAVE V3** | Pool, Oracle, WETH Gateway, PoolAddressesProvider, UiPoolDataProvider + Pool methods/events ABI (incl. config reads) + reserve/user config bit layouts + topics | Mainnet, Sepolia, Base, Base Sepolia, **BNB** (no WETH Gateway on BNB) |
 | **Aerodrome** | Router | Base |
 | **Chainlink** | ETH/USD + BTC/USD + BNB/USD feeds + AggregatorV3 ABI | Mainnet, Sepolia, **BNB** (BNB/USD is BNB-only) |
 | **Compound V3** | USDC Comet market | Mainnet, Base |
@@ -90,6 +90,26 @@ await wallet.contractWrite({
   ],
 });
 ```
+
+### Read a reserve's risk config (health-factor math)
+
+Risk parameters (`ltv`, `liquidationThreshold`, `active`/`frozen`/`paused`, …) are **governance-mutable** — the catalog deliberately does **not** bake their values into the static `reserves` list. Ship the address to read from, not the value; the live read stays in the consumer. Decode the on-chain bitmap with the exported bit layout, which is version-stable across every deployed AAVE V3 market:
+
+```ts
+import { Protocols, Chains } from "@avaprotocol/protocols";
+
+// Pool.getConfiguration(asset) → ReserveConfigurationMap { data: uint256 }
+const raw = BigInt(configData); // the `data` field of the returned struct
+const { ltv, liquidationThreshold, decimals } = Protocols.aaveV3.reserveConfigurationBits;
+const field = (f: { offset: number; bits: number }) =>
+  (raw >> BigInt(f.offset)) & ((1n << BigInt(f.bits)) - 1n);
+
+const ltvBps = Number(field(ltv));                  // e.g. 8050 = 80.50%
+const liqThresholdBps = Number(field(liquidationThreshold));
+const tokenDecimals = Number(field(decimals));
+```
+
+For a whole-market sweep in one round-trip, use `Protocols.aaveV3.uiPoolDataProvider[chainId]` with `PoolAddressesProvider` — note the SDK ships the **addresses** but not the periphery return-struct ABI, which is version-specific per chain; pair it with a version-aware ABI (e.g. `@bgd-labs/aave-address-book`). `Protocols.aaveV3.poolMethodsAbi` carries the version-stable `getConfiguration` / `getUserConfiguration` / `getReserveData` reads for the per-asset path on any chain.
 
 ### Filter on an event topic
 
