@@ -21,7 +21,9 @@ const weth: AddressByChain = {
   [Chains.BaseMainnet]: "0x4200000000000000000000000000000000000006",
   [Chains.BaseSepolia]: "0x4200000000000000000000000000000000000006",
   // BNB Chain's native is BNB, not ETH — this entry is WBNB.
+  [Chains.OptimismMainnet]: "0x4200000000000000000000000000000000000006",
   [Chains.BnbMainnet]: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+  [Chains.ArbitrumOne]: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
 };
 
 /**
