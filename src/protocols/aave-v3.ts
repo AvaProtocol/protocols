@@ -474,18 +474,25 @@ const tokens = Object.freeze({
  * Generated from chain — see `scripts/generate-aave-reserves.ts` /
  * `aave-v3-reserves.ts`.
  *
- * Currently Core-only. Non-Core Ethereum markets (EtherFi / Lido /
- * Horizon) list different reserves; scoping those is a separate issue.
+ * Core market only, including Arbitrum and Optimism. Non-Core Ethereum
+ * markets (EtherFi / Lido / Horizon) list different reserves; scoping
+ * those is a separate issue.
  */
 const reserves = aaveV3Reserves;
 
+/**
+ * Core row for `markets[chainId]`. Reads the existing per-chain maps
+ * so the three stay in lockstep. Missing entries stay `undefined`
+ * rather than throwing at import — a catalog inconsistency is a test
+ * failure (`core.pool === pool[chain]`), not a package-load crash
+ * for every consumer.
+ */
 function coreMarket(chainId: number): AaveV3Market {
-  const poolAddr = pool[chainId];
-  const provider = poolAddressesProvider[chainId];
-  if (!poolAddr || !provider) {
-    throw new Error(`AAVE V3 core market missing pool or provider for chain ${chainId}`);
-  }
-  return Object.freeze({ key: "core", pool: poolAddr, poolAddressesProvider: provider });
+  return Object.freeze({
+    key: "core",
+    pool: pool[chainId] as `0x${string}`,
+    poolAddressesProvider: poolAddressesProvider[chainId] as `0x${string}`,
+  });
 }
 
 /**

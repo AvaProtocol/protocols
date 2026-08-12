@@ -59,6 +59,10 @@ export type AaveV3ReservesByChain = Partial<Record<ChainId, readonly AaveV3Reser
  * Named AAVE V3 market on a chain. Ethereum hosts four (`core` /
  * `etherFi` / `lido` / `horizon`); every other covered chain is a
  * single `core` market. `aaveV3.pool[chainId]` always points at `core`.
+ *
+ * Closed on purpose: Aave adds markets (Horizon is recent). A new key
+ * must be a type change so exhaustive consumers fail to compile
+ * instead of silently ignoring the row. Do not widen this to `string`.
  */
 export type AaveV3MarketKey = "core" | "etherFi" | "lido" | "horizon";
 

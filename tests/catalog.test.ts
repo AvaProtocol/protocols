@@ -164,6 +164,17 @@ describe("AAVE V3 catalog", () => {
     expect(eth[3]?.poolAddressesProvider).toBe("0x5D39E06b825C1F2B80bf2756a73e28eFAA128ba0");
   });
 
+  it("ships Core reserves on Arbitrum and Optimism (not just a Pool)", () => {
+    const arb = Protocols.aaveV3.reserves[Chains.ArbitrumOne] ?? [];
+    const op = Protocols.aaveV3.reserves[Chains.OptimismMainnet] ?? [];
+    // Chain-native symbols guard against mixing the two catalogs —
+    // they share a CREATE2 Pool address.
+    expect(arb.find((r) => r.symbol === "ARB")).toBeDefined();
+    expect(op.find((r) => r.symbol === "OP")).toBeDefined();
+    expect(arb.find((r) => r.symbol === "WETH")).toBeDefined();
+    expect(op.find((r) => r.symbol === "WETH")).toBeDefined();
+  });
+
   it("ships Arbitrum + Optimism Core Pools (CREATE2-shared address)", () => {
     const shared = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
     expect(Protocols.aaveV3.pool[Chains.ArbitrumOne]).toBe(shared);
@@ -243,13 +254,7 @@ describe("AAVE V3 catalog", () => {
 
   it("ships a non-empty reserve list on every covered chain", () => {
     const { reserves } = Protocols.aaveV3;
-    for (const chain of [
-      Chains.EthereumMainnet,
-      Chains.Sepolia,
-      Chains.BaseMainnet,
-      Chains.BaseSepolia,
-      Chains.BnbMainnet,
-    ]) {
+    for (const chain of AAVE_V3_CHAINS) {
       expect((reserves[chain] ?? []).length).toBeGreaterThan(0);
     }
   });
