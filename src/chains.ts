@@ -11,9 +11,11 @@ export const Chains = Object.freeze({
   EthereumMainnet: 1 as const,
   Sepolia: 11_155_111 as const,
   Holesky: 17_000 as const,
+  OptimismMainnet: 10 as const,
   BaseMainnet: 8453 as const,
   BaseSepolia: 84_532 as const,
   BnbMainnet: 56 as const,
+  ArbitrumOne: 42_161 as const,
 });
 
 export type ChainId = (typeof Chains)[keyof typeof Chains] | number;

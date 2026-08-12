@@ -54,3 +54,30 @@ export interface AaveV3Reserve {
  * and the list is ordered by symbol for readable diffs.
  */
 export type AaveV3ReservesByChain = Partial<Record<ChainId, readonly AaveV3Reserve[]>>;
+
+/**
+ * Named AAVE V3 market on a chain. Ethereum hosts four (`core` /
+ * `etherFi` / `lido` / `horizon`); every other covered chain is a
+ * single `core` market. `aaveV3.pool[chainId]` always points at `core`.
+ */
+export type AaveV3MarketKey = "core" | "etherFi" | "lido" | "horizon";
+
+/**
+ * One AAVE V3 market: the Pool to write against, plus the
+ * PoolAddressesProvider that is the on-chain source of truth for that
+ * Pool (`getPool()`). The static `pool` address is a cache of that
+ * call — implementation upgrades do not move the proxy, but
+ * `PoolAddressesProvider.setPool()` theoretically can.
+ */
+export interface AaveV3Market {
+  readonly key: AaveV3MarketKey;
+  readonly pool: `0x${string}`;
+  readonly poolAddressesProvider: `0x${string}`;
+}
+
+/**
+ * Per-chain list of every AAVE V3 market. `Partial` — same coverage as
+ * `aaveV3.pool`. Ethereum lists four entries; other chains list one
+ * (`core`).
+ */
+export type AaveV3MarketsByChain = Partial<Record<ChainId, readonly AaveV3Market[]>>;

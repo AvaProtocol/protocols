@@ -28,8 +28,10 @@ import { aaveV3 } from "../src/protocols/aave-v3";
 // private endpoint via env if a public one rate-limits during a refresh.
 const RPC_URLS: Readonly<Record<number, string>> = Object.freeze({
   [Chains.EthereumMainnet]: process.env.RPC_MAINNET ?? "https://ethereum-rpc.publicnode.com",
+  [Chains.OptimismMainnet]: process.env.RPC_OPTIMISM ?? "https://optimism-rpc.publicnode.com",
   [Chains.BaseMainnet]: process.env.RPC_BASE ?? "https://base-rpc.publicnode.com",
   [Chains.BnbMainnet]: process.env.RPC_BNB ?? "https://bsc-rpc.publicnode.com",
+  [Chains.ArbitrumOne]: process.env.RPC_ARBITRUM ?? "https://arbitrum-one-rpc.publicnode.com",
   [Chains.Sepolia]: process.env.RPC_SEPOLIA ?? "https://ethereum-sepolia-rpc.publicnode.com",
   [Chains.BaseSepolia]: process.env.RPC_BASE_SEPOLIA ?? "https://base-sepolia-rpc.publicnode.com",
 });
@@ -37,8 +39,10 @@ const RPC_URLS: Readonly<Record<number, string>> = Object.freeze({
 // Emit `Chains.X` keys (not magic numbers) to match the catalog's convention.
 const CHAIN_CONST_NAME: Readonly<Record<number, string>> = Object.freeze({
   [Chains.EthereumMainnet]: "EthereumMainnet",
+  [Chains.OptimismMainnet]: "OptimismMainnet",
   [Chains.BaseMainnet]: "BaseMainnet",
   [Chains.BnbMainnet]: "BnbMainnet",
+  [Chains.ArbitrumOne]: "ArbitrumOne",
   [Chains.Sepolia]: "Sepolia",
   [Chains.BaseSepolia]: "BaseSepolia",
 });

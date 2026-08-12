@@ -32,7 +32,15 @@ export { superfluid } from "./superfluid";
 export { uniswapV3 } from "./uniswap-v3";
 export { wrapped } from "./wrapped";
 export { aggregatorV3Abi, erc4626VaultAbi } from "./common";
-export type { AbiFragment, AddressByChain, AaveV3Reserve, AaveV3ReservesByChain } from "./types";
+export type {
+  AbiFragment,
+  AddressByChain,
+  AaveV3Reserve,
+  AaveV3ReservesByChain,
+  AaveV3MarketKey,
+  AaveV3Market,
+  AaveV3MarketsByChain,
+} from "./types";
 
 import { aaveV3 } from "./aave-v3";
 import { aerodrome } from "./aerodrome";
