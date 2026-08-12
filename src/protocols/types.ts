@@ -38,6 +38,13 @@ export type AddressByChain = Partial<Record<ChainId, `0x${string}`>>;
  * (Pool.getReservesList + Pool.getReserveData + ERC-20 metadata).
  */
 export interface AaveV3Reserve {
+  /**
+   * Display / lookup symbol. Usually the on-chain ERC-20 `symbol()`,
+   * except when two reserves on the same chain collide (bridged USDC.e
+   * vs native Circle USDC both report `"USDC"`) — the generator then
+   * disambiguates so a symbol lookup cannot silently pick the bridged
+   * token. Prefer `underlying` when you need the contract identity.
+   */
   readonly symbol: string;
   /** The token the user supplies/borrows (ERC-20 underlying). */
   readonly underlying: `0x${string}`;

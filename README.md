@@ -131,6 +131,8 @@ await wallet.contractWrite({
 
 The static Pool address is a cache of `PoolAddressesProvider.getPool()`. Implementation upgrades do not move the proxy, but `setPool()` theoretically can — `poolAddressesProvider` on the same market row is the on-chain escape hatch.
 
+`aaveV3.reserves[chainId]` is the Core market's supply-token list. Symbols are unique per chain. On Arbitrum and Optimism the bridged token is labeled `USDC.e` (native Circle USDC stays `USDC`) even though both contracts report `"USDC"` on-chain — otherwise `find(r => r.symbol === "USDC")` would silently return the bridged token. Prefer `underlying` when you need the contract identity.
+
 > **Caveat — `liquidationThreshold` alone doesn't fully determine collateral.** The exported bits cover only the version-stable low bits (0–167); isolation-mode / eMode live in the omitted higher bits. A freshly-supplied **isolation-mode** asset may not count as collateral at all, and eMode raises the effective threshold for correlated assets — so a top-up solver sizing a health-factor lift off `liquidationThreshold` alone can over- or under-estimate it in those cases. Also read the user's collateral flags (`getUserConfiguration` + `userConfigurationBits`) and, where isolation/eMode is in play, the market's own contracts for those bits.
 
 ### Filter on an event topic

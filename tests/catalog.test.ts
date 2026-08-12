@@ -259,6 +259,31 @@ describe("AAVE V3 catalog", () => {
     }
   });
 
+  it("reserve symbols are unique per chain (no silent first-match collisions)", () => {
+    for (const [chain, chainReserves] of Object.entries(Protocols.aaveV3.reserves)) {
+      const symbols = (chainReserves ?? []).map((reserve) => reserve.symbol);
+      expect(new Set(symbols).size, `duplicate symbol on chain ${chain}`).toBe(symbols.length);
+    }
+  });
+
+  it("disambiguates bridged USDC.e so symbol lookup returns native USDC", () => {
+    const native = {
+      [Chains.ArbitrumOne]: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      [Chains.OptimismMainnet]: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+    } as const;
+    const bridged = {
+      [Chains.ArbitrumOne]: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+      [Chains.OptimismMainnet]: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
+    } as const;
+    for (const chain of [Chains.ArbitrumOne, Chains.OptimismMainnet] as const) {
+      const listed = Protocols.aaveV3.reserves[chain] ?? [];
+      const usdc = listed.find((r) => r.symbol === "USDC");
+      const usdce = listed.find((r) => r.symbol === "USDC.e");
+      expect(usdc?.underlying.toLowerCase()).toBe(native[chain].toLowerCase());
+      expect(usdce?.underlying.toLowerCase()).toBe(bridged[chain].toLowerCase());
+    }
+  });
+
   it("every reserve carries valid underlying/aToken/variableDebtToken + decimals", () => {
     for (const chainReserves of Object.values(Protocols.aaveV3.reserves)) {
       for (const reserve of chainReserves ?? []) {
@@ -370,6 +395,9 @@ describe("Chain coverage", () => {
     // the same chain set.
     expect(Object.keys(Protocols.aaveV3.poolAddressesProvider).sort()).toEqual(poolChains);
     expect(Object.keys(Protocols.aaveV3.uiPoolDataProvider).sort()).toEqual(poolChains);
+    // Reserves must cover the same chains as Pool. A hand-maintained
+    // chain list would let a new Pool ship without a regenerate.
+    expect(Object.keys(Protocols.aaveV3.reserves).sort()).toEqual(poolChains);
     // WETH Gateway is only deployed on chains whose native gas token
     // is ETH. Chains without it (e.g. BNB Chain) still have Pool +
     // Oracle. So the invariant is "gateway ⊆ pool", not equality.
