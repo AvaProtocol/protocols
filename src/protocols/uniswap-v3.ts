@@ -21,7 +21,11 @@ const swapRouter02: AddressByChain = {
   [Chains.Sepolia]: "0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E",
   [Chains.BaseMainnet]: "0x2626664c2603336E57B271c5C0b26F421741e481",
   [Chains.BaseSepolia]: "0x94cC0AaC535CCDB3C01d6787D6413C739ae12bc4",
+  // https://developers.uniswap.org/contracts/v3/reference/deployments/optimism-deployments
+  [Chains.OptimismMainnet]: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
   [Chains.BnbMainnet]: "0xB971eF87ede563556b2ED4b1C0b0019111Dd85d2",
+  // https://developers.uniswap.org/contracts/v3/reference/deployments/arbitrum-deployments
+  [Chains.ArbitrumOne]: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
 };
 
 /** QuoterV2 — off-chain quote helper for swap previews. */
@@ -30,7 +34,9 @@ const quoterV2: AddressByChain = {
   [Chains.Sepolia]: "0xEd1f6473345F45b75F8179591dd5bA1888cf2FB3",
   [Chains.BaseMainnet]: "0x3d4e44Eb1374240CE5F1B871ab261CD16335B76a",
   [Chains.BaseSepolia]: "0xC5290058841028F1614F3A6F0F5816cAd0df5E27",
+  [Chains.OptimismMainnet]: "0x61fFE014bA17989E743c5F6cB21bF9697530B21e",
   [Chains.BnbMainnet]: "0x78D78E420Da98ad378D7799bE8f4AF69033EB077",
+  [Chains.ArbitrumOne]: "0x61fFE014bA17989E743c5F6cB21bF9697530B21e",
 };
 
 /**
@@ -42,7 +48,9 @@ const permit2: AddressByChain = {
   [Chains.Sepolia]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
   [Chains.BaseMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
   [Chains.BaseSepolia]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
+  [Chains.OptimismMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
   [Chains.BnbMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
+  [Chains.ArbitrumOne]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
 };
 
 /** Uniswap V3 Factory — derives the deterministic pool address per token-pair+fee. */
@@ -51,7 +59,9 @@ const factory: AddressByChain = {
   [Chains.Sepolia]: "0x0227628f3F023bb0B980b67D528571c95c6DaC1c",
   [Chains.BaseMainnet]: "0x33128a8fC17869897dcE68Ed026d694621f6FDfD",
   [Chains.BaseSepolia]: "0x4752ba5DBc23f44D87826276BF6Fd6b1C372aD24",
+  [Chains.OptimismMainnet]: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
   [Chains.BnbMainnet]: "0xdB1d10011AD0Ff90774D0C6Bb92e5C5c8b4461F7",
+  [Chains.ArbitrumOne]: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
 };
 
 /** NonfungiblePositionManager — LP NFT mint/burn/collect. */
@@ -60,7 +70,9 @@ const nonfungiblePositionManager: AddressByChain = {
   [Chains.Sepolia]: "0x1238536071E1c677A632429e3655c799b22cDA52",
   [Chains.BaseMainnet]: "0x03a520b32C04BF3bEEf7BEb72E919cf822Ed34f1",
   [Chains.BaseSepolia]: "0x27F971cb582BF9E50F397e4d29a5C7A34f11faA2",
+  [Chains.OptimismMainnet]: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
   [Chains.BnbMainnet]: "0x7b8A01B39D58278b5DE7e48c8449c9f4F5170613",
+  [Chains.ArbitrumOne]: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
 };
 
 /** UniversalRouter — Uniswap's multi-step routing entrypoint (Permit2-aware). */
@@ -69,7 +81,9 @@ const universalRouter: AddressByChain = {
   [Chains.Sepolia]: "0x3A9D48AB9751398BbFa63ad67599Bb04e4BdF98b",
   [Chains.BaseMainnet]: "0x6ff5693b99212da76ad316178a184ab56d299b43",
   [Chains.BaseSepolia]: "0x492e6456d9528771018deb9e87ef7750ef184104",
+  [Chains.OptimismMainnet]: "0x851116d9223fabed8e56c0e6b8ad0c31d98b3507",
   [Chains.BnbMainnet]: "0x4Dae2f939ACf50408e13d58534Ff8c2776d45265",
+  [Chains.ArbitrumOne]: "0xa51afafe0263b40edaef0df8781ea9aa03e381a3",
 };
 
 /**
@@ -200,14 +214,19 @@ const tokens = Object.freeze({
     [Chains.EthereumMainnet]: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
     [Chains.BaseMainnet]: "0x4200000000000000000000000000000000000006",
     [Chains.BaseSepolia]: "0x4200000000000000000000000000000000000006",
+    [Chains.OptimismMainnet]: "0x4200000000000000000000000000000000000006",
     [Chains.BnbMainnet]: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    [Chains.ArbitrumOne]: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
   } satisfies AddressByChain,
   USDC: {
     [Chains.Sepolia]: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
     [Chains.EthereumMainnet]: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    [Chains.OptimismMainnet]: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
     [Chains.BaseMainnet]: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
     [Chains.BaseSepolia]: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
     [Chains.BnbMainnet]: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+    // Native Circle USDC (not bridged USDC.e).
+    [Chains.ArbitrumOne]: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
   } satisfies AddressByChain,
 });
 

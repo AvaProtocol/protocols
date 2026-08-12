@@ -312,6 +312,15 @@ describe("Uniswap V3 catalog", () => {
     expect(Protocols.uniswapV3.swapRouter02[Chains.BaseMainnet]).toMatch(ADDRESS_RE);
     expect(Protocols.uniswapV3.swapRouter02[Chains.BaseSepolia]).toMatch(ADDRESS_RE);
     expect(Protocols.uniswapV3.swapRouter02[Chains.BnbMainnet]).toMatch(ADDRESS_RE);
+    expect(Protocols.uniswapV3.swapRouter02[Chains.ArbitrumOne]).toMatch(ADDRESS_RE);
+    expect(Protocols.uniswapV3.swapRouter02[Chains.OptimismMainnet]).toMatch(ADDRESS_RE);
+    // Official SwapRouter02 — same CREATE2 address on Ethereum / Arb / OP.
+    expect(Protocols.uniswapV3.swapRouter02[Chains.ArbitrumOne]).toBe(
+      "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
+    );
+    expect(Protocols.uniswapV3.swapRouter02[Chains.OptimismMainnet]).toBe(
+      "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
+    );
   });
 
   it("ships exactInputSingle in the SwapRouter02 ABI", () => {
@@ -327,7 +336,9 @@ describe("Uniswap V3 catalog", () => {
       Chains.Sepolia,
       Chains.BaseMainnet,
       Chains.BaseSepolia,
+      Chains.OptimismMainnet,
       Chains.BnbMainnet,
+      Chains.ArbitrumOne,
     ]) {
       expect(Protocols.uniswapV3.permit2[chainId]?.toLowerCase()).toBe(expected.toLowerCase());
     }
