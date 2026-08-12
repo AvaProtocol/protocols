@@ -86,13 +86,21 @@ describe("Event topic shape", () => {
   });
 });
 
+const AAVE_V3_CHAINS = [
+  Chains.EthereumMainnet,
+  Chains.Sepolia,
+  Chains.OptimismMainnet,
+  Chains.BaseMainnet,
+  Chains.BaseSepolia,
+  Chains.BnbMainnet,
+  Chains.ArbitrumOne,
+] as const;
+
 describe("AAVE V3 catalog", () => {
   it("has Pool addresses on every covered chain", () => {
-    expect(Protocols.aaveV3.pool[Chains.EthereumMainnet]).toMatch(ADDRESS_RE);
-    expect(Protocols.aaveV3.pool[Chains.Sepolia]).toMatch(ADDRESS_RE);
-    expect(Protocols.aaveV3.pool[Chains.BaseMainnet]).toMatch(ADDRESS_RE);
-    expect(Protocols.aaveV3.pool[Chains.BaseSepolia]).toMatch(ADDRESS_RE);
-    expect(Protocols.aaveV3.pool[Chains.BnbMainnet]).toMatch(ADDRESS_RE);
+    for (const chain of AAVE_V3_CHAINS) {
+      expect(Protocols.aaveV3.pool[chain]).toMatch(ADDRESS_RE);
+    }
   });
 
   it("ships the Pool method ABI with getUserAccountData + supply", () => {
@@ -113,16 +121,71 @@ describe("AAVE V3 catalog", () => {
   });
 
   it("has PoolAddressesProvider + UiPoolDataProvider on every covered chain", () => {
-    for (const chain of [
-      Chains.EthereumMainnet,
-      Chains.Sepolia,
-      Chains.BaseMainnet,
-      Chains.BaseSepolia,
-      Chains.BnbMainnet,
-    ]) {
+    for (const chain of AAVE_V3_CHAINS) {
       expect(Protocols.aaveV3.poolAddressesProvider[chain]).toMatch(ADDRESS_RE);
       expect(Protocols.aaveV3.uiPoolDataProvider[chain]).toMatch(ADDRESS_RE);
     }
+  });
+
+  it("enumerates every Pool on a chain via markets, with core matching pool[]", () => {
+    for (const chain of AAVE_V3_CHAINS) {
+      const listed = Protocols.aaveV3.markets[chain] ?? [];
+      expect(listed.length).toBeGreaterThan(0);
+      const keys = listed.map((m) => m.key);
+      expect(new Set(keys).size).toBe(keys.length);
+      expect(keys[0]).toBe("core");
+
+      const core = listed[0];
+      expect(core.pool).toBe(Protocols.aaveV3.pool[chain]);
+      expect(core.poolAddressesProvider).toBe(Protocols.aaveV3.poolAddressesProvider[chain]);
+
+      for (const market of listed) {
+        expect(market.pool).toMatch(ADDRESS_RE);
+        expect(market.poolAddressesProvider).toMatch(ADDRESS_RE);
+      }
+    }
+
+    expect(Object.keys(Protocols.aaveV3.markets).sort()).toEqual(
+      Object.keys(Protocols.aaveV3.pool).sort(),
+    );
+  });
+
+  it("lists Ethereum Core + EtherFi + Lido + Horizon markets", () => {
+    const eth = Protocols.aaveV3.markets[Chains.EthereumMainnet] ?? [];
+    expect(eth.map((m) => m.key)).toEqual(["core", "etherFi", "lido", "horizon"]);
+    // Official address-book Pools — independently confirmed, not inherited
+    // from Studio's seed. Core stays equal to the existing pool[1].
+    expect(eth[0]?.pool).toBe("0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2");
+    expect(eth[1]?.pool).toBe("0x0AA97c284e98396202b6A04024F5E2c65026F3c0");
+    expect(eth[2]?.pool).toBe("0x4e033931ad43597d96D6bcc25c280717730B58B1");
+    expect(eth[3]?.pool).toBe("0xAe05Cd22df81871bc7cC2a04BeCfb516bFe332C8");
+    expect(eth[1]?.poolAddressesProvider).toBe("0xeBa440B438Ad808101d1c451C1C5322c90BEFCdA");
+    expect(eth[2]?.poolAddressesProvider).toBe("0xcfBf336fe147D643B9Cb705648500e101504B16d");
+    expect(eth[3]?.poolAddressesProvider).toBe("0x5D39E06b825C1F2B80bf2756a73e28eFAA128ba0");
+  });
+
+  it("ships Core reserves on Arbitrum and Optimism (not just a Pool)", () => {
+    const arb = Protocols.aaveV3.reserves[Chains.ArbitrumOne] ?? [];
+    const op = Protocols.aaveV3.reserves[Chains.OptimismMainnet] ?? [];
+    // Chain-native symbols guard against mixing the two catalogs —
+    // they share a CREATE2 Pool address.
+    expect(arb.find((r) => r.symbol === "ARB")).toBeDefined();
+    expect(op.find((r) => r.symbol === "OP")).toBeDefined();
+    expect(arb.find((r) => r.symbol === "WETH")).toBeDefined();
+    expect(op.find((r) => r.symbol === "WETH")).toBeDefined();
+  });
+
+  it("ships Arbitrum + Optimism Core Pools (CREATE2-shared address)", () => {
+    const shared = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
+    expect(Protocols.aaveV3.pool[Chains.ArbitrumOne]).toBe(shared);
+    expect(Protocols.aaveV3.pool[Chains.OptimismMainnet]).toBe(shared);
+    // Same CREATE2 PoolAddressesProvider on both L2s; oracles differ.
+    expect(Protocols.aaveV3.poolAddressesProvider[Chains.ArbitrumOne]).toBe(
+      Protocols.aaveV3.poolAddressesProvider[Chains.OptimismMainnet],
+    );
+    expect(Protocols.aaveV3.oracle[Chains.ArbitrumOne]).not.toBe(
+      Protocols.aaveV3.oracle[Chains.OptimismMainnet],
+    );
   });
 
   it("decodes a ReserveConfigurationMap bitmap via reserveConfigurationBits", () => {
@@ -191,14 +254,33 @@ describe("AAVE V3 catalog", () => {
 
   it("ships a non-empty reserve list on every covered chain", () => {
     const { reserves } = Protocols.aaveV3;
-    for (const chain of [
-      Chains.EthereumMainnet,
-      Chains.Sepolia,
-      Chains.BaseMainnet,
-      Chains.BaseSepolia,
-      Chains.BnbMainnet,
-    ]) {
+    for (const chain of AAVE_V3_CHAINS) {
       expect((reserves[chain] ?? []).length).toBeGreaterThan(0);
+    }
+  });
+
+  it("reserve symbols are unique per chain (no silent first-match collisions)", () => {
+    for (const [chain, chainReserves] of Object.entries(Protocols.aaveV3.reserves)) {
+      const symbols = (chainReserves ?? []).map((reserve) => reserve.symbol);
+      expect(new Set(symbols).size, `duplicate symbol on chain ${chain}`).toBe(symbols.length);
+    }
+  });
+
+  it("disambiguates bridged USDC.e so symbol lookup returns native USDC", () => {
+    const native = {
+      [Chains.ArbitrumOne]: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+      [Chains.OptimismMainnet]: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+    } as const;
+    const bridged = {
+      [Chains.ArbitrumOne]: "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8",
+      [Chains.OptimismMainnet]: "0x7F5c764cBc14f9669B88837ca1490cCa17c31607",
+    } as const;
+    for (const chain of [Chains.ArbitrumOne, Chains.OptimismMainnet] as const) {
+      const listed = Protocols.aaveV3.reserves[chain] ?? [];
+      const usdc = listed.find((r) => r.symbol === "USDC");
+      const usdce = listed.find((r) => r.symbol === "USDC.e");
+      expect(usdc?.underlying.toLowerCase()).toBe(native[chain].toLowerCase());
+      expect(usdce?.underlying.toLowerCase()).toBe(bridged[chain].toLowerCase());
     }
   });
 
@@ -313,6 +395,9 @@ describe("Chain coverage", () => {
     // the same chain set.
     expect(Object.keys(Protocols.aaveV3.poolAddressesProvider).sort()).toEqual(poolChains);
     expect(Object.keys(Protocols.aaveV3.uiPoolDataProvider).sort()).toEqual(poolChains);
+    // Reserves must cover the same chains as Pool. A hand-maintained
+    // chain list would let a new Pool ship without a regenerate.
+    expect(Object.keys(Protocols.aaveV3.reserves).sort()).toEqual(poolChains);
     // WETH Gateway is only deployed on chains whose native gas token
     // is ETH. Chains without it (e.g. BNB Chain) still have Pool +
     // Oracle. So the invariant is "gateway ⊆ pool", not equality.

@@ -1,5 +1,6 @@
 // AAVE V3 — Pool / Oracle / WETH Gateway / PoolAddressesProvider /
-// UiPoolDataProvider addresses per supported chain, the Pool ABI
+// UiPoolDataProvider addresses per supported chain, the per-chain
+// `markets` list (Ethereum hosts four distinct Pools), the Pool ABI
 // fragments (events + the read/write methods callers actually touch,
 // including the per-reserve / per-user config reads), the
 // ReserveConfigurationMap / UserConfigurationMap bit layouts, and
@@ -8,27 +9,44 @@
 // Pool is the single entry point templates target (supply, borrow,
 // repay, withdraw, getUserAccountData, setUserUseReserveAsCollateral)
 // and the contract whose events templates filter on (`Supply`,
-// `Borrow`, etc.).
+// `Borrow`, etc.). `aaveV3.pool[chainId]` is the canonical / Core
+// market; `aaveV3.markets[chainId]` enumerates every Pool on that
+// chain (EtherFi / Lido / Horizon on Ethereum).
 //
 // Address source: AAVE V3 deployment registries
-// (https://github.com/bgd-labs/aave-address-book). When AAVE
-// redeploys on a new chain, mirror the canonical address book.
+// (https://github.com/aave-dao/aave-address-book). When AAVE
+// redeploys on a new chain or adds a market, mirror the canonical
+// address book.
 
 import { Chains } from "../chains";
-import { type AbiFragment, type AddressByChain } from "./types";
+import { type AbiFragment, type AddressByChain, type AaveV3Market } from "./types";
 import { aaveV3Reserves } from "./aave-v3-reserves";
 
 /**
- * AAVE V3 Pool addresses per chain. The Pool is the single entry point
- * for supply / borrow / repay / withdraw / liquidationCall and is the
- * contract whose events templates filter on (`Supply`, `Borrow`, etc.).
+ * AAVE V3 Pool addresses per chain — the **canonical / Core** market
+ * only. The Pool is the single entry point for supply / borrow / repay
+ * / withdraw / liquidationCall and is the contract whose events
+ * templates filter on (`Supply`, `Borrow`, etc.).
+ *
+ * Ethereum also hosts EtherFi / Lido / Horizon markets with their own
+ * Pools; those live on `markets[1]`, not here. `pool[chainId]` is
+ * kept as the Core address so existing consumers do not break.
+ *
+ * This map is a deliberate cache of `PoolAddressesProvider.getPool()`,
+ * not an assumption that the address is immutable. The Pool is a
+ * proxy, so implementation upgrades do not move it — but
+ * `PoolAddressesProvider.setPool()` can. If a Pool address ever
+ * drifts, `poolAddressesProvider` (and the matching field on each
+ * `markets[]` row) is the on-chain escape hatch.
  */
 const pool: AddressByChain = {
   [Chains.EthereumMainnet]: "0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2",
   [Chains.Sepolia]: "0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951",
+  [Chains.OptimismMainnet]: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
   [Chains.BaseMainnet]: "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
   [Chains.BaseSepolia]: "0x8bAB6d1b75f19e9eD9fCe8b9BD338844fF79aE27",
   [Chains.BnbMainnet]: "0x6807dc923806fE8Fd134338EABCA509979a7e0cB",
+  [Chains.ArbitrumOne]: "0x794a61358D6845594F94dc1DB02A252b5b4814aD",
 };
 
 /**
@@ -39,9 +57,11 @@ const pool: AddressByChain = {
 const oracle: AddressByChain = {
   [Chains.EthereumMainnet]: "0x54586bE62E3c3580375aE3723C145253060Ca0C2",
   [Chains.Sepolia]: "0x2da88497588bf89281816106C7259e31AF45a663",
+  [Chains.OptimismMainnet]: "0xD81eb3728a631871a7eBBaD631b5f424909f0c77",
   [Chains.BaseMainnet]: "0x2Cc0Fc26eD4563A5ce5e8bdcfe1A2878676Ae156",
   [Chains.BaseSepolia]: "0x943b0dE18d4abf4eF02A85912F8fc07684C141dF",
   [Chains.BnbMainnet]: "0x39bc1bfDa2130d6Bb6DBEfd366939b4c7aa7C697",
+  [Chains.ArbitrumOne]: "0xb56c2F0B653B2e0b10C9b928C8580Ac5Df02C7C7",
 };
 
 /**
@@ -56,8 +76,10 @@ const oracle: AddressByChain = {
 const wethGateway: AddressByChain = {
   [Chains.EthereumMainnet]: "0xd01607c3C5eCABa394D8be377a08590149325722",
   [Chains.Sepolia]: "0x387d311e47e80b498169e6fb51d3193167d89F7D",
+  [Chains.OptimismMainnet]: "0x5f2508cAE9923b02316254026CD43d7902866725",
   [Chains.BaseMainnet]: "0xa0d9C1E9E48Ca30c8d8C3B5D69FF5dc1f6DFfC24",
   [Chains.BaseSepolia]: "0x0568130e794429D2eEBC4dafE18f25Ff1a1ed8b6",
+  [Chains.ArbitrumOne]: "0x5283BEcEd7ADF6D003225C13896E536f2D4264FF",
 };
 
 /**
@@ -71,9 +93,11 @@ const wethGateway: AddressByChain = {
 const poolAddressesProvider: AddressByChain = {
   [Chains.EthereumMainnet]: "0x2f39d218133AFaB8F2B819B1066c7E434Ad94E9e",
   [Chains.Sepolia]: "0x012bAC54348C0E635dCAc9D5FB99f06F24136C9A",
+  [Chains.OptimismMainnet]: "0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb",
   [Chains.BaseMainnet]: "0xe20fCBdBfFC4Dd138cE8b2E6FBb6CB49777ad64D",
   [Chains.BaseSepolia]: "0xE4C23309117Aa30342BFaae6c95c6478e0A4Ad00",
   [Chains.BnbMainnet]: "0xff75B6da14FfbbfD355Daf7a2731456b3562Ba6D",
+  [Chains.ArbitrumOne]: "0xa97684ead0e402dC232d5A977953DF7ECBaB3CDb",
 };
 
 /**
@@ -100,9 +124,11 @@ const poolAddressesProvider: AddressByChain = {
 const uiPoolDataProvider: AddressByChain = {
   [Chains.EthereumMainnet]: "0x2dAd8162A989cd99D673dE4425Bb2298Db1E1aA2",
   [Chains.Sepolia]: "0x69529987FA4A075D0C00B0128fa848dc9ebbE9CE",
+  [Chains.OptimismMainnet]: "0x68100bD5345eA474D93577127C11F39FF8463e93",
   [Chains.BaseMainnet]: "0x0C6BC4a12039788be08F87e87Cff87FEDbd1D386",
   [Chains.BaseSepolia]: "0x3cB7B00B6C09B71998124196691e8bF2694De863",
   [Chains.BnbMainnet]: "0x68100bD5345eA474D93577127C11F39FF8463e93",
+  [Chains.ArbitrumOne]: "0x91E04cf78e53aEBe609e8a7f2003e7EECD743F2B",
 };
 
 /**
@@ -447,8 +473,65 @@ const tokens = Object.freeze({
  * `underlying` is what users supply; `aToken` is the receipt they get).
  * Generated from chain — see `scripts/generate-aave-reserves.ts` /
  * `aave-v3-reserves.ts`.
+ *
+ * Core market only, including Arbitrum and Optimism. Non-Core Ethereum
+ * markets (EtherFi / Lido / Horizon) list different reserves; scoping
+ * those is a separate issue.
  */
 const reserves = aaveV3Reserves;
+
+/**
+ * Core row for `markets[chainId]`. Reads the existing per-chain maps
+ * so the three stay in lockstep. Missing entries stay `undefined`
+ * rather than throwing at import — a catalog inconsistency is a test
+ * failure (`core.pool === pool[chain]`), not a package-load crash
+ * for every consumer.
+ */
+function coreMarket(chainId: number): AaveV3Market {
+  return Object.freeze({
+    key: "core",
+    pool: pool[chainId] as `0x${string}`,
+    poolAddressesProvider: poolAddressesProvider[chainId] as `0x${string}`,
+  });
+}
+
+/**
+ * Every AAVE V3 market on each covered chain. `pool[chainId]` /
+ * `poolAddressesProvider[chainId]` always match the `core` row.
+ * Ethereum lists four markets (Core, EtherFi, Lido, Horizon); every
+ * other chain is a single `core` market.
+ *
+ * Address source: `@aave-dao/aave-address-book` modules
+ * `AaveV3Ethereum`, `AaveV3EthereumEtherFi`, `AaveV3EthereumLido`,
+ * `AaveV3EthereumHorizon`, `AaveV3Arbitrum`, `AaveV3Optimism`,
+ * `AaveV3Base`, `AaveV3BNB`, `AaveV3Sepolia`, `AaveV3BaseSepolia`.
+ */
+const markets = Object.freeze({
+  [Chains.EthereumMainnet]: Object.freeze([
+    coreMarket(Chains.EthereumMainnet),
+    Object.freeze({
+      key: "etherFi",
+      pool: "0x0AA97c284e98396202b6A04024F5E2c65026F3c0",
+      poolAddressesProvider: "0xeBa440B438Ad808101d1c451C1C5322c90BEFCdA",
+    } satisfies AaveV3Market),
+    Object.freeze({
+      key: "lido",
+      pool: "0x4e033931ad43597d96D6bcc25c280717730B58B1",
+      poolAddressesProvider: "0xcfBf336fe147D643B9Cb705648500e101504B16d",
+    } satisfies AaveV3Market),
+    Object.freeze({
+      key: "horizon",
+      pool: "0xAe05Cd22df81871bc7cC2a04BeCfb516bFe332C8",
+      poolAddressesProvider: "0x5D39E06b825C1F2B80bf2756a73e28eFAA128ba0",
+    } satisfies AaveV3Market),
+  ]),
+  [Chains.Sepolia]: Object.freeze([coreMarket(Chains.Sepolia)]),
+  [Chains.OptimismMainnet]: Object.freeze([coreMarket(Chains.OptimismMainnet)]),
+  [Chains.BaseMainnet]: Object.freeze([coreMarket(Chains.BaseMainnet)]),
+  [Chains.BaseSepolia]: Object.freeze([coreMarket(Chains.BaseSepolia)]),
+  [Chains.BnbMainnet]: Object.freeze([coreMarket(Chains.BnbMainnet)]),
+  [Chains.ArbitrumOne]: Object.freeze([coreMarket(Chains.ArbitrumOne)]),
+});
 
 export const aaveV3 = Object.freeze({
   pool,
@@ -456,6 +539,7 @@ export const aaveV3 = Object.freeze({
   wethGateway,
   poolAddressesProvider,
   uiPoolDataProvider,
+  markets,
   eventTopics,
   poolEventsAbi,
   poolMethodsAbi,

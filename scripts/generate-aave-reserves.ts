@@ -28,8 +28,10 @@ import { aaveV3 } from "../src/protocols/aave-v3";
 // private endpoint via env if a public one rate-limits during a refresh.
 const RPC_URLS: Readonly<Record<number, string>> = Object.freeze({
   [Chains.EthereumMainnet]: process.env.RPC_MAINNET ?? "https://ethereum-rpc.publicnode.com",
+  [Chains.OptimismMainnet]: process.env.RPC_OPTIMISM ?? "https://optimism-rpc.publicnode.com",
   [Chains.BaseMainnet]: process.env.RPC_BASE ?? "https://base-rpc.publicnode.com",
   [Chains.BnbMainnet]: process.env.RPC_BNB ?? "https://bsc-rpc.publicnode.com",
+  [Chains.ArbitrumOne]: process.env.RPC_ARBITRUM ?? "https://arbitrum-one-rpc.publicnode.com",
   [Chains.Sepolia]: process.env.RPC_SEPOLIA ?? "https://ethereum-sepolia-rpc.publicnode.com",
   [Chains.BaseSepolia]: process.env.RPC_BASE_SEPOLIA ?? "https://base-sepolia-rpc.publicnode.com",
 });
@@ -37,8 +39,10 @@ const RPC_URLS: Readonly<Record<number, string>> = Object.freeze({
 // Emit `Chains.X` keys (not magic numbers) to match the catalog's convention.
 const CHAIN_CONST_NAME: Readonly<Record<number, string>> = Object.freeze({
   [Chains.EthereumMainnet]: "EthereumMainnet",
+  [Chains.OptimismMainnet]: "OptimismMainnet",
   [Chains.BaseMainnet]: "BaseMainnet",
   [Chains.BnbMainnet]: "BnbMainnet",
+  [Chains.ArbitrumOne]: "ArbitrumOne",
   [Chains.Sepolia]: "Sepolia",
   [Chains.BaseSepolia]: "BaseSepolia",
 });
@@ -58,6 +62,26 @@ const POOL_ABI = [
 
 const ERC20_STRING_ABI = ["function symbol() view returns (string)", "function decimals() view returns (uint8)"];
 const ERC20_BYTES32_ABI = ["function symbol() view returns (bytes32)"];
+
+/**
+ * Bridged USDC.e — on-chain `symbol()` is still `"USDC"`, same as native
+ * Circle USDC. Rename so a symbol lookup (`find(r => r.symbol === "USDC")`)
+ * cannot silently resolve to the bridged token on chains that list both.
+ * Addresses are the well-known Circle USDC.e deployments and do not move.
+ */
+const BRIDGED_USDC_E = new Set(
+  [
+    "0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8", // Arbitrum One
+    "0x7F5c764cBc14f9669B88837ca1490cCa17c31607", // Optimism
+  ].map((address) => address.toLowerCase()),
+);
+
+function disambiguateSymbol(row: ReserveRow): ReserveRow {
+  if (row.symbol === "USDC" && BRIDGED_USDC_E.has(row.underlying.toLowerCase())) {
+    return { ...row, symbol: "USDC.e" };
+  }
+  return row;
+}
 
 interface ReserveRow {
   symbol: string;
@@ -127,6 +151,7 @@ async function fetchChainReserves(chainId: number, poolAddress: string): Promise
 
   return rows
     .filter((row): row is ReserveRow => row !== null)
+    .map(disambiguateSymbol)
     .sort((a, b) => a.symbol.localeCompare(b.symbol));
 }
 

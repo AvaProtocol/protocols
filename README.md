@@ -23,7 +23,7 @@ const sig  = Protocols.aaveV3.eventTopics.Borrow;
 
 | Protocol | Contracts | Chains |
 |---|---|---|
-| **AAVE V3** | Pool, Oracle, WETH Gateway, PoolAddressesProvider, UiPoolDataProvider + Pool methods/events ABI (incl. config reads) + reserve/user config bit layouts + topics | Mainnet, Sepolia, Base, Base Sepolia, **BNB** (no WETH Gateway on BNB) |
+| **AAVE V3** | Pool, Oracle, WETH Gateway, PoolAddressesProvider, UiPoolDataProvider + `markets` (Ethereum Core/EtherFi/Lido/Horizon) + Pool methods/events ABI (incl. config reads) + reserve/user config bit layouts + topics | Mainnet, Sepolia, **Optimism**, Base, Base Sepolia, **BNB**, **Arbitrum** (no WETH Gateway on BNB) |
 | **Aerodrome** | Router | Base |
 | **Chainlink** | ETH/USD + BTC/USD + BNB/USD feeds + AggregatorV3 ABI | Mainnet, Sepolia, **BNB** (BNB/USD is BNB-only) |
 | **Compound V3** | USDC Comet market | Mainnet, Base |
@@ -109,7 +109,29 @@ const liqThresholdBps = Number(field(liquidationThreshold));
 const tokenDecimals = Number(field(decimals));
 ```
 
-For a whole-market sweep in one round-trip, use `Protocols.aaveV3.uiPoolDataProvider[chainId]` with `PoolAddressesProvider` — note the SDK ships the **addresses** but not the periphery return-struct ABI, which is version-specific per chain; pair it with a version-aware ABI (e.g. `@bgd-labs/aave-address-book`). `Protocols.aaveV3.poolMethodsAbi` carries the version-stable `getConfiguration` / `getUserConfiguration` / `getReserveData` reads for the per-asset path on any chain.
+For a whole-market sweep in one round-trip, use `Protocols.aaveV3.uiPoolDataProvider[chainId]` with `PoolAddressesProvider` — note the SDK ships the **addresses** but not the periphery return-struct ABI, which is version-specific per chain; pair it with a version-aware ABI (e.g. `@aave-dao/aave-address-book`). `Protocols.aaveV3.poolMethodsAbi` carries the version-stable `getConfiguration` / `getUserConfiguration` / `getReserveData` reads for the per-asset path on any chain.
+
+### Pick an AAVE V3 Pool (including non-Core markets)
+
+`aaveV3.pool[chainId]` is the canonical / Core market so existing callers stay unchanged. Ethereum also hosts EtherFi, Lido, and Horizon — each with its own Pool. Enumerate every Pool on a chain via `aaveV3.markets`:
+
+```ts
+import { Protocols, Chains } from "@avaprotocol/protocols";
+
+const ethMarkets = Protocols.aaveV3.markets[Chains.EthereumMainnet] ?? [];
+// core, etherFi, lido, horizon — each { key, pool, poolAddressesProvider }
+
+const lido = ethMarkets.find((m) => m.key === "lido");
+await wallet.contractWrite({
+  contractAddress: lido!.pool,
+  contractAbi: Protocols.aaveV3.poolMethodsAbi,
+  methodCalls: [{ methodName: "supply", methodParams: [/* … */] }],
+});
+```
+
+The static Pool address is a cache of `PoolAddressesProvider.getPool()`. Implementation upgrades do not move the proxy, but `setPool()` theoretically can — `poolAddressesProvider` on the same market row is the on-chain escape hatch.
+
+`aaveV3.reserves[chainId]` is the Core market's supply-token list. Symbols are unique per chain. On Arbitrum and Optimism the bridged token is labeled `USDC.e` (native Circle USDC stays `USDC`) even though both contracts report `"USDC"` on-chain — otherwise `find(r => r.symbol === "USDC")` would silently return the bridged token. Prefer `underlying` when you need the contract identity.
 
 > **Caveat — `liquidationThreshold` alone doesn't fully determine collateral.** The exported bits cover only the version-stable low bits (0–167); isolation-mode / eMode live in the omitted higher bits. A freshly-supplied **isolation-mode** asset may not count as collateral at all, and eMode raises the effective threshold for correlated assets — so a top-up solver sizing a health-factor lift off `liquidationThreshold` alone can over- or under-estimate it in those cases. Also read the user's collateral flags (`getUserConfiguration` + `userConfigurationBits`) and, where isolation/eMode is in play, the market's own contracts for those bits.
 
@@ -136,8 +158,8 @@ For consumers that need to *recognize* an address rather than look it up by name
 import { Protocols, Chains } from "@avaprotocol/protocols";
 
 function isAaveV3Pool(chainId: number, address: string): boolean {
-  const expected = Protocols.aaveV3.pool[chainId];
-  return !!expected && expected.toLowerCase() === address.toLowerCase();
+  const listed = Protocols.aaveV3.markets[chainId] ?? [];
+  return listed.some((m) => m.pool.toLowerCase() === address.toLowerCase());
 }
 ```
 
