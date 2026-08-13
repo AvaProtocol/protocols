@@ -321,6 +321,18 @@ describe("Uniswap V3 catalog", () => {
     expect(Protocols.uniswapV3.swapRouter02[Chains.OptimismMainnet]).toBe(
       "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
     );
+    expect(Protocols.uniswapV3.swapRouter02[Chains.UnichainMainnet]).toBe(
+      "0x73855d06DE49d0fe4A9c42636Ba96c62da12FF9C",
+    );
+    expect(Protocols.uniswapV3.factory[Chains.UnichainMainnet]).toBe(
+      "0x1F98400000000000000000000000000000000003",
+    );
+    expect(Protocols.uniswapV3.tokens.USDC[Chains.UnichainMainnet]).toBe(
+      "0x078D782b760474a361dDA0AF3839290b0EF57AD6",
+    );
+    expect(Protocols.wrapped.weth[Chains.UnichainMainnet]).toBe(
+      "0x4200000000000000000000000000000000000006",
+    );
   });
 
   it("ships exactInputSingle in the SwapRouter02 ABI", () => {
@@ -339,6 +351,7 @@ describe("Uniswap V3 catalog", () => {
       Chains.OptimismMainnet,
       Chains.BnbMainnet,
       Chains.ArbitrumOne,
+      Chains.UnichainMainnet,
     ]) {
       expect(Protocols.uniswapV3.permit2[chainId]?.toLowerCase()).toBe(expected.toLowerCase());
     }
