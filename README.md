@@ -35,8 +35,8 @@ const sig  = Protocols.aaveV3.eventTopics.Borrow;
 | **Sky (sDAI)** | sDAI vault + standard ERC-4626 ABI | Mainnet |
 | **Spark** | SparkLend Pool (AAVE V3 fork — reuse AAVE Pool ABI) | Mainnet |
 | **Superfluid** | CFAv1Forwarder + setFlowrate/createFlow ABI | Mainnet, Base, **BNB** |
-| **Uniswap V3** | SwapRouter02, QuoterV2, Permit2, Factory, NFT Position Manager, Universal Router + ABIs | Mainnet, Sepolia, **Optimism**, Base, Base Sepolia, **BNB**, **Arbitrum**, **Unichain** |
-| **Wrapped Ether** | Canonical wrapper of native gas + WETH9 ABI (WBNB on BNB) | Mainnet, Sepolia, **Optimism**, Base, Base Sepolia, **BNB**, **Arbitrum**, **Unichain** |
+| **Uniswap V3** | SwapRouter02, QuoterV2, Permit2, Factory, NFT Position Manager, Universal Router + ABIs | Mainnet, Sepolia, **Optimism**, Base, Base Sepolia, **BNB**, **Arbitrum**, **Unichain**, **Robinhood** |
+| **Wrapped Ether** | Canonical wrapper of native gas + WETH9 ABI (WBNB on BNB) | Mainnet, Sepolia, **Optimism**, Base, Base Sepolia, **BNB**, **Arbitrum**, **Unichain**, **Robinhood** |
 | **ERC-20** | Standard `approve` ABI fragment | n/a |
 
 Shared ABIs (consumed by multiple protocol modules):

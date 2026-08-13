@@ -28,6 +28,8 @@ const swapRouter02: AddressByChain = {
   [Chains.ArbitrumOne]: "0x68b3465833fb72A70ecDF485E0e4C7bD8665Fc45",
   // https://developers.uniswap.org/docs/protocols/v3/deployments/v3-unichain-deployments
   [Chains.UnichainMainnet]: "0x73855d06DE49d0fe4A9c42636Ba96c62da12FF9C",
+  // https://developers.uniswap.org/docs/protocols/v3/deployments/v3-robinhood-chain-deployments
+  [Chains.RobinhoodMainnet]: "0xCaf681a66D020601342297493863E78C959E5cb2",
 };
 
 /** QuoterV2 — off-chain quote helper for swap previews. */
@@ -40,6 +42,7 @@ const quoterV2: AddressByChain = {
   [Chains.BnbMainnet]: "0x78D78E420Da98ad378D7799bE8f4AF69033EB077",
   [Chains.ArbitrumOne]: "0x61fFE014bA17989E743c5F6cB21bF9697530B21e",
   [Chains.UnichainMainnet]: "0x385A5cf5F83e99f7BB2852b6A19C3538b9FA7658",
+  [Chains.RobinhoodMainnet]: "0x33e885eD0Ec9bF04EcfB19341582aADCb4c8A9E7",
 };
 
 /**
@@ -55,6 +58,7 @@ const permit2: AddressByChain = {
   [Chains.BnbMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
   [Chains.ArbitrumOne]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
   [Chains.UnichainMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
+  [Chains.RobinhoodMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
 };
 
 /** Uniswap V3 Factory — derives the deterministic pool address per token-pair+fee. */
@@ -67,6 +71,7 @@ const factory: AddressByChain = {
   [Chains.BnbMainnet]: "0xdB1d10011AD0Ff90774D0C6Bb92e5C5c8b4461F7",
   [Chains.ArbitrumOne]: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
   [Chains.UnichainMainnet]: "0x1F98400000000000000000000000000000000003",
+  [Chains.RobinhoodMainnet]: "0x1f7d7550B1b028f7571E69A784071F0205FD2EfA",
 };
 
 /** NonfungiblePositionManager — LP NFT mint/burn/collect. */
@@ -79,6 +84,7 @@ const nonfungiblePositionManager: AddressByChain = {
   [Chains.BnbMainnet]: "0x7b8A01B39D58278b5DE7e48c8449c9f4F5170613",
   [Chains.ArbitrumOne]: "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
   [Chains.UnichainMainnet]: "0x943e6e07a7E8E791dAFC44083e54041D743C46E9",
+  [Chains.RobinhoodMainnet]: "0x73991a25C818Bf1f1128dEAaB1492D45638DE0D3",
 };
 
 /** UniversalRouter — Uniswap's multi-step routing entrypoint (Permit2-aware). */
@@ -91,6 +97,7 @@ const universalRouter: AddressByChain = {
   [Chains.BnbMainnet]: "0x4Dae2f939ACf50408e13d58534Ff8c2776d45265",
   [Chains.ArbitrumOne]: "0xa51afafe0263b40edaef0df8781ea9aa03e381a3",
   [Chains.UnichainMainnet]: "0xe6039aE5B44f90d56c6B029354Fb22999861A9A0",
+  [Chains.RobinhoodMainnet]: "0x8876789976decbfcbbbe364623c63652db8c0904",
 };
 
 /**
@@ -225,6 +232,8 @@ const tokens = Object.freeze({
     [Chains.BnbMainnet]: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
     [Chains.ArbitrumOne]: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
     [Chains.UnichainMainnet]: "0x4200000000000000000000000000000000000006",
+    // https://docs.robinhood.com/chain/contracts/
+    [Chains.RobinhoodMainnet]: "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73",
   } satisfies AddressByChain,
   USDC: {
     [Chains.Sepolia]: "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",

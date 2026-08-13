@@ -25,6 +25,8 @@ const weth: AddressByChain = {
   [Chains.BnbMainnet]: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
   [Chains.ArbitrumOne]: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
   [Chains.UnichainMainnet]: "0x4200000000000000000000000000000000000006",
+  // https://docs.robinhood.com/chain/contracts/
+  [Chains.RobinhoodMainnet]: "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73",
 };
 
 /**
