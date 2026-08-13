@@ -1,5 +1,11 @@
 # @avaprotocol/protocols
 
+## 0.12.0
+
+### Minor Changes
+
+- ce25af5: Add Robinhood Chain (4663) Uniswap V3 (SwapRouter02 / QuoterV2 / Factory / NFT Position Manager / Permit2 / Universal Router) plus `wrapped.weth`. Addresses from the official Uniswap Robinhood deployment page and Robinhood token-contracts docs. No AAVE; no Circle USDC (the chain's day-one stable is USDG).
+
 ## 0.11.0
 
 ### Minor Changes
