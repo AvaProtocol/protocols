@@ -1,5 +1,11 @@
 # @avaprotocol/protocols
 
+## 0.11.0
+
+### Minor Changes
+
+- 70c52bf: Add Unichain (130) Uniswap V3 (SwapRouter02 / QuoterV2 / Factory / NFT Position Manager / Permit2 / Universal Router) plus `wrapped.weth` and native Circle USDC. Addresses from the official Uniswap Unichain deployment page and Circle USDC docs.
+
 ## 0.10.0
 
 ### Minor Changes
