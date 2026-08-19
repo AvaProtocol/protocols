@@ -203,8 +203,7 @@ dist/tokens/
 ├── sepolia.json        (chain 11155111)
 ├── base.json           (chain 8453)
 ├── base-sepolia.json   (chain 84532)
-├── bnb-mainnet.json    (chain 56)
-└── holesky.json        (chain 17000)
+└── bnb-mainnet.json    (chain 56)
 ```
 
 Each file is a stable-sorted array of `{ id, name, symbol, decimals }` entries — the same schema the EigenLayer-AVS Go aggregator already consumes under `token_whitelist/*.json`, so a Go service can pick up the catalog without depending on the TS toolchain. `id` is the lowercased address (matching Go's read-side normalization). Metadata fields TS consumers use (`description`, `website`, `logoUrl`, `links`) are intentionally omitted; TS callers import the `Tokens` namespace from source instead.

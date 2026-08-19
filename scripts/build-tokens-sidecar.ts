@@ -19,7 +19,6 @@
  *   dist/tokens/base.json           — chain 8453
  *   dist/tokens/base-sepolia.json   — chain 84532
  *   dist/tokens/bnb-mainnet.json    — chain 56
- *   dist/tokens/holesky.json        — chain 17000
  *
  * File naming matches the convention EigenLayer-AVS already uses for
  * its checked-in whitelists so the migration path is a one-line
@@ -45,7 +44,6 @@ const CHAIN_FILE_NAMES: Readonly<Record<number, string>> = Object.freeze({
   [Chains.BaseMainnet]: "base",
   [Chains.BaseSepolia]: "base-sepolia",
   [Chains.BnbMainnet]: "bnb-mainnet",
-  [Chains.Holesky]: "holesky",
 });
 
 function buildSidecar(): Record<number, SidecarEntry[]> {
