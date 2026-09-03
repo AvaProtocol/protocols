@@ -3,7 +3,8 @@
 // Sepolia) this is the WETH9 (or OP-stack predeploy at 0x4200…0006)
 // contract. On chains with a different native gas token, the field
 // maps to the equivalent canonical wrapper — e.g. **WBNB** on BNB
-// Chain. The field name stays `weth` so chain-agnostic consumers can
+// Chain, **WPOL** on Polygon, **WHYPE** on Hyperliquid EVM. The field
+// name stays `weth` so chain-agnostic consumers can
 // write `Protocols.wrapped.weth[chainId]` without branching by chain.
 //
 // The bridged-from-Ethereum WETH on BNB
@@ -27,6 +28,12 @@ const weth: AddressByChain = {
   [Chains.UnichainMainnet]: "0x4200000000000000000000000000000000000006",
   // https://docs.robinhood.com/chain/contracts/
   [Chains.RobinhoodMainnet]: "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73",
+  // Polygon PoS native is POL. Canonical wrapper is the former WMATIC
+  // contract, now WPOL: https://polygonscan.com/token/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270
+  [Chains.PolygonMainnet]: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+  // HyperEVM native is HYPE. Canonical WHYPE system contract:
+  // https://www.hyperscan.com/token/0x5555555555555555555555555555555555555555
+  [Chains.HyperliquidMainnet]: "0x5555555555555555555555555555555555555555",
 };
 
 /**
