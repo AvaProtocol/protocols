@@ -342,6 +342,14 @@ describe("Uniswap V3 catalog", () => {
     expect(Protocols.wrapped.weth[Chains.RobinhoodMainnet]).toBe(
       "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73",
     );
+    // Polygon WPOL (legacy WMATIC) / HyperEVM WHYPE — native wrappers,
+    // not bridged ETH. Field name stays `weth` for chain-agnostic callers.
+    expect(Protocols.wrapped.weth[Chains.PolygonMainnet]).toBe(
+      "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
+    );
+    expect(Protocols.wrapped.weth[Chains.HyperliquidMainnet]).toBe(
+      "0x5555555555555555555555555555555555555555",
+    );
   });
 
   it("ships exactInputSingle in the SwapRouter02 ABI", () => {

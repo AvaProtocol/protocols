@@ -17,6 +17,8 @@ export const Chains = Object.freeze({
   BnbMainnet: 56 as const,
   ArbitrumOne: 42_161 as const,
   RobinhoodMainnet: 4_663 as const,
+  PolygonMainnet: 137 as const,
+  HyperliquidMainnet: 999 as const,
 });
 
 export type ChainId = (typeof Chains)[keyof typeof Chains] | number;
