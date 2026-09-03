@@ -29,7 +29,7 @@ const weth: AddressByChain = {
   // https://docs.robinhood.com/chain/contracts/
   [Chains.RobinhoodMainnet]: "0x0Bd7D308f8E1639FAb988df18A8011f41EAcAD73",
   // Polygon PoS native is POL. Canonical wrapper is the former WMATIC
-  // precompile, now WPOL: https://polygonscan.com/token/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270
+  // contract, now WPOL: https://polygonscan.com/token/0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270
   [Chains.PolygonMainnet]: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
   // HyperEVM native is HYPE. Canonical WHYPE system contract:
   // https://www.hyperscan.com/token/0x5555555555555555555555555555555555555555
