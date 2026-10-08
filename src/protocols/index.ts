@@ -29,7 +29,10 @@ export { rocketPool } from "./rocket-pool";
 export { sky } from "./sky";
 export { spark } from "./spark";
 export { superfluid } from "./superfluid";
-export { uniswapV3 } from "./uniswap-v3";
+export { uniswapV3, UNISWAP_V3_FEE_TIER, UNISWAP_V3_FEE_TIERS } from "./uniswap-v3";
+export type { UniswapV3FeeTier } from "./uniswap-v3";
+export { uniswapV3Pool, UNISWAP_V3_POOL_INIT_CODE_HASH } from "./uniswapV3Pool";
+export type { UniswapV3PoolAddress } from "./uniswapV3Pool";
 export { wrapped } from "./wrapped";
 export { aggregatorV3Abi, erc4626VaultAbi } from "./common";
 export type {

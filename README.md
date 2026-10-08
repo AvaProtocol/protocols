@@ -58,6 +58,21 @@ Works with Node 18+, modern bundlers, and any TypeScript 4.7+ consumer. Ships du
 
 ## Usage patterns
 
+### Derive a Uniswap v3 pool
+
+```ts
+import { uniswapV3Pool, UNISWAP_V3_FEE_TIERS, Chains, Protocols } from "@avaprotocol/protocols";
+
+const pool = uniswapV3Pool({
+  chainId: Chains.Sepolia,
+  tokenA: Protocols.uniswapV3.tokens.USDC[Chains.Sepolia]!,
+  tokenB: Protocols.uniswapV3.tokens.WETH[Chains.Sepolia]!,
+  fee: UNISWAP_V3_FEE_TIERS[2], // 3000, 0.3%
+});
+// pool.address is the CREATE2 address; token0 is the lower address.
+// Check Factory.getPool and liquidity() before offering the pool.
+```
+
 ### Pin an address by chain
 
 ```ts
