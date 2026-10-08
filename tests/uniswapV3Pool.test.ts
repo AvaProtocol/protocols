@@ -70,12 +70,20 @@ describe("uniswapV3Pool", () => {
     expect(baseSepolia?.address).toBe(BASE_SEPOLIA_USDC_WETH_3000);
   });
 
-  it("returns undefined for the same token, a bad address, a bad fee, or an unknown chain", () => {
+  it("returns undefined for the same token, the zero address, a bad address, a bad fee, or an unknown chain", () => {
     const usdc = Protocols.uniswapV3.tokens.USDC[Chains.Sepolia]!;
     const weth = Protocols.uniswapV3.tokens.WETH[Chains.Sepolia]!;
 
     expect(
       uniswapV3Pool({ chainId: Chains.Sepolia, tokenA: usdc, tokenB: usdc, fee: UNISWAP_V3_FEE_TIER.medium }),
+    ).toBeUndefined();
+    expect(
+      uniswapV3Pool({
+        chainId: Chains.Sepolia,
+        tokenA: "0x0000000000000000000000000000000000000000",
+        tokenB: weth,
+        fee: UNISWAP_V3_FEE_TIER.medium,
+      }),
     ).toBeUndefined();
     expect(
       uniswapV3Pool({ chainId: Chains.Sepolia, tokenA: "not-an-address", tokenB: weth, fee: UNISWAP_V3_FEE_TIER.medium }),

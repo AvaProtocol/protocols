@@ -14,6 +14,8 @@ export const UNISWAP_V3_POOL_INIT_CODE_HASH =
   "0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54" as const;
 
 const MAX_UINT24 = 0xffffff;
+/** 40 hex characters, no `0x` prefix. `address(0)` is not a token. */
+const ZERO_ADDRESS_BODY = "0".repeat(40);
 const INIT_CODE_HASH_BYTES = hexToBytes(UNISWAP_V3_POOL_INIT_CODE_HASH);
 
 export type UniswapV3PoolAddress = {
@@ -25,7 +27,8 @@ export type UniswapV3PoolAddress = {
 /**
  * The Uniswap v3 pool for a token pair and fee, from the catalog factory.
  * Returns undefined when the chain has no factory, an address is invalid,
- * the two tokens are the same, or the fee is not a uint24.
+ * either token is the zero address, the two tokens are the same, or the fee
+ * is not a uint24.
  */
 export function uniswapV3Pool(options: {
   chainId: number;
@@ -40,6 +43,7 @@ export function uniswapV3Pool(options: {
   const tokenA = parseAddress(options.tokenA);
   const tokenB = parseAddress(options.tokenB);
   if (!tokenA || !tokenB) return undefined;
+  if (tokenA.lower === ZERO_ADDRESS_BODY || tokenB.lower === ZERO_ADDRESS_BODY) return undefined;
   if (tokenA.lower === tokenB.lower) return undefined;
 
   const [token0, token1] = tokenA.lower < tokenB.lower ? [tokenA, tokenB] : [tokenB, tokenA];
@@ -73,7 +77,9 @@ function parseAddress(value: string): ParsedAddress | undefined {
 
 /** EIP-55 checksum. `lowerHex` is 40 hex characters, no 0x prefix. */
 function checksumAddress(lowerHex: string): `0x${string}` {
-  const hash = bytesToHex(keccak_256(new TextEncoder().encode(lowerHex)));
+  // Hex is ASCII. The declaration build compiles src alone with lib ES2022
+  // and an empty `types` list, so TextEncoder is not in scope there.
+  const hash = bytesToHex(keccak_256(asciiBytes(lowerHex)));
   let out = "0x";
   for (let i = 0; i < lowerHex.length; i++) {
     const nibble = Number.parseInt(hash[i] ?? "0", 16);
@@ -81,6 +87,14 @@ function checksumAddress(lowerHex: string): `0x${string}` {
     out += nibble >= 8 ? ch.toUpperCase() : ch;
   }
   return out as `0x${string}`;
+}
+
+function asciiBytes(value: string): Uint8Array {
+  const out = new Uint8Array(value.length);
+  for (let i = 0; i < value.length; i++) {
+    out[i] = value.charCodeAt(i);
+  }
+  return out;
 }
 
 function uint256Bytes(value: number): Uint8Array {
