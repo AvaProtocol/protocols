@@ -6,11 +6,12 @@
 // Canonical addresses:
 //   https://docs.uniswap.org/contracts/v3/reference/deployments
 //
-// Per-chain pool registries (every USDC/WETH pool at each fee tier,
-// etc.) are deliberately NOT shipped here — they're indexable from
-// the Uniswap subgraph or `Factory.getPool(tokenA, tokenB, fee)` and
-// belong to a discovery layer, not a catalog. Consumers that need a
-// specific pool address pass it inline.
+// Per-chain pool registries are deliberately NOT shipped here. A pool
+// address is `uniswapV3Pool({ chainId, tokenA, tokenB, fee })`: one
+// pool per pair and fee, with token0 the lower address. That result
+// is the CREATE2 address. It does not mean the pool is deployed or
+// has liquidity — callers still read `Factory.getPool` and
+// `liquidity()` before offering it.
 
 import { Chains } from "../chains";
 import { type AbiFragment, type AddressByChain } from "./types";
@@ -60,6 +61,26 @@ const permit2: AddressByChain = {
   [Chains.UnichainMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
   [Chains.RobinhoodMainnet]: "0x000000000022d473030F116dDEE9F6B43aC78BA3",
 };
+
+/**
+ * Uniswap v3 fee tiers, in the order a caller should try them.
+ * Hundredths of a bip: 100 = 0.01%, 500 = 0.05%, 3000 = 0.3%, 10000 = 1%.
+ */
+export const UNISWAP_V3_FEE_TIER = {
+  lowest: 100,
+  low: 500,
+  medium: 3000,
+  high: 10000,
+} as const;
+
+export type UniswapV3FeeTier = (typeof UNISWAP_V3_FEE_TIER)[keyof typeof UNISWAP_V3_FEE_TIER];
+
+export const UNISWAP_V3_FEE_TIERS: readonly UniswapV3FeeTier[] = [
+  UNISWAP_V3_FEE_TIER.lowest,
+  UNISWAP_V3_FEE_TIER.low,
+  UNISWAP_V3_FEE_TIER.medium,
+  UNISWAP_V3_FEE_TIER.high,
+];
 
 /** Uniswap V3 Factory — derives the deterministic pool address per token-pair+fee. */
 const factory: AddressByChain = {
@@ -260,4 +281,5 @@ export const uniswapV3 = Object.freeze({
   quoterV2Abi,
   factoryAbi,
   tokens,
+  feeTiers: UNISWAP_V3_FEE_TIERS,
 });
