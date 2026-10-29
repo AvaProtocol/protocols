@@ -1,5 +1,36 @@
 # @avaprotocol/protocols
 
+## 1.2.0
+
+### Minor Changes
+
+- 0562978: Add the BNB Chain baseline to the token catalog: WBNB, Binance-Peg BTCB and ETH, FDUSD, USD1, USDe, sUSDe, Cake, wstETH, slisBNB, LBTC, SolvBTC, XVS, LINK, and BNBx (legacy: Stader discontinued it). Each address was checked against the issuer's or BNB Chain's published list and on-chain.
+
+  `lookupToken(56, WBNB)` now returns `WBNB`. Before, it fell through to `Protocols.uniswapV3.tokens.WETH`, whose BNB Chain entry holds WBNB, and answered with symbol `"WETH"`. BNB Chain's `ETH` symbol is the Binance-Peg ERC-20, not native ETH.
+
+- 0562978: Fill the Ethereum and Base token-catalog gaps found by the coverage audit (#38).
+
+  - Ethereum: RLUSD, USDG, GHO, cbETH, sDAI, crvUSD, LUSD, USDtb, eUSDe, SKY, BAL, 1INCH, FXS, KNC, STG, ETHx, ezETH, tETH, frxETH, sfrxETH, FBTC, eBTC, BTC.b, mUSD and syrupUSDT.
+  - Base: RLUSD (`0x8d58C0C60B8D6b88Fa98B291a646dB34d0F98258`, Ripple's L2 address), WBTC, GHO, LBTC, tBTC, weETH, ezETH, wrsETH, syrupUSDC, USDS, sUSDS, USDe and sUSDe.
+
+  Every Aave V3 Core reserve on Ethereum, Base and BNB Chain (except expiring Pendle PTs) is now in `Tokens`, so `lookupToken` recognizes them without the per-protocol fallback.
+
+- b377e71: Add Circle EURC to the Ethereum, Base, Sepolia and Base Sepolia token catalogs. Addresses follow https://developers.circle.com/stablecoins/eurc-contract-addresses.
+- 0562978: Rename Ethereum `Tokens["SolvBTC.BBN"]` to `Tokens.xSolvBTC` (`0xd9D920AA40f578ab794426F5C90F6C731D159DEf`). Solv rebranded the token: the contract's `name()` and `symbol()` both return `xSolvBTC`. The address and decimals are unchanged; `lookupToken` and the Ethereum sidecar (`dist/tokens/ethereum.json`) now return `xSolvBTC` for it.
+
+  Code that reads `Tokens["SolvBTC.BBN"]` must switch to `Tokens.xSolvBTC`.
+
+- 0562978: Record transfer constraints on token rows and pin catalog addresses to their sources.
+
+  - `TokenChainEntry.transferConstraints` lists behaviour that makes a plain `transfer` to an arbitrary address revert or deliver a different amount. Values come from the new `TOKEN_TRANSFER_CONSTRAINT`: `permissionedRecipient` (OUSG, BUIDL, USYC), `rebasing` (stETH, eETH) and `feeOnTransfer` (none listed). No constraints means none is known, not that every transfer succeeds.
+  - Provenance for each row (canonical sources, native/bridged/test, verification date) lives in `src/tokens/provenance/*.json`. Tests read it; the package does not ship it.
+  - `tests/token-coverage.test.ts` enforces a defined coverage target per chain, address agreement between provenance, `Tokens` and protocol modules, and one symbol per address across chains.
+  - `docs/TOKEN_CATALOG.md` documents the inclusion and maintenance policy and how consumers should separate recognizing a holding from deciding whether it can be transferred. `docs/TOKEN_COVERAGE.md` is the generated per-chain matrix (`yarn report:tokens`).
+
+### Patch Changes
+
+- 0562978: Correct Base Sepolia `USDT` (`0xCE8565457Cca0fC7542608A2c78610Ed7bC66C8C`) to 18 decimals. The row said 6, but the contract's `decimals()` returns 18, so amounts formatted from the catalog were off by 10^12. The contract is an unverified third-party test token, not a Tether deployment. Add `yarn verify:tokens`, a read-only check of every catalog row's code, `decimals()` and `symbol()` against the chain.
+
 ## 1.1.0
 
 ### Minor Changes
