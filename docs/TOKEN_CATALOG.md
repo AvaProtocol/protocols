@@ -34,7 +34,7 @@ Assets outside the target may still be listed — the catalog also carries rows 
 
 Symbols follow the issuer's on-chain casing (`stETH`, `Cake`, `cbBTC`). A symbol appears once per chain. An address names one asset on every chain where it appears, because `lookupToken` falls back across chains; the test enforces this.
 
-Symbol keys are API: consumers index `Tokens` by them, and the sidecar carries them. When an issuer rebrands on-chain, follow it (Ethereum `SolvBTC.BBN` became `xSolvBTC`), ship the rename as a major changeset, and record the old symbol in the provenance notes.
+Symbol keys are API: consumers index `Tokens` by them, and the sidecar carries them. When an issuer renames a token on-chain, follow it (Ethereum `SolvBTC.BBN` became `xSolvBTC`) in a minor changeset that names the old key, and record the old symbol in the provenance notes. The token is the same contract under a corrected label, as token lists treat a symbol change; issuers rebrand often enough (MKR→SKY, RNDR→RENDER, MATIC→POL) that a major release each time would hold back every other fix.
 
 ## Maintenance
 
@@ -42,7 +42,7 @@ Symbol keys are API: consumers index `Tokens` by them, and the sidecar carries t
 - **After regenerating Aave reserves** (`yarn generate:aave-reserves`), the coverage test lists any new Core reserve. Add it, or record a known gap with a reason.
 - **`KNOWN_GAPS`** in `scripts/token-catalog/coverage.ts` is the explicit list of target assets not yet listed. The test fails when a gap is filled but still listed.
 - **`PROVENANCE_PENDING`** lists rows that predate provenance tracking. It may only shrink: a new row needs a provenance row, and a pending row that gains provenance must leave the list.
-- **Removing a row** breaks consumers that key on it. Prefer marking it `legacy` in provenance; remove only addresses that are wrong.
+- **Removing a row, or changing a row's address,** is a major changeset: the token consumers recognized is gone. Prefer marking it `legacy` in provenance; remove only addresses that are wrong.
 
 ## Transfer constraints
 
