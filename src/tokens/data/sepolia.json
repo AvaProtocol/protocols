@@ -34,5 +34,11 @@
     "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
     "decimals": 18,
     "name": "Wrapped Ether"
+  },
+  {
+    "symbol": "EURC",
+    "address": "0x08210F9170F89Ab7658F0B5E3fF39b0E03C594D4",
+    "decimals": 6,
+    "name": "EURC"
   }
 ]

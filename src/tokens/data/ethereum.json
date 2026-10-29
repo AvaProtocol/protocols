@@ -823,5 +823,11 @@
     "address": "0xC71B5F631354BE6853eFe9C3Ab6b9590F8302e81",
     "decimals": 18,
     "name": "Polyhedra Network"
+  },
+  {
+    "symbol": "EURC",
+    "address": "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
+    "decimals": 6,
+    "name": "EURC"
   }
 ]

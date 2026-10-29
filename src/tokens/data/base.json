@@ -287,5 +287,11 @@
       "coinmarketcap": "https://coinmarketcap.com/currencies/yearn-finance/",
       "coingecko": "https://coingecko.com/en/coins/yearn-finance/"
     }
+  },
+  {
+    "symbol": "EURC",
+    "address": "0x60a3E35Cc302bFA44Cb288Bc5a4F316Fdb1adb42",
+    "decimals": 6,
+    "name": "EURC"
   }
 ]
