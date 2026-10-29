@@ -1,5 +1,82 @@
 [
   {
+    "symbol": "BNBx",
+    "address": "0x1bdd3Cf7F79cfB8EdbB955f20ad99211551BA275",
+    "decimals": 18,
+    "name": "Liquid Staking BNB",
+    "explorer": "https://bscscan.com/token/0x1bdd3Cf7F79cfB8EdbB955f20ad99211551BA275"
+  },
+  {
+    "symbol": "BTCB",
+    "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+    "decimals": 18,
+    "name": "Binance-Peg BTCB Token",
+    "explorer": "https://bscscan.com/token/0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
+  },
+  {
+    "symbol": "Cake",
+    "address": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+    "decimals": 18,
+    "name": "PancakeSwap Token",
+    "explorer": "https://bscscan.com/token/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82"
+  },
+  {
+    "symbol": "ETH",
+    "address": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+    "decimals": 18,
+    "name": "Binance-Peg Ethereum Token",
+    "explorer": "https://bscscan.com/token/0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
+  },
+  {
+    "symbol": "FDUSD",
+    "address": "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409",
+    "decimals": 18,
+    "name": "First Digital USD",
+    "explorer": "https://bscscan.com/token/0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409"
+  },
+  {
+    "symbol": "LBTC",
+    "address": "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+    "decimals": 8,
+    "name": "Lombard Staked Bitcoin",
+    "explorer": "https://bscscan.com/token/0xecAc9C5F704e954931349Da37F60E39f515c11c1"
+  },
+  {
+    "symbol": "LINK",
+    "address": "0x404460C6A5EdE2D891e8297795264fDe62ADBB75",
+    "decimals": 18,
+    "name": "Chainlink",
+    "explorer": "https://bscscan.com/token/0x404460C6A5EdE2D891e8297795264fDe62ADBB75"
+  },
+  {
+    "symbol": "slisBNB",
+    "address": "0xB0b84D294e0C75A6abe60171b70edEb2EFd14A1B",
+    "decimals": 18,
+    "name": "Staked Lista BNB",
+    "explorer": "https://bscscan.com/token/0xB0b84D294e0C75A6abe60171b70edEb2EFd14A1B"
+  },
+  {
+    "symbol": "SolvBTC",
+    "address": "0x4aae823a6a0b376De6A78e74eCC5b079d38cBCf7",
+    "decimals": 18,
+    "name": "Solv BTC",
+    "explorer": "https://bscscan.com/token/0x4aae823a6a0b376De6A78e74eCC5b079d38cBCf7"
+  },
+  {
+    "symbol": "sUSDe",
+    "address": "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2",
+    "decimals": 18,
+    "name": "Staked USDe",
+    "explorer": "https://bscscan.com/token/0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2"
+  },
+  {
+    "symbol": "USD1",
+    "address": "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d",
+    "decimals": 18,
+    "name": "World Liberty Financial USD",
+    "explorer": "https://bscscan.com/token/0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d"
+  },
+  {
     "symbol": "USDC",
     "address": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
     "decimals": 18,
@@ -7,10 +84,38 @@
     "explorer": "https://bscscan.com/token/0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d"
   },
   {
+    "symbol": "USDe",
+    "address": "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+    "decimals": 18,
+    "name": "USDe",
+    "explorer": "https://bscscan.com/token/0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34"
+  },
+  {
     "symbol": "USDT",
     "address": "0x55d398326f99059fF775485246999027B3197955",
     "decimals": 18,
     "name": "Binance-Peg Tether USD",
     "explorer": "https://bscscan.com/token/0x55d398326f99059fF775485246999027B3197955"
+  },
+  {
+    "symbol": "WBNB",
+    "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    "decimals": 18,
+    "name": "Wrapped BNB",
+    "explorer": "https://bscscan.com/token/0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c"
+  },
+  {
+    "symbol": "wstETH",
+    "address": "0x26c5e01524d2E6280A48F2c50fF6De7e52E9611C",
+    "decimals": 18,
+    "name": "Wrapped liquid staked Ether 2.0",
+    "explorer": "https://bscscan.com/token/0x26c5e01524d2E6280A48F2c50fF6De7e52E9611C"
+  },
+  {
+    "symbol": "XVS",
+    "address": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63",
+    "decimals": 18,
+    "name": "Venus",
+    "explorer": "https://bscscan.com/token/0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63"
   }
 ]

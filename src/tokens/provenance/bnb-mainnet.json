@@ -1,0 +1,240 @@
+[
+  {
+    "symbol": "BNBx",
+    "address": "0x1bdd3Cf7F79cfB8EdbB955f20ad99211551BA275",
+    "issuance": "native",
+    "issuer": "Stader",
+    "legacy": true,
+    "sources": [
+      "https://stader.gitbook.io/stader/bnb-chain-discontinued"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Stader discontinued BNB staking: deposits disabled 2026-01-29, dApp 2026-06-09. Holders unstake on the contract directly."
+  },
+  {
+    "symbol": "BTCB",
+    "address": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+    "issuance": "bridged",
+    "issuer": "Binance",
+    "bridge": "Binance-Peg",
+    "sources": [
+      "https://github.com/bnb-chain/bcfusion/blob/main/README.md"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Bound to BEP2 BTCB-1DE."
+  },
+  {
+    "symbol": "Cake",
+    "address": "0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82",
+    "issuance": "native",
+    "issuer": "PancakeSwap",
+    "sources": [
+      "https://docs.pancakeswap.finance/protocol/cake-tokenomics"
+    ],
+    "references": [
+      "https://github.com/bnb-chain/bcfusion/blob/main/README.md",
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "ETH",
+    "address": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+    "issuance": "bridged",
+    "issuer": "Binance",
+    "bridge": "Binance-Peg",
+    "sources": [
+      "https://github.com/bnb-chain/bcfusion/blob/main/README.md"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Bound to BEP2 ETH-1C9. An ERC-20, not native ETH."
+  },
+  {
+    "symbol": "FDUSD",
+    "address": "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409",
+    "issuance": "native",
+    "issuer": "First Digital",
+    "sources": [
+      "https://www.firstdigitallabs.com/fdusd"
+    ],
+    "references": [
+      "https://web.archive.org/web/20260417165942/https://www.firstdigitallabs.com/fdusd",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Same address as on Ethereum. The live page returned 403 on 2026-10-28; the address was read from its 2026-04-17 archive."
+  },
+  {
+    "symbol": "LBTC",
+    "address": "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+    "issuance": "native",
+    "issuer": "Lombard",
+    "sources": [
+      "https://docs.lombard.finance/learn/transparency/smart-contracts"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Lombard lists the same address on BNB Smart Chain as on Base."
+  },
+  {
+    "symbol": "LINK",
+    "address": "0x404460C6A5EdE2D891e8297795264fDe62ADBB75",
+    "issuance": "native",
+    "issuer": "Chainlink",
+    "sources": [
+      "https://docs.chain.link/resources/link-token-contracts"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Chainlink notes LINK bridged through the BNB Chain bridge is not ERC-677 compatible until swapped via PegSwap."
+  },
+  {
+    "symbol": "slisBNB",
+    "address": "0xB0b84D294e0C75A6abe60171b70edEb2EFd14A1B",
+    "issuance": "native",
+    "issuer": "Lista DAO",
+    "sources": [
+      "https://docs.bsc.lista.org/for-developer/liquid-staking-slisbnb/smart-contract"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "SolvBTC",
+    "address": "0x4aae823a6a0b376De6A78e74eCC5b079d38cBCf7",
+    "issuance": "native",
+    "issuer": "Solv",
+    "sources": [
+      "https://github.com/solv-finance/SolvBTC/blob/main/deploy/SolvBTC/10099_export_SolvBTCInfos.js"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "docs.solv.finance returned 403; source is Solv's deploy script on GitHub."
+  },
+  {
+    "symbol": "sUSDe",
+    "address": "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2",
+    "issuance": "native",
+    "issuer": "Ethena",
+    "sources": [
+      "https://docs.ethena.fi/solution-design/key-addresses"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Ethena's page says L2 addresses are identical on every listed chain except Solana, ZKSync and Zircuit; BNB is listed."
+  },
+  {
+    "symbol": "USD1",
+    "address": "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d",
+    "issuance": "native",
+    "issuer": "World Liberty Financial",
+    "sources": [
+      "https://docs.worldlibertyfinancial.com/usd1-token/contract-addresses"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Same address as on Ethereum."
+  },
+  {
+    "symbol": "USDC",
+    "address": "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+    "issuance": "bridged",
+    "issuer": "Binance (not Circle)",
+    "bridge": "Binance-Peg",
+    "sources": [
+      "https://github.com/bnb-chain/bcfusion/blob/main/README.md"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Bound to BEP2 USDC-CD2. Circle lists no BNB Chain USDC. 18 decimals; on-chain name \"USD Coin\"."
+  },
+  {
+    "symbol": "USDe",
+    "address": "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+    "issuance": "native",
+    "issuer": "Ethena",
+    "sources": [
+      "https://docs.ethena.fi/solution-design/key-addresses"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Ethena's page says L2 addresses are identical on every listed chain except Solana, ZKSync and Zircuit; BNB is listed."
+  },
+  {
+    "symbol": "USDT",
+    "address": "0x55d398326f99059fF775485246999027B3197955",
+    "issuance": "bridged",
+    "issuer": "Binance (not Tether)",
+    "bridge": "Binance-Peg",
+    "sources": [
+      "https://github.com/bnb-chain/bcfusion/blob/main/README.md"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Bound to BEP2 USDT-6D8. Tether lists no BNB Chain USDT. 18 decimals, against 6 on Ethereum."
+  },
+  {
+    "symbol": "WBNB",
+    "address": "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
+    "issuance": "native",
+    "issuer": "BNB Chain",
+    "sources": [
+      "https://github.com/bnb-chain/bnb-chain.github.io/blob/master/docs/bnb-smart-chain/benchmark/design-reference.md",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "No dedicated BNB Chain address registry; BNB Chain's docs link the contract and Aave lists it as a Core reserve. Also Protocols.wrapped.weth[56]."
+  },
+  {
+    "symbol": "wstETH",
+    "address": "0x26c5e01524d2E6280A48F2c50fF6De7e52E9611C",
+    "issuance": "bridged",
+    "issuer": "Lido",
+    "bridge": "Wormhole NTT",
+    "sources": [
+      "https://docs.lido.fi/deployed-contracts/"
+    ],
+    "references": [
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3BNB.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "XVS",
+    "address": "0xcF6BB5389c92Bdda8a3747Ddb454cB7a64626C63",
+    "issuance": "native",
+    "issuer": "Venus",
+    "sources": [
+      "https://docs-v4.venus.io/deployed-contracts/xvs-omnichain"
+    ],
+    "references": [
+      "https://github.com/bnb-chain/bcfusion/blob/main/README.md",
+      "https://github.com/pancakeswap/token-list/blob/main/src/tokens/pancakeswap-extended.json"
+    ],
+    "verifiedAt": "2026-10-28"
+  }
+]

@@ -6,8 +6,9 @@
  * Reverse lookup (`lookupToken`) gets parallel coverage because it's
  * the access pattern aggregators and summarizers use.
  */
+import { getAddress } from "ethers";
 import { describe, it, expect } from "vitest";
-import { Chains, Tokens, lookupToken } from "../src";
+import { Chains, Protocols, Tokens, lookupToken } from "../src";
 
 const ADDRESS_RE = /^0x[0-9a-fA-F]{40}$/;
 const CHAIN_IDS = new Set<number>(Object.values(Chains));
@@ -43,6 +44,18 @@ describe("Tokens namespace", () => {
         expect(entry.address, `${where} bad address`).toMatch(ADDRESS_RE);
         expect(entry.decimals, `${where} bad decimals`).toBeGreaterThanOrEqual(0);
         expect(entry.decimals, `${where} bad decimals`).toBeLessThanOrEqual(36);
+      }
+    }
+  });
+
+  it("every address is EIP-55 checksummed", () => {
+    // Mixed-case addresses carry a checksum. A hand-typed one with the
+    // wrong casing passes the regex above but is rejected by ethers,
+    // viem and wallets.
+    for (const [symbol, byChain] of Object.entries(Tokens)) {
+      for (const [chainId, entry] of Object.entries(byChain)) {
+        if (!entry) continue;
+        expect(entry.address, `${symbol}[${chainId}]`).toBe(getAddress(entry.address.toLowerCase()));
       }
     }
   });
@@ -113,6 +126,36 @@ describe("lookupToken()", () => {
     // per-protocol fallback.
     const result = lookupToken(undefined, "0xf8Fb3713D459D7C1018BD0A49D19b4C44290EBE5");
     expect(result?.symbol).toBe("LINK");
+  });
+
+  it("labels BNB Chain's WBNB as WBNB, not via Uniswap's wrapped-native WETH slot", () => {
+    // Protocols.uniswapV3.tokens.WETH[BnbMainnet] holds WBNB (the slot
+    // means "wrapped native"). Before WBNB was catalogued, the
+    // per-protocol fallback answered this lookup with symbol "WETH".
+    const result = lookupToken(Chains.BnbMainnet, "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c");
+    expect(result?.symbol).toBe("WBNB");
+    expect(result?.address).toBe(Protocols.wrapped.weth[Chains.BnbMainnet]);
+  });
+
+  it("resolves RLUSD on Ethereum and Base, which use different addresses", () => {
+    const ethereum = lookupToken(Chains.EthereumMainnet, "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD");
+    const base = lookupToken(Chains.BaseMainnet, "0x8d58C0C60B8D6b88Fa98B291a646dB34d0F98258");
+    expect(ethereum?.symbol).toBe("RLUSD");
+    expect(base?.symbol).toBe("RLUSD");
+    expect(ethereum?.decimals).toBe(18);
+    expect(base?.decimals).toBe(18);
+  });
+
+  it("names Solv's rebranded Ethereum token xSolvBTC, not SolvBTC.BBN", () => {
+    // name() and symbol() both return xSolvBTC since Solv's rebrand.
+    const result = lookupToken(Chains.EthereumMainnet, "0xd9D920AA40f578ab794426F5C90F6C731D159DEf");
+    expect(result?.symbol).toBe("xSolvBTC");
+    expect(Tokens["SolvBTC.BBN"]).toBeUndefined();
+  });
+
+  it("carries the Base Sepolia USDT contract's 18 decimals", () => {
+    // The row said 6 until the 2026-10-28 on-chain check; decimals() returns 18.
+    expect(Tokens.USDT[Chains.BaseSepolia]?.decimals).toBe(18);
   });
 
   it("distinguishes canonical Sepolia LINK from mainnet LINK", () => {

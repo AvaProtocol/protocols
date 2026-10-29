@@ -46,7 +46,8 @@ import * as base from "./base";
 import * as baseSepolia from "./base-sepolia";
 import * as bnbMainnet from "./bnb-mainnet";
 
-export type { TokenByChain, TokenChainEntry, TokenLinks } from "./types";
+export { TOKEN_TRANSFER_CONSTRAINT } from "./types";
+export type { TokenByChain, TokenChainEntry, TokenLinks, TokenTransferConstraint } from "./types";
 
 /**
  * Per-chain module list. Each module exposes `chainId` plus a frozen

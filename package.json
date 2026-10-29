@@ -81,6 +81,8 @@
     "port:studio": "tsx scripts/port-from-studio.ts",
     "port:avs": "tsx scripts/port-from-avs.ts",
     "generate:aave-reserves": "tsx scripts/generate-aave-reserves.ts",
+    "verify:tokens": "tsx scripts/verify-tokens.ts",
+    "report:tokens": "tsx scripts/token-coverage-report.ts",
     "clean": "rm -rf node_modules dist tsconfig.tsbuildinfo",
     "clean:dist": "rm -rf dist tsconfig.tsbuildinfo",
     "test": "vitest",

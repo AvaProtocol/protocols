@@ -1,5 +1,12 @@
 [
   {
+    "symbol": "1INCH",
+    "address": "0x111111111117dC0aa78b770fA6A738034120C302",
+    "decimals": 18,
+    "name": "1inch",
+    "explorer": "https://etherscan.io/token/0x111111111117dC0aa78b770fA6A738034120C302"
+  },
+  {
     "symbol": "AAVE",
     "address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
     "decimals": 18,
@@ -58,6 +65,13 @@
     "name": "Axie Infinity Shard"
   },
   {
+    "symbol": "BAL",
+    "address": "0xba100000625a3754423978a60c9317c58a424e3D",
+    "decimals": 18,
+    "name": "Balancer",
+    "explorer": "https://etherscan.io/token/0xba100000625a3754423978a60c9317c58a424e3D"
+  },
+  {
     "symbol": "BGB",
     "address": "0x19de6b897Ed14A376Dda0Fe53a5420D2aC828a28",
     "decimals": 18,
@@ -76,6 +90,13 @@
     "name": "Bonk"
   },
   {
+    "symbol": "BTC.b",
+    "address": "0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072",
+    "decimals": 8,
+    "name": "BTC.b (Lombard)",
+    "explorer": "https://etherscan.io/token/0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072"
+  },
+  {
     "symbol": "BTT",
     "address": "0xC669928185DbCE49d2230CC9B0979BE6DC797957",
     "decimals": 18,
@@ -85,7 +106,10 @@
     "symbol": "BUIDL",
     "address": "0x7712c34205737192402172409a8F7ccef8aA2AEc",
     "decimals": 6,
-    "name": "BlackRock USD Institutional Digital Liquidity Fund"
+    "name": "BlackRock USD Institutional Digital Liquidity Fund",
+    "transferConstraints": [
+      "permissionedRecipient"
+    ]
   },
   {
     "symbol": "Cake",
@@ -98,6 +122,13 @@
     "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
     "decimals": 8,
     "name": "Coinbase Wrapped BTC"
+  },
+  {
+    "symbol": "cbETH",
+    "address": "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
+    "decimals": 18,
+    "name": "Coinbase Wrapped Staked ETH",
+    "explorer": "https://etherscan.io/token/0xBe9895146f7AF43049ca1c1AE358B0541Ea49704"
   },
   {
     "symbol": "cgETH.hashkey",
@@ -153,6 +184,13 @@
     }
   },
   {
+    "symbol": "crvUSD",
+    "address": "0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E",
+    "decimals": 18,
+    "name": "Curve.Fi USD Stablecoin",
+    "explorer": "https://etherscan.io/token/0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E"
+  },
+  {
     "symbol": "DAI",
     "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
     "decimals": 18,
@@ -189,10 +227,20 @@
     }
   },
   {
+    "symbol": "eBTC",
+    "address": "0x657e8C867D8B37dCC18fA4Caead9C45EB088C642",
+    "decimals": 8,
+    "name": "ether.fi BTC",
+    "explorer": "https://etherscan.io/token/0x657e8C867D8B37dCC18fA4Caead9C45EB088C642"
+  },
+  {
     "symbol": "eETH",
     "address": "0x35fA164735182de50811E8e2E824cFb9B6118ac2",
     "decimals": 18,
-    "name": "ether.fi ETH"
+    "name": "ether.fi ETH",
+    "transferConstraints": [
+      "rebasing"
+    ]
   },
   {
     "symbol": "EIGEN",
@@ -242,6 +290,34 @@
     "name": "ether.fi governance token"
   },
   {
+    "symbol": "ETHx",
+    "address": "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b",
+    "decimals": 18,
+    "name": "Stader ETHx",
+    "explorer": "https://etherscan.io/token/0xA35b1B31Ce002FBF2058D22F30f95D405200A15b"
+  },
+  {
+    "symbol": "eUSDe",
+    "address": "0x90D2af7d622ca3141efA4d8f1F24d86E5974Cc8F",
+    "decimals": 18,
+    "name": "Ethereal Pre-deposit Vault",
+    "explorer": "https://etherscan.io/token/0x90D2af7d622ca3141efA4d8f1F24d86E5974Cc8F"
+  },
+  {
+    "symbol": "ezETH",
+    "address": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
+    "decimals": 18,
+    "name": "Renzo Restaked ETH",
+    "explorer": "https://etherscan.io/token/0xbf5495Efe5DB9ce00f80364C8B423567e58d2110"
+  },
+  {
+    "symbol": "FBTC",
+    "address": "0xC96dE26018A54D51c097160568752c4E3BD6C364",
+    "decimals": 8,
+    "name": "Fire Bitcoin",
+    "explorer": "https://etherscan.io/token/0xC96dE26018A54D51c097160568752c4E3BD6C364"
+  },
+  {
     "symbol": "FDUSD",
     "address": "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409",
     "decimals": 18,
@@ -278,16 +354,37 @@
     }
   },
   {
+    "symbol": "frxETH",
+    "address": "0x5E8422345238F34275888049021821E8E08CAa1f",
+    "decimals": 18,
+    "name": "Frax Ether",
+    "explorer": "https://etherscan.io/token/0x5E8422345238F34275888049021821E8E08CAa1f"
+  },
+  {
     "symbol": "FTN",
     "address": "0xaeDf386B755465871fF874E3E37Af5976E247064",
     "decimals": 18,
     "name": "Fasttoken"
   },
   {
+    "symbol": "FXS",
+    "address": "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
+    "decimals": 18,
+    "name": "Frax Share",
+    "explorer": "https://etherscan.io/token/0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0"
+  },
+  {
     "symbol": "GALA",
     "address": "0xd1d2Eb1B1e90B638588728b4130137D262C87cae",
     "decimals": 8,
     "name": "Gala"
+  },
+  {
+    "symbol": "GHO",
+    "address": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+    "decimals": 18,
+    "name": "GHO",
+    "explorer": "https://etherscan.io/token/0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f"
   },
   {
     "symbol": "GRT",
@@ -318,6 +415,13 @@
     "address": "0x7420B4b9a0110cdC71fB720908340C03F9Bc03EC",
     "decimals": 18,
     "name": "JasmyCoin"
+  },
+  {
+    "symbol": "KNC",
+    "address": "0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202",
+    "decimals": 18,
+    "name": "Kyber Network Crystal v2",
+    "explorer": "https://etherscan.io/token/0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202"
   },
   {
     "symbol": "LBTC",
@@ -368,6 +472,13 @@
     "name": "Liquid Staked ETH"
   },
   {
+    "symbol": "LUSD",
+    "address": "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
+    "decimals": 18,
+    "name": "LUSD Stablecoin",
+    "explorer": "https://etherscan.io/token/0x5f98805A4E8be255a32880FDeC7F6728C6568bA0"
+  },
+  {
     "symbol": "MANA",
     "address": "0x0F5D2fB29fb7d3CFeE444a200298f468908cC942",
     "decimals": 18,
@@ -399,6 +510,13 @@
     "address": "0x3c3a81e81dc49A522A592e7622A7E711c06bf354",
     "decimals": 18,
     "name": "Mantle"
+  },
+  {
+    "symbol": "mUSD",
+    "address": "0xacA92E438df0B2401fF60dA7E4337B687a2435DA",
+    "decimals": 6,
+    "name": "MetaMask USD",
+    "explorer": "https://etherscan.io/token/0xacA92E438df0B2401fF60dA7E4337B687a2435DA"
   },
   {
     "symbol": "NEAR",
@@ -440,7 +558,10 @@
     "symbol": "OUSG",
     "address": "0x1B19C19393e2d034D8Ff31ff34c81252FcBbee92",
     "decimals": 18,
-    "name": "Ondo Short-Term U.S. Government Bond Fund"
+    "name": "Ondo Short-Term U.S. Government Bond Fund",
+    "transferConstraints": [
+      "permissionedRecipient"
+    ]
   },
   {
     "symbol": "PAXG",
@@ -521,6 +642,13 @@
     "name": "Rocket Pool ETH"
   },
   {
+    "symbol": "RLUSD",
+    "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+    "decimals": 18,
+    "name": "Ripple USD",
+    "explorer": "https://etherscan.io/token/0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD"
+  },
+  {
     "symbol": "RNDR",
     "address": "0x6De037ef9aD2725EB40118Bb1702EBb27e4Aeb24",
     "decimals": 18,
@@ -564,6 +692,20 @@
     "name": "SAND"
   },
   {
+    "symbol": "sDAI",
+    "address": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+    "decimals": 18,
+    "name": "Savings Dai",
+    "explorer": "https://etherscan.io/token/0x83F20F44975D03b1b09e64809B757c47f942BEeA"
+  },
+  {
+    "symbol": "sfrxETH",
+    "address": "0xac3E018457B222d93114458476f3E3416Abbe38F",
+    "decimals": 18,
+    "name": "Staked Frax Ether",
+    "explorer": "https://etherscan.io/token/0xac3E018457B222d93114458476f3E3416Abbe38F"
+  },
+  {
     "symbol": "SHIB",
     "address": "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
     "decimals": 18,
@@ -578,6 +720,13 @@
     }
   },
   {
+    "symbol": "SKY",
+    "address": "0x56072C95FAA701256059aa122697B133aDEd9279",
+    "decimals": 18,
+    "name": "SKY Governance Token",
+    "explorer": "https://etherscan.io/token/0x56072C95FAA701256059aa122697B133aDEd9279"
+  },
+  {
     "symbol": "SNX",
     "address": "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
     "decimals": 18,
@@ -590,10 +739,10 @@
     "name": "Solv BTC"
   },
   {
-    "symbol": "SolvBTC.BBN",
+    "symbol": "xSolvBTC",
     "address": "0xd9D920AA40f578ab794426F5C90F6C731D159DEf",
     "decimals": 18,
-    "name": "SolvBTC Babylon"
+    "name": "xSolvBTC"
   },
   {
     "symbol": "SPX",
@@ -608,7 +757,17 @@
     "name": "stETH",
     "description": "stETH is a token that represents staked ether in Lido.",
     "website": "https://stake.lido.fi",
-    "explorer": "https://etherscan.io/token/0xae7ab96520de3a18e5e111b5eaab095312d7fe84"
+    "explorer": "https://etherscan.io/token/0xae7ab96520de3a18e5e111b5eaab095312d7fe84",
+    "transferConstraints": [
+      "rebasing"
+    ]
+  },
+  {
+    "symbol": "STG",
+    "address": "0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6",
+    "decimals": 18,
+    "name": "Stargate",
+    "explorer": "https://etherscan.io/token/0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6"
   },
   {
     "symbol": "STRK",
@@ -641,6 +800,13 @@
     "name": "Syrup USDC"
   },
   {
+    "symbol": "syrupUSDT",
+    "address": "0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D",
+    "decimals": 6,
+    "name": "Syrup USDT",
+    "explorer": "https://etherscan.io/token/0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D"
+  },
+  {
     "symbol": "tBTC",
     "address": "0x18084fbA666a33d37592fA2633fD49a74DD93a88",
     "decimals": 18,
@@ -651,6 +817,13 @@
     "address": "0x467Bccd9d29f223BcE8043b84E8C8B282827790F",
     "decimals": 2,
     "name": "Telcoin"
+  },
+  {
+    "symbol": "tETH",
+    "address": "0xD11c452fc99cF405034ee446803b6F6c1F6d5ED8",
+    "decimals": 18,
+    "name": "Treehouse ETH",
+    "explorer": "https://etherscan.io/token/0xD11c452fc99cF405034ee446803b6F6c1F6d5ED8"
   },
   {
     "symbol": "TKX",
@@ -717,6 +890,13 @@
     "name": "USDe"
   },
   {
+    "symbol": "USDG",
+    "address": "0xe343167631d89B6Ffc58B88d6b7fB0228795491D",
+    "decimals": 6,
+    "name": "Global Dollar",
+    "explorer": "https://etherscan.io/token/0xe343167631d89B6Ffc58B88d6b7fB0228795491D"
+  },
+  {
     "symbol": "USDS",
     "address": "0xdC035D45d973E3EC169d2276DDab16f1e407384F",
     "decimals": 18,
@@ -737,6 +917,13 @@
     }
   },
   {
+    "symbol": "USDtb",
+    "address": "0xC139190F447e929f090Edeb554D95AbB8b18aC1C",
+    "decimals": 18,
+    "name": "USDtb",
+    "explorer": "https://etherscan.io/token/0xC139190F447e929f090Edeb554D95AbB8b18aC1C"
+  },
+  {
     "symbol": "USDX",
     "address": "0xf3527ef8dE265eAa3716FB312c12847bFBA66Cef",
     "decimals": 18,
@@ -752,7 +939,10 @@
     "symbol": "USYC",
     "address": "0x136471a34f6ef19fE571EFFC1CA711fdb8E49f2b",
     "decimals": 6,
-    "name": "US Yield Coin"
+    "name": "US Yield Coin",
+    "transferConstraints": [
+      "permissionedRecipient"
+    ]
   },
   {
     "symbol": "VIRTUAL",
