@@ -16,5 +16,5 @@
 
 export * from "./protocols";
 export { Chains, type ChainId } from "./chains";
-export { Tokens, lookupToken } from "./tokens";
-export type { TokenByChain, TokenChainEntry, TokenLinks } from "./tokens";
+export { Tokens, lookupToken, TOKEN_TRANSFER_CONSTRAINT } from "./tokens";
+export type { TokenByChain, TokenChainEntry, TokenLinks, TokenTransferConstraint } from "./tokens";

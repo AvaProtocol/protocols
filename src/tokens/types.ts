@@ -8,6 +8,11 @@
 //   - Identity   — address, symbol, name, decimals
 //   - Reference  — explorer, website, optional links
 //   - Display    — logoUrl (always a URL, never a bundled binary)
+//   - Transfers  — transferConstraints (behaviour a batch transfer must handle)
+//
+// Provenance (canonical source links, verification dates, native vs.
+// bridged) lives in `src/tokens/provenance/*.json`. Tests read it; no
+// module imports it, so the build does not ship it.
 //
 // Excluded by design:
 //   - status / tags / research — vestigial from upstream tokenlists,
@@ -46,6 +51,37 @@ export interface TokenLinks {
 }
 
 /**
+ * Token behaviour that makes a plain `transfer(to, amount)` to an
+ * arbitrary address revert or deliver a different amount. Recorded so
+ * a consumer that batches transfers (a wallet sweep, a payout) can
+ * warn or validate before it builds the batch.
+ *
+ * Listing a token without constraints means only that none is known.
+ * It is not a promise that every transfer succeeds: issuer freezes,
+ * pauses and sanctions blocklists apply to most fiat-backed tokens and
+ * are deliberately not recorded here. Preparation should still
+ * simulate the actual transfers. See docs/TOKEN_CATALOG.md.
+ */
+export const TOKEN_TRANSFER_CONSTRAINT = Object.freeze({
+  /**
+   * The recipient must be on the issuer's allowlist (KYC or qualified
+   * access). A transfer to an address the issuer has not onboarded
+   * reverts, including the holder's own new wallet.
+   */
+  permissionedRecipient: "permissionedRecipient",
+  /**
+   * Balances are share-based and change without transfers. A transfer
+   * of the full balance can leave 1–2 wei behind, and the amount
+   * received can differ from the amount requested by rounding.
+   */
+  rebasing: "rebasing",
+  /** The token takes a fee on transfer; the recipient receives less than the amount sent. */
+  feeOnTransfer: "feeOnTransfer",
+} as const);
+
+export type TokenTransferConstraint = (typeof TOKEN_TRANSFER_CONSTRAINT)[keyof typeof TOKEN_TRANSFER_CONSTRAINT];
+
+/**
  * Per-chain token deployment record. `address` and `decimals` are
  * required because they're the universal lookup primitives every
  * consumer needs. All other fields are optional metadata.
@@ -69,6 +105,13 @@ export interface TokenChainEntry {
   readonly explorer?: string;
   readonly logoUrl?: string;
   readonly links?: TokenLinks;
+  /**
+   * Known transfer behaviour on this deployment. Absent when none is
+   * known. A recognized holding with constraints is still a legitimate
+   * holding: show it, and let transfer preparation decide whether a
+   * given transfer works.
+   */
+  readonly transferConstraints?: readonly TokenTransferConstraint[];
 }
 
 /**

@@ -1,0 +1,332 @@
+[
+  {
+    "symbol": "AAVE",
+    "address": "0x63706e401c06ac8513145b7687A14804d17f814b",
+    "issuance": "bridged",
+    "issuer": "Aave",
+    "bridge": "Base standard bridge",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "On-chain REMOTE_TOKEN()/l1Token() return the L1 token and BRIDGE() returns the OP-stack standard bridge 0x4200…0010."
+  },
+  {
+    "symbol": "AERO",
+    "address": "0x940181a94A35A4569E4529A3CDfB74e38FD98631",
+    "issuance": "native",
+    "issuer": "Aerodrome",
+    "sources": [
+      "https://github.com/aerodrome-finance/contracts/blob/main/README.md"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "cbBTC",
+    "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+    "issuance": "native",
+    "issuer": "Coinbase",
+    "sources": [
+      "https://github.com/coinbase/agentkit/blob/main/typescript/agentkit/src/action-providers/erc20/constants.ts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Same address as on Ethereum."
+  },
+  {
+    "symbol": "cbETH",
+    "address": "0x2Ae3F1Ec7F1F5012CFEab0185bfc7aa3cf0DEc22",
+    "issuance": "bridged",
+    "issuer": "Coinbase",
+    "bridge": "Base standard bridge",
+    "sources": [
+      "https://github.com/coinbase/agentkit/blob/main/typescript/agentkit/src/action-providers/erc20/constants.ts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "On-chain REMOTE_TOKEN()/l1Token() return the L1 token and BRIDGE() returns the OP-stack standard bridge 0x4200…0010."
+  },
+  {
+    "symbol": "DAI",
+    "address": "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+    "issuance": "bridged",
+    "issuer": "Base standard bridge (not Sky)",
+    "bridge": "Base standard bridge",
+    "sources": [],
+    "references": [
+      "https://github.com/ethereum-optimism/ethereum-optimism.github.io"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Sky lists no Base DAI. On-chain REMOTE_TOKEN()/l1Token() return the L1 token and BRIDGE() returns the OP-stack standard bridge 0x4200…0010."
+  },
+  {
+    "symbol": "EURC",
+    "address": "0x60a3E35Cc302bFA44Cb288Bc5a4F316Fdb1adb42",
+    "issuance": "native",
+    "issuer": "Circle",
+    "sources": [
+      "https://developers.circle.com/stablecoins/eurc-contract-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "ezETH",
+    "address": "0x2416092f143378750bb29b79eD961ab195CcEea5",
+    "issuance": "bridged",
+    "issuer": "Renzo",
+    "bridge": "Renzo xERC20 (Connext)",
+    "sources": [
+      "https://docs.renzoprotocol.com/docs/contracts/layer-2s/base"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "GHO",
+    "address": "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee",
+    "issuance": "native",
+    "issuer": "Aave",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/GhoBase.sol",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Moves across chains through Aave's CCIP token pool."
+  },
+  {
+    "symbol": "LBTC",
+    "address": "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+    "issuance": "native",
+    "issuer": "Lombard",
+    "sources": [
+      "https://docs.lombard.finance/learn/transparency/smart-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Cross-chain moves are Chainlink CCIP burn-and-mint co-signed by Lombard."
+  },
+  {
+    "symbol": "LINK",
+    "address": "0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
+    "issuance": "native",
+    "issuer": "Chainlink",
+    "sources": [
+      "https://docs.chain.link/resources/link-token-contracts"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "rETH",
+    "address": "0xB6fe221Fe9EeF5aBa221c348bA20A1Bf5e73624c",
+    "issuance": "bridged",
+    "issuer": "Rocket Pool",
+    "bridge": "Base standard bridge",
+    "sources": [
+      "https://github.com/rocket-pool/docs.rocketpool.net/blob/main/docs/en/protocol/contracts-integrations.md"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "On-chain REMOTE_TOKEN()/l1Token() return the L1 token and BRIDGE() returns the OP-stack standard bridge 0x4200…0010."
+  },
+  {
+    "symbol": "RLUSD",
+    "address": "0x8d58C0C60B8D6b88Fa98B291a646dB34d0F98258",
+    "issuance": "native",
+    "issuer": "Ripple",
+    "sources": [
+      "https://docs.ripple.com/products/stablecoin/overview/token-addresses"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Ripple lists the same proxy address on Base, Ink, Optimism, Unichain and XRPL EVM."
+  },
+  {
+    "symbol": "sUSDe",
+    "address": "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2",
+    "issuance": "native",
+    "issuer": "Ethena",
+    "sources": [
+      "https://docs.ethena.fi/solution-design/key-addresses"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Ethena's \"most L2s\" address; Base is in the listed chains."
+  },
+  {
+    "symbol": "sUSDS",
+    "address": "0x5875eEE11Cf8398102FdAd704C9E96607675467a",
+    "issuance": "bridged",
+    "issuer": "Sky",
+    "bridge": "Sky Base token bridge",
+    "sources": [
+      "https://github.com/sky-ecosystem/spells-mainnet/blob/master/src/test/addresses_base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Key L2_SUSDS in Sky's Base address file."
+  },
+  {
+    "symbol": "syrupUSDC",
+    "address": "0x660975730059246A68521a3e2FBD4740173100f5",
+    "issuance": "native",
+    "issuer": "Maple",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "tBTC",
+    "address": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+    "issuance": "bridged",
+    "issuer": "Threshold",
+    "bridge": "Wormhole (Threshold BaseWormholeGateway)",
+    "sources": [
+      "https://docs.threshold.network/contract-addresses/tbtc"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDbC",
+    "address": "0xd9aAEc86B65D86f6A7B5B1b0c42FFA531710b6CA",
+    "issuance": "bridged",
+    "issuer": "Base standard bridge (not Circle)",
+    "bridge": "Base standard bridge",
+    "legacy": true,
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Bridged USDC from before native USDC launched on Base. On-chain REMOTE_TOKEN()/l1Token() return the L1 token and BRIDGE() returns the OP-stack standard bridge 0x4200…0010."
+  },
+  {
+    "symbol": "USDC",
+    "address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "issuance": "native",
+    "issuer": "Circle",
+    "sources": [
+      "https://developers.circle.com/stablecoins/usdc-contract-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDe",
+    "address": "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+    "issuance": "native",
+    "issuer": "Ethena",
+    "sources": [
+      "https://docs.ethena.fi/solution-design/key-addresses"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Ethena's \"most L2s\" address; Base is in the listed chains."
+  },
+  {
+    "symbol": "USDS",
+    "address": "0x820C137fa70C8691f0e44Dc420a5e53c168921Dc",
+    "issuance": "bridged",
+    "issuer": "Sky",
+    "bridge": "Sky Base token bridge",
+    "sources": [
+      "https://github.com/sky-ecosystem/spells-mainnet/blob/master/src/test/addresses_base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Key L2_USDS in Sky's Base address file."
+  },
+  {
+    "symbol": "USDT",
+    "address": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
+    "issuance": "bridged",
+    "issuer": "Base standard bridge (not Tether)",
+    "bridge": "Base standard bridge",
+    "sources": [],
+    "references": [
+      "https://github.com/ethereum-optimism/ethereum-optimism.github.io"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Tether lists no Base deployment. On-chain REMOTE_TOKEN()/l1Token() return the L1 token and BRIDGE() returns the OP-stack standard bridge 0x4200…0010."
+  },
+  {
+    "symbol": "WBTC",
+    "address": "0x1ceA84203673764244E05693e42E6Ace62bE9BA5",
+    "issuance": "native",
+    "issuer": "BitGo",
+    "sources": [
+      "https://wbtc.network/transparency",
+      "https://www.bitgo.com/resources/blog/launching-wrapped-bitcoin-wbtc-on-base"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Supply was small at verification (about 0.005 WBTC)."
+  },
+  {
+    "symbol": "weETH",
+    "address": "0x04C0599Ae5A44757c0af6F9eC3b93da8976c150A",
+    "issuance": "bridged",
+    "issuer": "ether.fi",
+    "bridge": "LayerZero OFT",
+    "sources": [
+      "https://etherfi.gitbook.io/etherfi/contracts-and-integrations/deployed-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "The Superchain token list carries a different Base weETH (0x4c94…5EFA) that ether.fi does not list."
+  },
+  {
+    "symbol": "WETH",
+    "address": "0x4200000000000000000000000000000000000006",
+    "issuance": "native",
+    "issuer": "OP Stack WETH9 predeploy",
+    "sources": [
+      "https://docs.base.org/base-chain/network-information/base-contracts",
+      "https://specs.optimism.io/protocol/predeploys.html"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "wrsETH",
+    "address": "0xEDfa23602D0EC14714057867A78d01e94176BEA0",
+    "issuance": "bridged",
+    "issuer": "Kelp",
+    "bridge": "Kelp rsETH wrapper",
+    "sources": [
+      "https://github.com/Kelp-DAO/LRT-rsETH/blob/main/README.md"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Kelp's LayerZero rsETH on Base (0x1Bc7…5993) is a separate token."
+  },
+  {
+    "symbol": "wstETH",
+    "address": "0xc1CBa3fCea344f92D9239c08C0568f6F2F0ee452",
+    "issuance": "bridged",
+    "issuer": "Lido",
+    "bridge": "Lido token bridge",
+    "sources": [
+      "https://docs.lido.fi/deployed-contracts/"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Base.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  }
+]

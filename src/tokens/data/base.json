@@ -120,6 +120,27 @@
     }
   },
   {
+    "symbol": "ezETH",
+    "address": "0x2416092f143378750bb29b79eD961ab195CcEea5",
+    "decimals": 18,
+    "name": "Renzo Restaked ETH",
+    "explorer": "https://basescan.org/token/0x2416092f143378750bb29b79eD961ab195CcEea5"
+  },
+  {
+    "symbol": "GHO",
+    "address": "0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee",
+    "decimals": 18,
+    "name": "GHO",
+    "explorer": "https://basescan.org/token/0x6Bb7a212910682DCFdbd5BCBb3e28FB4E8da10Ee"
+  },
+  {
+    "symbol": "LBTC",
+    "address": "0xecAc9C5F704e954931349Da37F60E39f515c11c1",
+    "decimals": 8,
+    "name": "Lombard Staked Bitcoin",
+    "explorer": "https://basescan.org/token/0xecAc9C5F704e954931349Da37F60E39f515c11c1"
+  },
+  {
     "symbol": "LINK",
     "address": "0x88Fb150BDc53A65fe94Dea0c9BA0a6dAf8C6e196",
     "decimals": 18,
@@ -153,6 +174,13 @@
     }
   },
   {
+    "symbol": "RLUSD",
+    "address": "0x8d58C0C60B8D6b88Fa98B291a646dB34d0F98258",
+    "decimals": 18,
+    "name": "Ripple USD",
+    "explorer": "https://basescan.org/token/0x8d58C0C60B8D6b88Fa98B291a646dB34d0F98258"
+  },
+  {
     "symbol": "RSR",
     "address": "0xaB36452DbAC151bE02b16Ca17d8919826072f64a",
     "decimals": 18,
@@ -164,6 +192,34 @@
       "x": "https://x.com/reserveprotocol",
       "telegram": "https://t.me/reservecurrency"
     }
+  },
+  {
+    "symbol": "sUSDe",
+    "address": "0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2",
+    "decimals": 18,
+    "name": "Staked USDe",
+    "explorer": "https://basescan.org/token/0x211Cc4DD073734dA055fbF44a2b4667d5E5fE5d2"
+  },
+  {
+    "symbol": "sUSDS",
+    "address": "0x5875eEE11Cf8398102FdAd704C9E96607675467a",
+    "decimals": 18,
+    "name": "Savings USDS",
+    "explorer": "https://basescan.org/token/0x5875eEE11Cf8398102FdAd704C9E96607675467a"
+  },
+  {
+    "symbol": "syrupUSDC",
+    "address": "0x660975730059246A68521a3e2FBD4740173100f5",
+    "decimals": 6,
+    "name": "Syrup USDC",
+    "explorer": "https://basescan.org/token/0x660975730059246A68521a3e2FBD4740173100f5"
+  },
+  {
+    "symbol": "tBTC",
+    "address": "0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b",
+    "decimals": 18,
+    "name": "Base tBTC v2",
+    "explorer": "https://basescan.org/token/0x236aa50979D5f3De3Bd1Eeb40E81137F22ab794b"
   },
   {
     "symbol": "TOSHI",
@@ -221,6 +277,20 @@
     }
   },
   {
+    "symbol": "USDe",
+    "address": "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+    "decimals": 18,
+    "name": "USDe",
+    "explorer": "https://basescan.org/token/0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34"
+  },
+  {
+    "symbol": "USDS",
+    "address": "0x820C137fa70C8691f0e44Dc420a5e53c168921Dc",
+    "decimals": 18,
+    "name": "USDS Stablecoin",
+    "explorer": "https://basescan.org/token/0x820C137fa70C8691f0e44Dc420a5e53c168921Dc"
+  },
+  {
     "symbol": "USDT",
     "address": "0xfde4C96c8593536E31F229EA8f37b2ADa2699bb2",
     "decimals": 6,
@@ -240,6 +310,20 @@
     "description": "The ecosystem for the creation and co-ownership of autonomous AI Agents. Building the first autonomous agentic network state.",
     "website": "https://app.virtuals.io/",
     "explorer": "https://basescan.org/token/0x0b3e328455c4059EEb9e3f84b5543F74E24e7E1b"
+  },
+  {
+    "symbol": "WBTC",
+    "address": "0x1ceA84203673764244E05693e42E6Ace62bE9BA5",
+    "decimals": 8,
+    "name": "Wrapped BTC",
+    "explorer": "https://basescan.org/token/0x1ceA84203673764244E05693e42E6Ace62bE9BA5"
+  },
+  {
+    "symbol": "weETH",
+    "address": "0x04C0599Ae5A44757c0af6F9eC3b93da8976c150A",
+    "decimals": 18,
+    "name": "Wrapped eETH",
+    "explorer": "https://basescan.org/token/0x04C0599Ae5A44757c0af6F9eC3b93da8976c150A"
   },
   {
     "symbol": "WELL",
@@ -265,6 +349,13 @@
       "coinmarketcap": "https://coinmarketcap.com/currencies/weth/",
       "coingecko": "https://coingecko.com/coins/weth/"
     }
+  },
+  {
+    "symbol": "wrsETH",
+    "address": "0xEDfa23602D0EC14714057867A78d01e94176BEA0",
+    "decimals": 18,
+    "name": "Wrapped rsETH",
+    "explorer": "https://basescan.org/token/0xEDfa23602D0EC14714057867A78d01e94176BEA0"
   },
   {
     "symbol": "wstETH",

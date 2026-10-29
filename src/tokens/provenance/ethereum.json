@@ -1,0 +1,774 @@
+[
+  {
+    "symbol": "1INCH",
+    "address": "0x111111111117dC0aa78b770fA6A738034120C302",
+    "issuance": "native",
+    "issuer": "1inch",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "AAVE",
+    "address": "0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9",
+    "issuance": "native",
+    "issuer": "Aave",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "BAL",
+    "address": "0xba100000625a3754423978a60c9317c58a424e3D",
+    "issuance": "native",
+    "issuer": "Balancer",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "BTC.b",
+    "address": "0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072",
+    "issuance": "native",
+    "issuer": "Lombard",
+    "sources": [
+      "https://docs.lombard.finance/learn/transparency/smart-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Launched by Ava Labs; acquired by Lombard in October 2025. 1:1 BTC wrapper, no yield."
+  },
+  {
+    "symbol": "cbBTC",
+    "address": "0xcbB7C0000aB88B473b1f5aFd9ef808440eed33Bf",
+    "issuance": "native",
+    "issuer": "Coinbase",
+    "sources": [
+      "https://github.com/coinbase/agentkit/blob/main/typescript/agentkit/src/action-providers/erc20/constants.ts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "coinbase.com returned 403; source is Coinbase's official GitHub."
+  },
+  {
+    "symbol": "cbETH",
+    "address": "0xBe9895146f7AF43049ca1c1AE358B0541Ea49704",
+    "issuance": "native",
+    "issuer": "Coinbase",
+    "sources": [
+      "https://github.com/coinbase/agentkit/blob/main/typescript/agentkit/src/action-providers/erc20/constants.ts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "coinbase.com returned 403; source is Coinbase's official GitHub."
+  },
+  {
+    "symbol": "cmETH",
+    "address": "0xE6829d9a7eE3040e1276Fa75293Bde931859e8fA",
+    "issuance": "native",
+    "issuer": "Mantle",
+    "sources": [
+      "https://docs.mantle.xyz/meth/components/smart-contracts/restaking-cmeth"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "A secondary report says minting was disabled on 2026-05-07 as Mantle winds cmETH down; no Mantle announcement was fetched. Transfers simulated cleanly on 2026-10-28."
+  },
+  {
+    "symbol": "CRV",
+    "address": "0xD533a949740bb3306d119CC777fa900bA034cd52",
+    "issuance": "native",
+    "issuer": "Curve",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "crvUSD",
+    "address": "0xf939E0A03FB07F59A73314E73794Be0E57ac1b4E",
+    "issuance": "native",
+    "issuer": "Curve",
+    "sources": [
+      "https://docs.curve.finance/developer/crvusd/"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "DAI",
+    "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    "issuance": "native",
+    "issuer": "Sky",
+    "sources": [
+      "https://chainlog.sky.money/api/mainnet/active.json"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Chainlog key MCD_DAI."
+  },
+  {
+    "symbol": "eBTC",
+    "address": "0x657e8C867D8B37dCC18fA4Caead9C45EB088C642",
+    "issuance": "native",
+    "issuer": "ether.fi",
+    "sources": [
+      "https://etherfi.gitbook.io/etherfi/contracts-and-integrations/deployed-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "eETH",
+    "address": "0x35fA164735182de50811E8e2E824cFb9B6118ac2",
+    "issuance": "native",
+    "issuer": "ether.fi",
+    "sources": [
+      "https://etherfi.gitbook.io/etherfi/contracts-and-integrations/deployed-contracts"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Exists only on Ethereum. Rebasing; see transferConstraints."
+  },
+  {
+    "symbol": "ENS",
+    "address": "0xC18360217D8F7Ab5e7c516566761Ea12Ce7F9D72",
+    "issuance": "native",
+    "issuer": "ENS",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "ETHx",
+    "address": "0xA35b1B31Ce002FBF2058D22F30f95D405200A15b",
+    "issuance": "native",
+    "issuer": "Stader",
+    "sources": [
+      "https://staderlabs.gitbook.io/ethereum/smart-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "EURC",
+    "address": "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
+    "issuance": "native",
+    "issuer": "Circle",
+    "sources": [
+      "https://developers.circle.com/stablecoins/eurc-contract-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "eUSDe",
+    "address": "0x90D2af7d622ca3141efA4d8f1F24d86E5974Cc8F",
+    "issuance": "native",
+    "issuer": "Ethereal",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "No Ethena or Ethereal page lists it. Source is Aave's address book, which lists it as a Core reserve; on-chain name is \"Ethereal Pre-deposit Vault\"."
+  },
+  {
+    "symbol": "ezETH",
+    "address": "0xbf5495Efe5DB9ce00f80364C8B423567e58d2110",
+    "issuance": "native",
+    "issuer": "Renzo",
+    "sources": [
+      "https://docs.renzoprotocol.com/docs/contracts/ethereum-mainnet"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Renzo also lists an L1 xERC20 ezETH at 0x2416…ceea5, a separate token; that address is the catalog's Base ezETH."
+  },
+  {
+    "symbol": "FBTC",
+    "address": "0xC96dE26018A54D51c097160568752c4E3BD6C364",
+    "issuance": "native",
+    "issuer": "Ignition (FBTC)",
+    "sources": [
+      "https://docs.fbtc.com/developers/smart-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "FDUSD",
+    "address": "0xc5f0f7b66764F6ec8C8Dff7BA683102295E16409",
+    "issuance": "native",
+    "issuer": "First Digital",
+    "sources": [
+      "https://www.firstdigitallabs.com/fdusd"
+    ],
+    "references": [
+      "https://web.archive.org/web/20260417165942/https://www.firstdigitallabs.com/fdusd"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "The live page returned 403 on 2026-10-28; the address was read from its 2026-04-17 archive."
+  },
+  {
+    "symbol": "FRAX",
+    "address": "0x853d955aCEf822Db058eb8505911ED77F175b99e",
+    "issuance": "native",
+    "issuer": "Frax",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve). Secondary reports say it was renamed \"Legacy Frax Dollar\" (FIP-428) after frxUSD launched; on-chain name is still \"Frax\"."
+  },
+  {
+    "symbol": "frxETH",
+    "address": "0x5E8422345238F34275888049021821E8E08CAa1f",
+    "issuance": "native",
+    "issuer": "Frax",
+    "sources": [
+      "https://docs.frax.finance/frax-ether/frxeth-and-sfrxeth-token-addresses"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Frax also has LayerZero frxETH on Ethereum at a different address."
+  },
+  {
+    "symbol": "FXS",
+    "address": "0x3432B6A60D23Ca0dFCa7761B7ab56459D9C964D0",
+    "issuance": "native",
+    "issuer": "Frax",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "GHO",
+    "address": "0x40D16FC0246aD3160Ccc09B8D0D3A2cD28aE6C2f",
+    "issuance": "native",
+    "issuer": "Aave",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/GhoEthereum.sol",
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "KNC",
+    "address": "0xdeFA4e8a7bcBA345F687a2f1456F5Edd9CE97202",
+    "issuance": "native",
+    "issuer": "Kyber Network",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "LBTC",
+    "address": "0x8236a87084f8B84306f72007F36F2618A5634494",
+    "issuance": "native",
+    "issuer": "Lombard",
+    "sources": [
+      "https://docs.lombard.finance/learn/transparency/smart-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "LDO",
+    "address": "0x5A98FcBEA516Cf06857215779Fd812CA3beF1B32",
+    "issuance": "native",
+    "issuer": "Lido",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "LINK",
+    "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+    "issuance": "native",
+    "issuer": "Chainlink",
+    "sources": [
+      "https://docs.chain.link/resources/link-token-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "LUSD",
+    "address": "0x5f98805A4E8be255a32880FDeC7F6728C6568bA0",
+    "issuance": "native",
+    "issuer": "Liquity (v1)",
+    "sources": [
+      "https://docs.liquity.org/liquity-v1/documentation/resources"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "mETH",
+    "address": "0xd5F7838F5C461fefF7FE49ea5ebaF7728bB0ADfa",
+    "issuance": "native",
+    "issuer": "Mantle",
+    "sources": [
+      "https://docs.mantle.xyz/meth/components/smart-contracts/staking-meth"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "MKR",
+    "address": "0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2",
+    "issuance": "native",
+    "issuer": "Sky",
+    "legacy": true,
+    "sources": [
+      "https://chainlog.sky.money/api/mainnet/active.json"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Superseded by SKY: the chainlog's MCD_GOV now points to SKY, and MKR converts one-way to SKY. symbol()/name() return bytes32."
+  },
+  {
+    "symbol": "mUSD",
+    "address": "0xacA92E438df0B2401fF60dA7E4337B687a2435DA",
+    "issuance": "native",
+    "issuer": "MetaMask",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "osETH",
+    "address": "0xf1C9acDc66974dFB6dEcB12aA385b9cD01190E38",
+    "issuance": "native",
+    "issuer": "StakeWise",
+    "sources": [
+      "https://docs.stakewise.io/contracts/networks/Mainnet"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "PYUSD",
+    "address": "0x6c3ea9036406852006290770BEdFcAbA0e23A0e8",
+    "issuance": "native",
+    "issuer": "Paxos (for PayPal)",
+    "sources": [
+      "https://docs.paxos.com/guides/stablecoin/pyusd/mainnet"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "rETH",
+    "address": "0xae78736Cd615f374D3085123A210448E74Fc6393",
+    "issuance": "native",
+    "issuer": "Rocket Pool",
+    "sources": [
+      "https://github.com/rocket-pool/docs.rocketpool.net/blob/main/docs/en/protocol/contracts-integrations.md"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "RLUSD",
+    "address": "0x8292Bb45bf1Ee4d140127049757C2E0fF06317eD",
+    "issuance": "native",
+    "issuer": "Ripple",
+    "sources": [
+      "https://docs.ripple.com/products/stablecoin/overview/token-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "RPL",
+    "address": "0xD33526068D116cE69F19A9ee46F0bd304F21A51f",
+    "issuance": "native",
+    "issuer": "Rocket Pool",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "rsETH",
+    "address": "0xA1290d69c65A6Fe4DF752f95823fae25cB99e5A7",
+    "issuance": "native",
+    "issuer": "Kelp",
+    "sources": [
+      "https://github.com/Kelp-DAO/LRT-rsETH/blob/main/README.md"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "sDAI",
+    "address": "0x83F20F44975D03b1b09e64809B757c47f942BEeA",
+    "issuance": "native",
+    "issuer": "Sky (documented by Spark)",
+    "sources": [
+      "https://docs.spark.finance/dev/savings/sdai-token"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "sfrxETH",
+    "address": "0xac3E018457B222d93114458476f3E3416Abbe38F",
+    "issuance": "native",
+    "issuer": "Frax",
+    "sources": [
+      "https://docs.frax.finance/frax-ether/frxeth-and-sfrxeth-token-addresses"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Frax also has LayerZero sfrxETH on Ethereum at a different address."
+  },
+  {
+    "symbol": "SKY",
+    "address": "0x56072C95FAA701256059aa122697B133aDEd9279",
+    "issuance": "native",
+    "issuer": "Sky",
+    "sources": [
+      "https://chainlog.sky.money/api/mainnet/active.json"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Chainlog keys SKY and MCD_GOV."
+  },
+  {
+    "symbol": "SNX",
+    "address": "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F",
+    "issuance": "native",
+    "issuer": "Synthetix",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "SolvBTC",
+    "address": "0x7A56E1C57C7475CCf742a1832B028F0456652F97",
+    "issuance": "native",
+    "issuer": "Solv",
+    "sources": [
+      "https://github.com/solv-finance/SolvBTC/blob/main/deploy/SolvBTC/10099_export_SolvBTCInfos.js"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "docs.solv.finance returned 403; source is Solv's deploy script on GitHub."
+  },
+  {
+    "symbol": "stETH",
+    "address": "0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84",
+    "issuance": "native",
+    "issuer": "Lido",
+    "sources": [
+      "https://docs.lido.fi/deployed-contracts/"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Rebasing; see transferConstraints."
+  },
+  {
+    "symbol": "STG",
+    "address": "0xAf5191B0De278C7286d6C7CC6ab6BB8A73bA2Cd6",
+    "issuance": "native",
+    "issuer": "Stargate",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "sUSDe",
+    "address": "0x9D39A5DE30e57443BfF2A8307A4256c8797A3497",
+    "issuance": "native",
+    "issuer": "Ethena",
+    "sources": [
+      "https://docs.ethena.fi/solution-design/key-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "sUSDS",
+    "address": "0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD",
+    "issuance": "native",
+    "issuer": "Sky",
+    "sources": [
+      "https://chainlog.sky.money/api/mainnet/active.json"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Chainlog key SUSDS."
+  },
+  {
+    "symbol": "syrupUSDT",
+    "address": "0x356B8d89c1e1239Cbbb9dE4815c39A1474d5BA7D",
+    "issuance": "native",
+    "issuer": "Maple",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "tBTC",
+    "address": "0x18084fbA666a33d37592fA2633fD49a74DD93a88",
+    "issuance": "native",
+    "issuer": "Threshold",
+    "sources": [
+      "https://docs.threshold.network/contract-addresses/tbtc"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "tETH",
+    "address": "0xD11c452fc99cF405034ee446803b6F6c1F6d5ED8",
+    "issuance": "native",
+    "issuer": "Treehouse",
+    "sources": [
+      "https://docs.treehouse.finance/protocol/tasset/key-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "UNI",
+    "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "issuance": "native",
+    "issuer": "Uniswap",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve)."
+  },
+  {
+    "symbol": "USD1",
+    "address": "0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d",
+    "issuance": "native",
+    "issuer": "World Liberty Financial",
+    "sources": [
+      "https://docs.worldlibertyfinancial.com/usd1-token/contract-addresses"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDC",
+    "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    "issuance": "native",
+    "issuer": "Circle",
+    "sources": [
+      "https://developers.circle.com/stablecoins/usdc-contract-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDe",
+    "address": "0x4c9EDD5852cd905f086C759E8383e09bff1E68B3",
+    "issuance": "native",
+    "issuer": "Ethena",
+    "sources": [
+      "https://docs.ethena.fi/solution-design/key-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDG",
+    "address": "0xe343167631d89B6Ffc58B88d6b7fB0228795491D",
+    "issuance": "native",
+    "issuer": "Paxos",
+    "sources": [
+      "https://docs.paxos.com/guides/stablecoin/usdg/mainnet"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDS",
+    "address": "0xdC035D45d973E3EC169d2276DDab16f1e407384F",
+    "issuance": "native",
+    "issuer": "Sky",
+    "sources": [
+      "https://chainlog.sky.money/api/mainnet/active.json"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Chainlog key USDS."
+  },
+  {
+    "symbol": "USDT",
+    "address": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "issuance": "native",
+    "issuer": "Tether",
+    "sources": [
+      "https://tether.to/en/supported-protocols/"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDtb",
+    "address": "0xC139190F447e929f090Edeb554D95AbB8b18aC1C",
+    "issuance": "native",
+    "issuer": "Ethena (issued by Anchorage Digital Bank since October 2025)",
+    "sources": [
+      "https://docs.usdtb.money/key-addresses"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "The current implementation has a blocklist and a pause switch; its whitelist roles are deprecated. A full-balance transfer to a fresh address simulated cleanly on 2026-10-28."
+  },
+  {
+    "symbol": "WBTC",
+    "address": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+    "issuance": "native",
+    "issuer": "BitGo",
+    "sources": [
+      "https://wbtc.network/transparency"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "weETH",
+    "address": "0xCd5fE23C85820F7B72D0926FC9b05b43E359b7ee",
+    "issuance": "native",
+    "issuer": "ether.fi",
+    "sources": [
+      "https://etherfi.gitbook.io/etherfi/contracts-and-integrations/deployed-contracts"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "WETH",
+    "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+    "issuance": "native",
+    "issuer": "WETH9 (canonical wrapped Ether)",
+    "sources": [
+      "https://ethereum.org/en/wrapped-eth/",
+      "https://developers.uniswap.org/docs/protocols/v3/deployments/v3-ethereum-deployments"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "wstETH",
+    "address": "0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0",
+    "issuance": "native",
+    "issuer": "Lido",
+    "sources": [
+      "https://docs.lido.fi/deployed-contracts/"
+    ],
+    "references": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "XAUt",
+    "address": "0x68749665FF8D2d112Fa859AA293F07A622782F38",
+    "issuance": "native",
+    "issuer": "Tether",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Ethereum.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Source is Aave's address book (Core reserve). A full-balance transfer simulated cleanly on 2026-10-28; no fee."
+  },
+  {
+    "symbol": "xSolvBTC",
+    "address": "0xd9D920AA40f578ab794426F5C90F6C731D159DEf",
+    "issuance": "native",
+    "issuer": "Solv",
+    "sources": [
+      "https://github.com/solv-finance/SolvBTC/blob/main/deploy/xSolvBTCPool/1099_export_xSolvBTCPoolInfos.js"
+    ],
+    "references": [
+      "https://docs.chain.link/ccip/directory/mainnet/token/xSolvBTC"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Formerly SolvBTC.BBN (\"SolvBTC Babylon\"). The contract's name() and symbol() both return xSolvBTC; the catalog key was renamed to match."
+  }
+]

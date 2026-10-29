@@ -208,6 +208,21 @@ There's no equivalent multi-protocol + multi-chain + addresses + ABIs + topics p
 
 Address verification: link to the canonical source (Etherscan-verified deployment, protocol docs, official address book). PRs that don't cite a source for the addresses won't merge.
 
+## Token catalog
+
+`Tokens` recognizes assets by `(chainId, address)`: identity, decimals and who issues them. It promises a defined coverage target per chain rather than "all common tokens". A listed token is not a promise that every transfer succeeds; rows carry `transferConstraints` where a plain transfer can revert or deliver less.
+
+- Policy, coverage rules and consumer guidance: [docs/TOKEN_CATALOG.md](./docs/TOKEN_CATALOG.md)
+- Generated per-chain matrix: [docs/TOKEN_COVERAGE.md](./docs/TOKEN_COVERAGE.md)
+
+Adding or changing a token row means three files: the row in `src/tokens/data/<chain>.json`, its sources in `src/tokens/provenance/<chain>.json`, and the regenerated matrix:
+
+```bash
+yarn verify:tokens --rows candidates.json   # read-only on-chain check of new rows
+yarn report:tokens                          # regenerate docs/TOKEN_COVERAGE.md
+yarn verify:tokens                          # check every row; run before a release
+```
+
 ## Tokens sidecar (for non-TS consumers)
 
 `yarn build` writes a per-chain JSON file under `dist/tokens/` alongside the JS + d.ts outputs:

@@ -1,0 +1,66 @@
+[
+  {
+    "symbol": "EURC",
+    "address": "0x08210F9170F89Ab7658F0B5E3fF39b0E03C594D4",
+    "issuance": "test",
+    "issuer": "Circle",
+    "sources": [
+      "https://developers.circle.com/stablecoins/eurc-contract-addresses"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "LINK",
+    "address": "0x779877A7B0D9E8603169DdbD7836e478b4624789",
+    "issuance": "test",
+    "issuer": "Chainlink",
+    "sources": [
+      "https://docs.chain.link/resources/link-token-contracts"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "UNI",
+    "address": "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    "issuance": "test",
+    "issuer": "Uniswap",
+    "sources": [],
+    "references": [
+      "https://eth-sepolia.blockscout.com/address/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+      "https://eth.blockscout.com/address/0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Deployed by 0x4165…2Cfb, the same deployer as mainnet UNI, so the address matches mainnet."
+  },
+  {
+    "symbol": "USDC",
+    "address": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
+    "issuance": "test",
+    "issuer": "Circle",
+    "sources": [
+      "https://developers.circle.com/stablecoins/usdc-contract-addresses"
+    ],
+    "verifiedAt": "2026-10-28"
+  },
+  {
+    "symbol": "USDT",
+    "address": "0xaA8E23Fb1079EA71e0a56F48a2aA51851D8433D0",
+    "issuance": "test",
+    "issuer": "Aave V3 testnet faucet (not Tether)",
+    "sources": [
+      "https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Sepolia.sol"
+    ],
+    "verifiedAt": "2026-10-28",
+    "notes": "Tether publishes no Sepolia USDT. This is Aave's faucet token; Aave's other Sepolia faucet tokens stay in Protocols.aaveV3.reserves."
+  },
+  {
+    "symbol": "WETH",
+    "address": "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
+    "issuance": "test",
+    "issuer": "WETH9 used by Uniswap",
+    "sources": [
+      "https://developers.uniswap.org/docs/protocols/v3/deployments/v3-ethereum-deployments"
+    ],
+    "verifiedAt": "2026-10-28"
+  }
+]
