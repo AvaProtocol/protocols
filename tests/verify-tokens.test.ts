@@ -56,8 +56,8 @@ describe("parseCandidateRows()", () => {
 
 describe("parseArgs()", () => {
   it("parses the documented flags", () => {
-    expect(parseArgs([])).toEqual({ chain: undefined, json: false, rowsFile: undefined });
-    expect(parseArgs(["--chain", "56", "--json", "--rows", "new.json"])).toEqual({ chain: 56, json: true, rowsFile: "new.json" });
+    expect(parseArgs([])).toEqual({ chain: undefined, json: false, rowsFile: undefined, allowances: false });
+    expect(parseArgs(["--chain", "56", "--json", "--rows", "new.json", "--allowances"])).toEqual({ chain: 56, json: true, rowsFile: "new.json", allowances: true });
   });
 
   it("rejects --rows without a file, instead of checking the whole catalog", () => {

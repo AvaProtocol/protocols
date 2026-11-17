@@ -221,7 +221,15 @@ Adding or changing a token row means three files: the row in `src/tokens/data/<c
 yarn verify:tokens --rows candidates.json   # read-only on-chain check of new rows
 yarn report:tokens                          # regenerate docs/TOKEN_COVERAGE.md
 yarn verify:tokens                          # check every row; run before a release
+yarn verify:tokens --allowances             # also require a standard allowance getter
 ```
+
+CI and the publish workflow run the allowance check on every catalog chain.
+It uses fixed synthetic owner/spender addresses and read-only calls, pins each
+chain's allowance reads to a block, and rejects empty/malformed responses,
+reverts and RPC failures. It does not prove that a real wallet has no approvals:
+consumers must still verify their actual token/spender pairs. Override RPCs with
+`RPC_URL_<chainId>`; authenticated endpoint details are not printed on failure.
 
 ## Tokens sidecar (for non-TS consumers)
 

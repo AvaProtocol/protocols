@@ -7,6 +7,31 @@ on:
     branches: [main]
 
 jobs:
+  allowances:
+    name: Catalog allowances on chain ${{ matrix.chain }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        chain: [1, 8453, 56, 11155111, 84532]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+      - run: yarn install --frozen-lockfile
+      - name: Verify every catalog allowance getter
+        run: yarn verify:tokens --chain ${{ matrix.chain }} --allowances --json
+        env:
+          # Empty/unavailable secrets fall back to public RPCs. No signing keys.
+          RPC_URL_1: ${{ secrets.ETHEREUM_RPC }}
+          RPC_URL_8453: ${{ secrets.BASE_RPC }}
+          RPC_URL_56: ${{ secrets.BNB_RPC }}
+          RPC_URL_11155111: ${{ secrets.SEPOLIA_RPC }}
+          RPC_URL_84532: ${{ secrets.BASE_SEPOLIA_RPC }}
+
   test:
     name: Test on Node ${{ matrix.node }}
     runs-on: ubuntu-latest

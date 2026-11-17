@@ -71,6 +71,16 @@ describe("Tokens namespace", () => {
 });
 
 describe("lookupToken()", () => {
+  it("resolves BGB to Bitget's July 2024 replacement contract", () => {
+    // Canonical migration notice: https://www.bitget.com/support/articles/12560603811970
+    // The retired deployment has no standard allowance getter. A discovery
+    // inventory built from it cannot be verified as a normal ERC-20 approval.
+    const current = "0x54D2252757e1672EEaD234D27B1270728fF90581";
+    expect(Tokens.BGB[Chains.EthereumMainnet]?.address).toBe(current);
+    expect(lookupToken(Chains.EthereumMainnet, current)?.symbol).toBe("BGB");
+    expect(lookupToken(Chains.EthereumMainnet, "0x19de6b897Ed14A376Dda0Fe53a5420D2aC828a28")).toBeUndefined();
+  });
+
   it("finds mainnet USDC by lowercase address", () => {
     const result = lookupToken(Chains.EthereumMainnet, "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48");
     expect(result?.symbol).toBe("USDC");

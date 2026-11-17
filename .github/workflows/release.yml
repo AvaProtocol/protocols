@@ -58,6 +58,17 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      # The publish workflow runs independently from CI on main. Re-check here
+      # so an ABI regression or RPC outage cannot race a package publication.
+      - name: Verify catalog allowances before versioning or publication
+        run: yarn verify:tokens --allowances --json
+        env:
+          RPC_URL_1: ${{ secrets.ETHEREUM_RPC }}
+          RPC_URL_8453: ${{ secrets.BASE_RPC }}
+          RPC_URL_56: ${{ secrets.BNB_RPC }}
+          RPC_URL_11155111: ${{ secrets.SEPOLIA_RPC }}
+          RPC_URL_84532: ${{ secrets.BASE_SEPOLIA_RPC }}
+
       - name: Create Release PR or publish
         uses: changesets/action@v1
         with:

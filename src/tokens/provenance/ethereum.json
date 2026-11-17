@@ -32,6 +32,20 @@
     "notes": "Source is Aave's address book (Core reserve)."
   },
   {
+    "symbol": "BGB",
+    "address": "0x54D2252757e1672EEaD234D27B1270728fF90581",
+    "issuance": "native",
+    "issuer": "Bitget",
+    "sources": [
+      "https://www.bitget.com/support/articles/12560603811970"
+    ],
+    "references": [
+      "https://etherscan.io/token/0x54D2252757e1672EEaD234D27B1270728fF90581"
+    ],
+    "verifiedAt": "2026-11-16",
+    "notes": "Issuer's July 2024 migration replaced 0x19de6b897Ed14A376Dda0Fe53a5420D2aC828a28 at 1:1. The superseded contract returns empty data for allowance(address,address); the replacement returns a standard uint256. Verified with read-only calls at Ethereum block 26433368."
+  },
+  {
     "symbol": "BTC.b",
     "address": "0xB0F70C0bD6FD87dbEb7C10dC692a2a6106817072",
     "issuance": "native",

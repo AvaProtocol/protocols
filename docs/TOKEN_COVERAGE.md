@@ -10,7 +10,7 @@ Status: **present** (listed, canonical source recorded); **bridged** or **test t
 
 | Chain | Rows | Provenance recorded | Provenance pending | Known gaps | With transfer constraints |
 |---|---|---|---|---|---|
-| Ethereum | 130 | 63 | 67 | 0 | 5 |
+| Ethereum | 130 | 64 | 66 | 0 | 5 |
 | Base | 37 | 26 | 11 | 0 | 0 |
 | BNB Chain | 17 | 17 | 0 | 0 | 0 |
 | Sepolia | 7 | 6 | 1 | 0 | 0 |
@@ -81,6 +81,7 @@ Status: **present** (listed, canonical source recorded); **bridged** or **test t
 
 | Asset | Status | Address | Sources | Verified |
 |---|---|---|---|---|
+| BGB | present | `0x54D2252757e1672EEaD234D27B1270728fF90581` | [bitget.com](https://www.bitget.com/support/articles/12560603811970); also [etherscan.io](https://etherscan.io/token/0x54D2252757e1672EEaD234D27B1270728fF90581) | 2026-11-16 |
 | cmETH | present | `0xE6829d9a7eE3040e1276Fa75293Bde931859e8fA` | [docs.mantle.xyz](https://docs.mantle.xyz/meth/components/smart-contracts/restaking-cmeth) | 2026-10-28 |
 | eETH | present; transfer handling: rebasing | `0x35fA164735182de50811E8e2E824cFb9B6118ac2` | [etherfi.gitbook.io](https://etherfi.gitbook.io/etherfi/contracts-and-integrations/deployed-contracts) | 2026-10-28 |
 | frxETH | present | `0x5E8422345238F34275888049021821E8E08CAa1f` | [docs.frax.finance](https://docs.frax.finance/frax-ether/frxeth-and-sfrxeth-token-addresses) | 2026-10-28 |
@@ -91,11 +92,11 @@ Status: **present** (listed, canonical source recorded); **bridged** or **test t
 | sUSDS | present | `0xa3931d71877C0E7a3148CB7Eb4463524FEc27fbD` | [chainlog.sky.money](https://chainlog.sky.money/api/mainnet/active.json) | 2026-10-28 |
 | xSolvBTC | present | `0xd9D920AA40f578ab794426F5C90F6C731D159DEf` | [solv-finance/SolvBTC](https://github.com/solv-finance/SolvBTC/blob/main/deploy/xSolvBTCPool/1099_export_xSolvBTCPoolInfos.js); also [docs.chain.link](https://docs.chain.link/ccip/directory/mainnet/token/xSolvBTC) | 2026-10-28 |
 
-### Provenance pending (67)
+### Provenance pending (66)
 
 Listed before provenance tracking. `yarn verify:tokens` reads their code, decimals and symbol on-chain; no canonical source has been recorded yet.
 
-AIOZ, APE, ARB, ATH, AXS, BGB, BNB, Bonk, BTT, BUIDL, Cake, cgETH.hashkey, clBTC, COMP, CRO, DEXE, DYDX, EIGEN, ENA, ETHFI, FET, FLOKI, FTN, GALA, GRT, GT, IMX, INJ, JASMY, LEO, LsETH, MANA, MNT, NEAR, NEXO, NFT, OKB, ONDO, OUSG, PAXG, PENDLE, PEPE, POL, pumpBTC, QNT, RNDR, RSR, SAND, SHIB, SPX, STRK, SYRUP, syrupUSDC, TEL, TKX, TONCOIN, TUSD, USD0, USDD, USDX, USDY, USYC, VIRTUAL, WBT, WLD, XCN, ZK
+AIOZ, APE, ARB, ATH, AXS, BNB, Bonk, BTT, BUIDL, Cake, cgETH.hashkey, clBTC, COMP, CRO, DEXE, DYDX, EIGEN, ENA, ETHFI, FET, FLOKI, FTN, GALA, GRT, GT, IMX, INJ, JASMY, LEO, LsETH, MANA, MNT, NEAR, NEXO, NFT, OKB, ONDO, OUSG, PAXG, PENDLE, PEPE, POL, pumpBTC, QNT, RNDR, RSR, SAND, SHIB, SPX, STRK, SYRUP, syrupUSDC, TEL, TKX, TONCOIN, TUSD, USD0, USDD, USDX, USDY, USYC, VIRTUAL, WBT, WLD, XCN, ZK
 
 Transfer handling among them:
 

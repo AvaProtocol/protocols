@@ -160,7 +160,7 @@ export const KNOWN_GAPS: readonly KnownGap[] = [];
  */
 export const PROVENANCE_PENDING: Readonly<Record<number, readonly string[]>> = Object.freeze({
   [Chains.EthereumMainnet]: [
-    "AIOZ", "APE", "ARB", "ATH", "AXS", "BGB", "BNB", "Bonk", "BTT", "BUIDL", "Cake",
+    "AIOZ", "APE", "ARB", "ATH", "AXS", "BNB", "Bonk", "BTT", "BUIDL", "Cake",
     "cgETH.hashkey", "clBTC", "COMP", "CRO", "DEXE", "DYDX", "EIGEN", "ENA", "ETHFI", "FET",
     "FLOKI", "FTN", "GALA", "GRT", "GT", "IMX", "INJ", "JASMY", "LEO", "LsETH", "MANA", "MNT",
     "NEAR", "NEXO", "NFT", "OKB", "ONDO", "OUSG", "PAXG", "PENDLE", "PEPE", "POL", "pumpBTC", "QNT",
