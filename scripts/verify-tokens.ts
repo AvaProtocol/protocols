@@ -7,6 +7,7 @@
  *   - contract code exists at the address
  *   - `decimals()` equals the catalog's `decimals`
  *   - `symbol()` matches the catalog symbol (case-insensitive)
+ *   - with `--allowances`, the standard allowance getter returns exactly 32 bytes
  *
  * A symbol mismatch is a warning, not an error: a few catalog keys
  * deliberately differ from the on-chain string (see the per-row
@@ -20,6 +21,7 @@
  *   yarn verify:tokens --chain 56      # one chain
  *   yarn verify:tokens --json          # machine-readable output
  *   yarn verify:tokens --rows new.json # check candidate rows before adding them
+ *   yarn verify:tokens --allowances   # also check the interface budget discovery needs
  *
  * `--rows` takes a JSON array of `{ chainId, symbol, address, decimals }`
  * and checks those instead of the catalog files. Every row must be
@@ -37,7 +39,7 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { Contract, JsonRpcProvider, decodeBytes32String, isAddress } from "ethers";
+import { Contract, FetchRequest, Interface, JsonRpcProvider, decodeBytes32String, isAddress } from "ethers";
 
 import { Chains } from "../src/chains";
 
@@ -83,6 +85,35 @@ interface RowResult {
   readonly warnings: string[];
 }
 
+// Fixed synthetic identities, unrelated to any customer's account. This probes
+// the ERC-20 interface; the gateway must still read each real approval pair.
+const ALLOWANCE_OWNER = "0x1111111111111111111111111111111111111111";
+const ALLOWANCE_SPENDER = "0x2222222222222222222222222222222222222222";
+const allowanceInterface = new Interface(["function allowance(address,address) view returns (uint256)"]);
+const allowanceData = allowanceInterface.encodeFunctionData("allowance", [ALLOWANCE_OWNER, ALLOWANCE_SPENDER]);
+
+export interface AllowanceCaller {
+  call(transaction: { to: string; data: string; blockTag: number }): Promise<string>;
+}
+
+/** An interface check, never an assertion that this token has no approvals. */
+export async function verifyAllowance(options: {
+  caller: AllowanceCaller;
+  address: string;
+  blockTag: number;
+}): Promise<string | undefined> {
+  try {
+    const result = await options.caller.call({ to: options.address, data: allowanceData, blockTag: options.blockTag });
+    if (!/^0x(?:[0-9a-fA-F]{2})*$/.test(result)) return "allowance() returned invalid hex";
+    const bytes = (result.length - 2) / 2;
+    return bytes === 32 ? undefined : `allowance() returned ${bytes} bytes (expected 32)`;
+  } catch {
+    // Provider exceptions can contain authenticated RPC URLs. A revert or an
+    // unavailable RPC must fail the check without exposing the endpoint.
+    return "allowance() read failed";
+  }
+}
+
 // `string` and `bytes32` variants — MKR and a few older tokens return
 // bytes32 from symbol()/name().
 const ERC20_ABI = [
@@ -108,7 +139,13 @@ async function readText(
   }
 }
 
-async function checkRow(provider: JsonRpcProvider, chainId: number, row: DataRow): Promise<RowResult> {
+async function checkRow(options: {
+  provider: JsonRpcProvider;
+  chainId: number;
+  row: DataRow;
+  allowanceBlock?: number;
+}): Promise<RowResult> {
+  const { provider, chainId, row, allowanceBlock } = options;
   const errors: string[] = [];
   const warnings: string[] = [];
   const code = await provider.getCode(row.address);
@@ -137,6 +174,10 @@ async function checkRow(provider: JsonRpcProvider, chainId: number, row: DataRow
   } else if (onchainSymbol.toLowerCase() !== row.symbol.toLowerCase()) {
     warnings.push(`symbol: catalog ${row.symbol}, chain ${onchainSymbol}`);
   }
+  if (allowanceBlock !== undefined) {
+    const error = await verifyAllowance({ caller: provider, address: row.address, blockTag: allowanceBlock });
+    if (error) errors.push(error);
+  }
   return {
     chainId,
     symbol: row.symbol,
@@ -164,13 +205,14 @@ async function mapLimited<T, R>(items: readonly T[], limit: number, fn: (item: T
   return out;
 }
 
-const FLAG = { chain: "--chain", rows: "--rows", json: "--json" } as const;
-const USAGE = `usage: verify-tokens [${FLAG.chain} <chainId>] [${FLAG.rows} <file.json>] [${FLAG.json}]`;
+const FLAG = { chain: "--chain", rows: "--rows", json: "--json", allowances: "--allowances" } as const;
+const USAGE = `usage: verify-tokens [${FLAG.chain} <chainId>] [${FLAG.rows} <file.json>] [${FLAG.json}] [${FLAG.allowances}]`;
 
 export interface VerifyArgs {
   readonly chain?: number;
   readonly json: boolean;
   readonly rowsFile?: string;
+  readonly allowances: boolean;
 }
 
 /** Strict: an unknown flag or a flag without its value throws, rather than falling back to the whole catalog. */
@@ -178,11 +220,16 @@ export function parseArgs(argv: readonly string[]): VerifyArgs {
   let chain: number | undefined;
   let rowsFile: string | undefined;
   let json = false;
+  let allowances = false;
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index];
     if (arg === "--") continue;
     if (arg === FLAG.json) {
       json = true;
+      continue;
+    }
+    if (arg === FLAG.allowances) {
+      allowances = true;
       continue;
     }
     if (arg === FLAG.chain || arg === FLAG.rows) {
@@ -194,7 +241,7 @@ export function parseArgs(argv: readonly string[]): VerifyArgs {
     }
     throw new Error(`unknown argument ${arg}; ${USAGE}`);
   }
-  return { chain, json, rowsFile };
+  return { chain, json, rowsFile, allowances };
 }
 
 /**
@@ -231,7 +278,7 @@ export function parseCandidateRows(input: unknown, chain?: number): CandidateRow
 }
 
 async function main() {
-  const { chain, json, rowsFile } = parseArgs(process.argv.slice(2));
+  const { chain, json, rowsFile, allowances } = parseArgs(process.argv.slice(2));
   const targets = CHAIN_TARGETS.filter((target) => chain === undefined || target.chainId === chain);
   if (targets.length === 0) throw new Error(`no catalog chain ${chain}`);
   const candidateRows = rowsFile ? parseCandidateRows(JSON.parse(readFileSync(resolve(rowsFile), "utf8")), chain) : undefined;
@@ -242,10 +289,22 @@ async function main() {
       ? candidateRows.filter((row) => row.chainId === target.chainId)
       : (JSON.parse(readFileSync(resolve(ROOT, "src/tokens/data", target.file), "utf8")) as DataRow[]);
     if (rows.length === 0) continue;
-    const rpc = process.env[`RPC_URL_${target.chainId}`] ?? target.defaultRpc;
-    const provider = new JsonRpcProvider(rpc, target.chainId, { staticNetwork: true });
-    results.push(...(await mapLimited(rows, 6, (row) => checkRow(provider, target.chainId, row))));
-    provider.destroy();
+    const rpc = process.env[`RPC_URL_${target.chainId}`] || target.defaultRpc;
+    const transport = new FetchRequest(rpc);
+    transport.timeout = 15_000;
+    const provider = new JsonRpcProvider(transport, target.chainId, { staticNetwork: true });
+    try {
+      // A static-network provider trusts its constructor. Verify the endpoint
+      // separately so an incorrectly configured RPC cannot pass another chain.
+      const actualChain = BigInt(await provider.send("eth_chainId", []));
+      if (actualChain !== BigInt(target.chainId)) throw new Error("wrong RPC chain");
+      const allowanceBlock = allowances ? await provider.getBlockNumber() : undefined;
+      results.push(...(await mapLimited(rows, 6, (row) => checkRow({ provider, chainId: target.chainId, row, allowanceBlock }))));
+    } catch {
+      throw new Error(`chain ${target.chainId} verification failed; check RPC availability and chain configuration`);
+    } finally {
+      provider.destroy();
+    }
   }
   if (candidateRows && results.length !== candidateRows.length) {
     throw new Error(`checked ${results.length} of ${candidateRows.length} candidate rows`);

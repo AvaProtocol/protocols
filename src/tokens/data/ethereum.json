@@ -73,9 +73,10 @@
   },
   {
     "symbol": "BGB",
-    "address": "0x19de6b897Ed14A376Dda0Fe53a5420D2aC828a28",
+    "address": "0x54D2252757e1672EEaD234D27B1270728fF90581",
     "decimals": 18,
-    "name": "BitgetToken"
+    "name": "BitgetToken",
+    "explorer": "https://etherscan.io/token/0x54D2252757e1672EEaD234D27B1270728fF90581"
   },
   {
     "symbol": "BNB",
